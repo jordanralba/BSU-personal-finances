@@ -1,0 +1,36 @@
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #c1cff1;
+    
+}
+table, th, td {
+    border: 1px solid #cdcdcd;
+    padding:5px;
+    background-color: #343434;
+  }
+  #submissionError {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    color: #842029;
+    background-color: lightsteelblue;
+    border-color: #f5c2c7;
+    text-align:center;
+    font-weight:bold;
+}
+.error-message{
+    color: #842029;
+    font-weight: bold;
+}
+body{
+    background-color: #1b1b1b;
+    color: #ffffff;
+}
+

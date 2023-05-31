@@ -9,10 +9,10 @@ app.use(cors());
 const port = process.env.port || 80;
 app.use(express.static('View'));
 
-app.get('/object/', upload.none(), async (request, response)=>{
+app.get('/noun/', upload.none(), async (request, response)=>{
     
 });
-app.post('/object/', upload.none(),
+app.post('/noun/', upload.none(),
 check('', '').isLength({min:1}),
 async (request, response)=>{
     //console.log(request)
