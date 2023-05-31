@@ -164,10 +164,14 @@
             const display = document.getElementById('display');
             
             incomeAmount.addEventListener('change', (event)=>{
-                if(incomeAmount.value >= incomeTable.firstElementChild.children.length){
+                
+                for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
                     incomeRow();
-                }else if(incomeAmount.value >= 0){
-                    incomeRow('remove');
+                }
+                for(i=incomeTable.firstElementChild.children.length;i > incomeAmount.value;i--){
+                    for(element of incomeTable.children){
+                        element.lastChild.remove();
+                    }
                 }
 
                 if(incomeTable.firstElementChild.children.length <= 0){
@@ -182,7 +186,7 @@
                 const col1 = incomeTable.children[1];
                 const col2 = incomeTable.children[2];
                 const col3 = incomeTable.children[3];
-                if(action !== 'remove'){
+
                     const resource = inputNode.cloneNode(true);
                         resource.setAttribute('type', 'text');
                         resource.setAttribute('class', 'income_table-input');
@@ -196,18 +200,16 @@
                     const percentage = document.createElement('textarea');
                         percentage.setAttribute('class', 'income_table-input')
                         col3.appendChild(percentage.cloneNode(true));
-                }else{
-                    col.lastElementChild.remove();
-                    col1.lastElementChild.remove();
-                    col2.lastElementChild.remove();
-                    col3.lastElementChild.remove();
-                }
+                
             }
             accountAmount.addEventListener('change', (event)=>{
-                if(accountAmount.value >= accountTable.firstElementChild.children.length){
+                for(x=accountTable.firstElementChild.children.length+1;x<=accountAmount.value;x++){
                     accountRow();
-                }else if(accountAmount.value >= 0){
-                    accountRow('remove');
+                }
+                for(i=accountTable.firstElementChild.children.length;i > accountAmount.value;i--){
+                    for(element of accountTable.children){
+                        element.lastChild.remove();
+                    }
                 }
                 if(accountTable.firstElementChild.children.length <= 0){
                     accountHeads.hidden = true;
@@ -221,7 +223,6 @@
                 const col1 = accountTable.children[1];
                 const col2 = accountTable.children[2];
                 const col3 = accountTable.children[3];
-                if(action !== 'remove'){
                     const institution = inputNode.cloneNode(true);
                         institution.setAttribute('type', 'text');
                         institution.setAttribute('class', 'account_table-input');
@@ -234,12 +235,6 @@
                     const purpose = document.createElement('textarea');
                         purpose.setAttribute('class', 'account_table-input')
                         col3.appendChild(purpose.cloneNode(true));
-                }else{
-                    col.lastElementChild.remove();
-                    col1.lastElementChild.remove();
-                    col2.lastElementChild.remove();
-                    col3.lastElementChild.remove();
-                }
             }
 
             function listInputs(form){
