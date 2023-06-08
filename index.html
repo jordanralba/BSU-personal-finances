@@ -112,40 +112,41 @@
                     ?-> Expense
             -->
 
-            <div class="row">
+            <!--div class="row">
                 <div class="col-sm-3 labels"></div>
-                <!--div class="col-sm-5"><button type="submit">Save Changes</button></div-->
+                <!-div class="col-sm-5"><button type="submit">Save Changes</button></div>
                 <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="listInputs(this.form)"/></div>
-                <!--div class="col-sm-5"><input type="submit" value="Save Changes"/></div-->
+                <!-div class="col-sm-5"><input type="submit" value="Save Changes"/></div>
                 <div class="col-sm-4"></div>
-            </div>
+            </div-->
             
-        </form>
         
-        <form id="data-form">
+        
+        <!--form id="data-form"-->
             <div class="row">
-                <div class="col-sm-3"><label for="text_file">Encrypted Data File: </label></div>
+                <div class="col-sm-3 labels"><label for="passkey">Passkey: </label></div>
                 <div class="col-sm-5">
-                    <input type="file" accept=".json" id="text_file" name="text_file"  class="data-input">
+                    <input type="password" id="passkey" name="passkey" class="data-input">
                 </div>
-                <div class="col-sm-4"></div>
+                <div class="col-sm-4 error-message" hidden="" id="passkey-error">Passkey must be 8+ characters.</div>
             </div>
             <div class="row">
-                <div class="col-sm-3"><label for="passkey">Passkey: </label></div>
-                <div class="col-sm-5">
-                    <input type="text" id="passkey" name="passkey" class="data-input">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-5 labels center">
+                    <label for="text_file" class="file-upload">Upload Encrypted</label>
+                    <input type="file" accept=".json" id="text_file" name="text_file" class="data-input">
                 </div>
                 <div class="col-sm-4"></div>
             </div>
             <div class="row">
                 <div class="col-sm-3"></div>
-                <div class="col-sm-5"><button type="button" name="save" onclick="downloadFile()">Download</button></div>
+                <div class="col-sm-5 center"><button onclick="downloadFile();return false;">New Download</button></div>
                 <div class="col-sm-4"></div>
             </div>
         </form>
 
 
-        <div id="display"></div>
+        <div id="display" class="overflow"></div>
         <script>
             /*Using either IndexedDB or Cache api 
                 ->Create storage model to save clustered datasets for later retrieval
@@ -162,9 +163,12 @@
             const divNode = document.createElement('div');
             const inputNode = document.createElement('input');
             const display = document.getElementById('display');
-            
-            incomeAmount.addEventListener('change', (event)=>{
-                
+            const passkeyInput = document.getElementById('passkey');
+            const passkeyError = document.getElementById('passkey-error');
+            const finForm = document.forms[0];
+            const dataForm = document.forms[1];
+
+            function updateIncomeStreams(){
                 for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
                     incomeRow();
                 }
@@ -173,36 +177,13 @@
                         element.lastChild.remove();
                     }
                 }
-
                 if(incomeTable.firstElementChild.children.length <= 0){
                     incomeHeads.hidden = true;
                 }else{
                     incomeHeads.hidden = false;
                 }
-            });
-
-            function incomeRow(action){
-                const col = incomeTable.children[0];
-                const col1 = incomeTable.children[1];
-                const col2 = incomeTable.children[2];
-                const col3 = incomeTable.children[3];
-
-                    const resource = inputNode.cloneNode(true);
-                        resource.setAttribute('type', 'text');
-                        resource.setAttribute('class', 'income_table-input');
-                        col.appendChild(resource.cloneNode(true));
-                    const frequency = resource.cloneNode(true);
-                        col1.appendChild(frequency.cloneNode(true));
-                    const dollar = resource.cloneNode(true);
-                        dollar.setAttribute('type', 'number');
-                        dollar.setAttribute('step', '0.01');
-                        col2.appendChild(dollar.cloneNode(true));
-                    const percentage = document.createElement('textarea');
-                        percentage.setAttribute('class', 'income_table-input')
-                        col3.appendChild(percentage.cloneNode(true));
-                
             }
-            accountAmount.addEventListener('change', (event)=>{
+            function updateFinancialAccounts(){
                 for(x=accountTable.firstElementChild.children.length+1;x<=accountAmount.value;x++){
                     accountRow();
                 }
@@ -216,6 +197,36 @@
                 }else{
                     accountHeads.hidden = false;
                 }
+            }
+            incomeAmount.addEventListener('change', (event)=>{
+                updateIncomeStreams();
+            });
+
+            function incomeRow(action){
+                const col = incomeTable.children[0];
+                const col1 = incomeTable.children[1];
+                const col2 = incomeTable.children[2];
+                const col3 = incomeTable.children[3];
+
+                    const resource = inputNode.cloneNode(true);
+                        resource.setAttribute('type', 'text');
+                        resource.setAttribute('class', 'income_resource-input');
+                        col.appendChild(resource.cloneNode(true));
+                    const frequency = resource.cloneNode(true);
+                        frequency.setAttribute('class', 'income_frequency-input');
+                        col1.appendChild(frequency.cloneNode(true));
+                    const dollar = resource.cloneNode(true);
+                        dollar.setAttribute('type', 'number');
+                        dollar.setAttribute('step', '0.01');
+                        dollar.setAttribute('class', 'income_amounts-input');
+                        col2.appendChild(dollar.cloneNode(true));
+                    const percentage = document.createElement('textarea');
+                        percentage.setAttribute('class', 'income_usage-input')
+                        col3.appendChild(percentage.cloneNode(true));
+                
+            }
+            accountAmount.addEventListener('change', (event)=>{
+                updateFinancialAccounts();
             });
 
             function accountRow(action){
@@ -225,67 +236,120 @@
                 const col3 = accountTable.children[3];
                     const institution = inputNode.cloneNode(true);
                         institution.setAttribute('type', 'text');
-                        institution.setAttribute('class', 'account_table-input');
+                        institution.setAttribute('class', 'account_institution-input');
                         col.appendChild(institution.cloneNode(true));
                     const account_type = institution.cloneNode(true);
+                        account_type.setAttribute('class', 'account_types-input');
                         col1.appendChild(account_type.cloneNode(true));
                     const account_number = account_type.cloneNode(true);
                         account_number.setAttribute('type', 'number');
+                        account_number.setAttribute('class', 'account_numbers-input');
                         col2.appendChild(account_number.cloneNode(true));
                     const purpose = document.createElement('textarea');
-                        purpose.setAttribute('class', 'account_table-input')
+                        purpose.setAttribute('class', 'account_purposes-input')
                         col3.appendChild(purpose.cloneNode(true));
             }
+            const createTable = async (json, target) => {
+                let displayTable = '<table>';
+                if(typeof json.data[0] !== 'undefined'){
+                    //console.log(json.data[0]);
+                    const entries = Object.entries(json.data[0]);
+                    const labels = [],
+                    values = [];
+                    for(entry of entries){
+                        const name = entry[0];
+                        const val = entry[0];
+                        const words = name.split('_');
+                        //console.log(words);
+                        const labelCapitalized = words.map(word => word.replace(word.at(0), word.at(0).toUpperCase()));
+                        //console.log(labelArr);
+                        const labelString = labelCapitalized.join(' ');
+                        //console.log(labelString);
+                        labels.push(labelString);
+                        values.push(val);
+                    }
+                    displayTable += '<thead><tr>';
+                    for(label of labels){
+                        displayTable += '<th >'+label+'</th>';
+                    }
+                    displayTable += '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
+                    for (row of json.data) {
+                        const data = Object.entries(row);
+                        let y = 0;
+                        displayTable += '<tr>';
+                            for(val of values){
+                                //console.log(y);
+                                //console.log(data[y]);
+                                if(y < data.length){
+                                    displayTable += '<td>' + data[y][1] + '</td>';
+                                }  
+                                y++;
+                            }
+                        displayTable += '</tr>';
+                    }
+                }else {
+                     displayTable += '<thead>' +
+                        '<tr></tr>' +
+                        '</thead>'+
+                        '<tbody>'
+                }
+                    displayTable += '</tbody></table>';
+                    //console.log(displayTable);
+                    target.innerHTML = displayTable;
+            }
 
-            function listInputs(form){
-                const cacheIncomeArr = [];
-                const cacheAccountArr = [];
-                if(form.first_name.value.length > 0 && form.last_name.value.length > 0){
-                    const fullName = form.first_name.value + ' ' + form.last_name.value;
-                    display.innerHTML = '<h3> Name: </h3>'+fullName;
-                }
-                if(form.uni_id.value.length > 0){
-                    display.innerHTML += '<h3> University ID: </h3>'+form.uni_id.value;
-                }
-                if(!incomeHeads.hidden){
-                    for(column of incomeTable.children){
-                        const cacheIncomeObj = {};
-                        const cacheArr = [];
-                        display.innerHTML += '<h3> '+column.id+': </h3>';
-                        for(input of column.children){
-                            cacheIncomeObj[column.id] = input.value;
-                            cacheIncomeArr.push(cacheIncomeObj);
-                            cacheArr.push(input.value);
-                        }
-                        // display.innerHTML+=cacheIncomeArr.join(', ');
-                        display.innerHTML+=cacheArr.join(', ');
+            function listInputs(json){
+                if(typeof json.data !== 'undefined'){
+                    const data = json.data[0];
+                    finForm.first_name.value = data.first_name;
+                    finForm.last_name.value = data.last_name;
+                    finForm.uni_id.value = data.uni_id;
+                    finForm.emergency_cash_guess.value = data.emergency_cash_guess;
+                    finForm.monthly_saving_guess.value = data.monthly_saving_guess;
+                    incomeAmount.value = data.resources.length;
+                    updateIncomeStreams();
+                    const resourceInputs = document.querySelectorAll('.income_resource-input');
+                    const frequencyInputs = document.querySelectorAll('.income_frequency-input');
+                    const amountsInputs = document.querySelectorAll('.income_amounts-input');
+                    const usageInputs = document.querySelectorAll('.income_usage-input');
+                    for(const [index, resource] of data.resources.entries()){
+                        resourceInputs[index].value = resource;                        
                     }
-                    console.log(cacheIncomeArr);
-                }
-                if(!incomeHeads.hidden){
-                    for(column of accountTable.children){
-                        const cacheAccountObj = {};
-                        const cacheArr = [];
-                        display.innerHTML += '<h3> '+column.id+': </h3>';
-                        for(input of column.children){
-                            cacheAccountObj[column.id] = input.value;
-                            cacheAccountArr.push(cacheAccountObj);
-                            cacheArr.push(input.value);
-                        }
-                        display.innerHTML+=cacheArr.join(', ');
+                    for(const [index, resource] of data.frequency.entries()){
+                        frequencyInputs[index].value = resource;                        
                     }
-                    console.log(cacheAccountArr);
-                }
-                if(form.emergency_cash_guess.value.length > 0){
-                    display.innerHTML += '<h3> Estimated Emergency Cash: </h3>'+form.emergency_cash_guess.value;
-                }
-                if(form.monthly_saving_guess.value.length > 0){
-                    display.innerHTML += '<h3> Estimated Monthly Saving: </h3>'+form.monthly_saving_guess.value;
+                    for(const [index, resource] of data.amounts.entries()){
+                        amountsInputs[index].value = resource;                        
+                    }
+                    for(const [index, resource] of data.uses.entries()){
+                        usageInputs[index].value = resource;                        
+                    }
+                    accountAmount.value = data.institution.length;
+                    updateFinancialAccounts();
+                    const institutionInputs = document.querySelectorAll('.account_institution-input');
+                    const purposesInputs = document.querySelectorAll('.account_purposes-input');
+                    const numbersInputs = document.querySelectorAll('.account_numbers-input');
+                    const typesInputs = document.querySelectorAll('.account_types-input');
+                    for(const [index, resource] of data.institution.entries()){
+                        institutionInputs[index].value = resource;                        
+                    }
+                    for(const [index, resource] of data.account_types.entries()){
+                        typesInputs[index].value = resource;                        
+                    }
+                    for(const [index, resource] of data.account_numbers.entries()){
+                        numbersInputs[index].value = resource;                        
+                    }
+                    for(const [index, resource] of data.purposes.entries()){
+                        purposesInputs[index].value = resource;                        
+                    }
+
                 }
             }
 
             function str2ab(str) {
-                console.log(str);
+                //console.log(str);
                 const buf = new ArrayBuffer(str.length);
                 const bufView = new Uint8Array(buf);
                 for (let i=0, strLen=str.length; i < strLen; i++) {
@@ -295,23 +359,23 @@
             }
             function storeInputs(){
                 const financeForm = document.getElementById('finance-form');
-                const storageObj = {};
+                const storageObj = {data: [{}]};
                 for(input of financeForm.getElementsByClassName('form-input')){
-                    storageObj[input.id] = input.value;
+                    storageObj.data[0][input.id] = input.value;
                 }
                 for(column of incomeTable.children){
                         const cacheArr = [];
                         for(input of column.children){
                             cacheArr.push(input.value);
                         }
-                        storageObj[column.id] = cacheArr;
+                        storageObj.data[0][column.id] = cacheArr;
                     }
                 for(column of accountTable.children){
                         const cacheArr = [];
                         for(input of column.children){
                             cacheArr.push(input.value);
                         }
-                        storageObj[column.id] = cacheArr;
+                        storageObj.data[0][column.id] = cacheArr;
                     }
                 //console.log(storageObj);
                 return storageObj;
@@ -352,57 +416,88 @@
                     //allData.content = new Uint8Array(encryptedData);
                     allData.content = String.fromCharCode.apply(null, new Uint8Array(encryptedData));
 
-                console.log(allData);
-                console.log(encryptedData);
+                //console.log(allData);
+                //console.log(encryptedData);
                 return JSON.stringify(allData);
-                
             }
 
             async function downloadFile() {
-                const passkey = document.getElementById('passkey').value;
-                if(passkey.length > 8){
+                const passkey = passkeyInput.value;
+                passkeyError.hidden = true;
+                if(passkey.length >= 8){
                     const link = document.createElement("a");
                     const content = await storeInputs();
                     const encrypted = await encryptToString(content, passkey)
-
                     const file = new Blob([encrypted], { type: 'application/json' });
                     link.href = URL.createObjectURL(file);
                     link.download = "finance-data.json";
                     link.click();
                     URL.revokeObjectURL(link.href); 
+                }else{
+                    passkeyError.innerHTML = 'Passkey must be 8+ characters.';
+                    passkeyError.hidden = false;
                 }
                 
             };
 
             const fileReader = new FileReader();
-            document.getElementById('text_file').addEventListener('change', function() {
-                fileReader.readAsText(this.files[0]);
+            const fileField = document.querySelector('input[type=file]');
+            const fileFieldLabel = fileField.labels[0];
+            //console.log(fileField)
+            //console.log(fileFieldLabel)
+            fileField.addEventListener('change', function() {
+                try{
+                    if(passkeyInput.value.length >= 8){
+                        fileReader.disabled = false;
+                        passkeyError.hidden = true;
+                    }
+                    if(!fileField.disabled){
+                        fileFieldLabel.innerHTML = fileField.files[0].name;
+                        fileReader.readAsText(this.files[0]);
+                        fileField.value = null;
+                    }
+                }catch{
+                    console.log('No File');
+                    fileFieldLabel.innerHTML = 'Upload Encrypted';
+                }
             });
-            fileReader.onload = async function(){    
-                    const passkey = document.getElementById('passkey').value;
-                    const fileJSON = JSON.parse(fileReader.result);
-                    const encoder = new TextEncoder('utf-8');
-                    //key material must be 16, 24 or 32 bytes 
-                    const keyEnc = await encoder.encode(passkey.padStart(16, passkey).slice(0, 16));
-                    console.log(fileJSON);
+            
+            fileReader.onload = async function(){  
+                try{  
+                    const passkey = passkeyInput.value;
+                    if(passkey.length >= 8){
+                        const fileJSON = JSON.parse(fileReader.result);
+                        const encoder = new TextEncoder('utf-8');
+                        //key material must be 16, 24 or 32 bytes 
+                        const keyEnc = await encoder.encode(passkey.padStart(16, passkey).slice(0, 16));
+                        //console.log(fileJSON);
                         const key =  await operations.importKey('raw', keyEnc, {name: 'AES-GCM'}, true, ['encrypt', 'decrypt']);                
                         //const key = await operations.importKey('raw', new Uint8Array(Object.values(fileJSON.key)), {name: 'AES-GCM'}, true, ['encrypt', 'decrypt']);                
                         const iv = new Uint8Array(Object.values(fileJSON.iv));
                         //const encryptedData = new Uint8Array(Object.values(fileJSON.content));
                         const encryptedData = await str2ab(fileJSON.content);
-                    console.log(key);
-                    console.log(encryptedData);
-
-                    const decryptedData = await operations.decrypt(
-                    { name: 'AES-GCM', iv: iv },
-                        key,
-                        encryptedData
-                    );
-                    console.log(decryptedData);
-                    const decoder = new TextDecoder();
-                    const contentDecrypted = decoder.decode(decryptedData);
-                    console.log(contentDecrypted);
-                    display.innerHTML = contentDecrypted;
+                        //console.log(key);
+                        //console.log(encryptedData);
+                        const decryptedData = await operations.decrypt(
+                        { name: 'AES-GCM', iv: iv },
+                            key,
+                            encryptedData
+                        );
+                        //console.log(decryptedData);
+                        const decoder = new TextDecoder();
+                        const contentDecrypted = decoder.decode(decryptedData);
+                        console.log(JSON.parse(contentDecrypted));
+                        listInputs(JSON.parse(contentDecrypted));
+                        createTable(JSON.parse(contentDecrypted), display);
+                        //display.innerHTML = contentDecrypted;
+                    }else{
+                        passkeyError.innerHTML = 'Passkey must be 8+ characters.';
+                        passkeyError.hidden = false;
+                    }
+                }catch{
+                    passkeyError.innerHTML = 'Decryption error, try different passkey.';
+                    passkeyError.hidden = false;
+                }
             }
             
             

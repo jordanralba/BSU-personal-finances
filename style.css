@@ -1,38 +1,68 @@
+/** Grid system - https://www.w3schools.com/css/css_rwd_grid.asp **/
+* {
+    box-sizing: border-box;
+    font-family: Verdana;
+}
+
+
+ 
+  @media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+
 [class*="col-"] {
-    padding: 10px;
+    float: left;
+    padding: 15px;
 }
 
 .row{
-    margin: 0;
+    padding-bottom: 10px;
 }
-h4{
-    text-align: center;
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }
-.income_table-input, .account_table-input{
-    width: 100%;
-    height: 2rem;
-    margin: 1.125rem 0 1.0625rem;
-    border: none;
-}textarea.income_table-input, textarea.account_table-input{
-    display: block;
-    margin: 0.1875rem 0 0.125rem;
-    height: 4rem;
-    resize: none;
+
+/** Image - https://www.w3schools.com/css/css_rwd_grid.asp **/   
+img {
+    max-width: 100%;
+    height: auto;
 }
-#financial_accounts>div, #income_streams>div{
-    padding: 0 10px;
+
+/** Overflow (for tables) - https://www.w3schools.com/howto/howto_css_table_responsive.asp **/
+.overflow {
+    overflow-x:auto;
 }
 a {
     text-decoration: none;
-    color: #c1cff1;
-    
+    color: #c1cff1;   
+}
+p{
+    margin-bottom: 0;
 }
 table, th, td {
     border: 1px solid #cdcdcd;
     padding:5px;
     background-color: #343434;
   }
-  #submissionError {
+  .center{
+      text-align:center;
+  }
+  .error-message {
     position: relative;
     padding: 1rem 1rem;
     margin-bottom: 1rem;
@@ -44,16 +74,56 @@ table, th, td {
     text-align:center;
     font-weight:bold;
 }
-.error-message{
-    color: #842029;
-    font-weight: bold;
-}
 body{
     background-color: #1b1b1b;
     color: #ffffff;
-    padding: 5%;
+    padding: 3% 5%;
 }
-input[type=button]{
-    text-align: left;
+
+.labels>label, button{
+    font-size: 1.3em;
+    font-weight: bold;
 }
+#finance-form{
+    background-color: #272727;
+    padding: 2.5%;
+    border-radius: 15px;
+}
+input,
+select, textarea{
+    background-color: #cdcdcd;
+    border-radius: 5px;
+    width: 100%;
+}
+button, .file-upload{
+    background-color: #cdcdcd;
+    color: #1b1b1b;
+    padding: 5% 12.5%;
+    border: #1b1b1b 5px solid;
+    border-radius: 50px;
+}button:hover, .file-upload:hover{
+    background-color: #272727;
+    color: #fff;
+    padding: 5% 12.5%;
+    border: #fff 5px solid;
+    border-radius: 50px;
+    scale: .95;
+}
+.income_resource-input, .income_frequency-input, .income_amounts-input, .account_institution-input, .account_types-input, .account_numbers-input {
+    width: 100%;
+    height: 2rem;
+    margin: 1.3125rem 0 1.1875rem;
+    border: none;
+}textarea.income_usage-input, textarea.account_purposes-input{
+    display: block;
+    margin: 0.4375rem 0 0.3125rem;
+    height: 4rem;
+}
+#financial_accounts>div, #income_streams>div{
+    padding: 0 10px;
+}
+#text_file{
+    display: none;
+}
+
 
