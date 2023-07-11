@@ -7,146 +7,167 @@
         <link async="true" rel="stylesheet" href="style.css">
     </head>
     <body>
-
-        <form id="finance-form">
-            <div class="row">
-                <div class="col-sm-3 labels my-auto"><label>Your Name: </label></div>
-                <div class="col-sm-5 inputs">
-                    <label for="first_name">First</label><br>
-                    <input type="text" id="first_name" name="whole_name" class="form-input">
-                    <br>
-                    <label >Last</label><br>
-                    <input type="text" id="last_name" name="whole_name" class="form-input">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="whole_name-error"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 labels"><label>University ID: </label></div>
-                <div class="col-sm-5 inputs">
-                    <input type="number" id="uni_id" name="uni_id" class="form-input">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="uni_id-error"></div>
-            </div>
-            <!--
-                Add input for subcategories 
-                    -> Resource
-                    -> Frequency
-                    -> Amount
-                    ?-> Use by percentage
-            -->
-            <div class="row">
-                <div class="col-sm-3 labels"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
-                <div class="col-sm-5 inputs">
-                    <input type="number" id="income_streams-amount">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="income_streams-error"></div>
-            </div>
-            <div class="row" hidden id="income_streams-heads">
-                <div class="col-sm-3" ><h4>Resource</h4></div>
-                <div class="col-sm-3" ><h4>Frequency</h4></div>
-                <div class="col-sm-3" ><h4>Amount</h4></div>
-                <div class="col-sm-3" ><h4>Usage(%)</h4></div>
-            </div>
-            <div class="row" id="income_streams">
-                <div class="col-sm-3" id="resources"></div>
-                <div class="col-sm-3" id="frequency"></div>
-                <div class="col-sm-3" id="amounts"></div>
-                <div class="col-sm-3" id="uses"></div>
-            </div>
-             <!--
-                Add input for subcategories 
-                    -> Institution
-                    -> Account Type
-                    ?-> Acc # (last 4)
-                    ?-> Purpose
-            -->
-            <div class="row">
-                <div class="col-sm-3 labels"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
-                <div class="col-sm-5 inputs">
-                    <input type="number" id="financial_accounts-amount">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="financial_accounts-error"></div>
-            </div>
-            <div class="row" hidden id="financial_accounts-heads">
-                <div class="col-sm-3" ><h4>Institution</h4></div>
-                <div class="col-sm-3" ><h4>Type</h4></div>
-                <div class="col-sm-3" ><h4>Account #</h4></div>
-                <div class="col-sm-3" ><h4>Purpose</h4></div>
-            </div>
-            <div class="row" id="financial_accounts">
-                <div class="col-sm-3" id="institution"></div>
-                <div class="col-sm-3" id="account_types"></div>
-                <div class="col-sm-3" id="account_numbers"></div>
-                <div class="col-sm-3" id="purposes"></div>
-            </div>
-             <!--
-                Eventually calculate actual value based on 2 weeks expenses 
-                    -> Based on fixed nationwide average || Based on user's estimated weekly spending
-                    ?-> By average of attended uni's local cost of living
-                    ?-> Flight or roadtrip home included
-            -->
-            <div class="row">
-                <div class="col-sm-3 labels"><label>Estimate Needed Emergency Cash: </label></div>
-                <div class="col-sm-5 inputs">
-                    <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="emergency_cash_guess-error"></div>
-            </div>
-            <!--
-                Eventually savings needed to meet goal based on time until graduation 
-                    -> Based on emergency cash needed, loans, future needs
-                    ?-> By using attended uni's state average info && By using estimated rate of inflation
-            -->
-            <div class="row">
-                <div class="col-sm-3 labels"><label>Estimate Needed Monthly Saving: </label></div>
-                <div class="col-sm-5 inputs">
-                    <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
-                </div>
-                <div class="col-sm-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
-            </div>
-            <!--
-                Add input for generating monthly expense report: 
-                    -> Importance (1-5)
-                    -> Amount
-                    ?-> Date
-                    ?-> Expense
-            -->
-
-            <!--div class="row">
-                <div class="col-sm-3 labels"></div>
-                <!-div class="col-sm-5"><button type="submit">Save Changes</button></div>
-                <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="listInputs(this.form)"/></div>
-                <!-div class="col-sm-5"><input type="submit" value="Save Changes"/></div>
-                <div class="col-sm-4"></div>
-            </div-->
+        <main>
             
-        
-        
-        <!--form id="data-form"-->
-            <div class="row">
-                <div class="col-sm-3 labels"><label for="passkey">Passkey: </label></div>
-                <div class="col-sm-5">
-                    <input type="password" id="passkey" name="passkey" class="data-input">
+            <section>
+                <div class="row">
+                    <div class="col-3" id="bsu-logo">
+                        <img src="bsuLogo.png"/>
+                    </div>
                 </div>
-                <div class="col-sm-4 error-message" hidden="" id="passkey-error">Passkey must be 8+ characters.</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-5 labels center">
-                    <label for="text_file" class="file-upload">Upload Encrypted</label>
-                    <input type="file" accept=".json" id="text_file" name="text_file" class="data-input">
-                </div>
-                <div class="col-sm-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-5 center"><button onclick="downloadFile();return false;">New Download</button></div>
-                <div class="col-sm-4"></div>
-            </div>
-        </form>
+                <form id="finance-form">
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label>Name: </label></div>
+                        <div class="col-sm-5 row inputs">
+                            <div class="col-6">
+                                <input type="text" id="first_name" name="whole_name" class="form-input"><br>
+                                <label for="first_name"><small>First</small></label>
+                            </div>
+                            <div class="col-6">
+                                <input type="text" id="last_name" name="whole_name" class="form-input"><br>
+                                <label for="last_name"><small>Last</small></label>
+                            </div> 
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="whole_name-error"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 labels">
+                            <label for="govId">State Issue ID:</label>
+                        </div>
+                        <div class="col-sm-5 inputs center">
+                            <input type="file" accept="image/*" id="govId" name="govId" class="image-input">
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label>University ID: </label></div>
+                        <div class="col-sm-5 inputs">
+                            <input type="number" id="uni_id" name="uni_id" class="form-input">
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="uni_id-error"></div>
+                    </div>
+                    <!--
+                        Add input for subcategories 
+                            -> Resource
+                            -> Frequency
+                            -> Amount
+                            ?-> Use by percentage
+                    -->
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
+                        <div class="col-sm-5 inputs">
+                            <input type="number" id="income_streams-amount">
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="income_streams-error"></div>
+                    </div>
+                    <div class="row" hidden id="income_streams-heads">
+                        <div class="col-sm-3" ><h5>Resource</h5></div>
+                        <div class="col-sm-3" ><h5>Frequency</h5></div>
+                        <div class="col-sm-3" ><h5>Amount</h5></div>
+                        <div class="col-sm-3" ><h5>Usage(%)</h5></div>
+                    </div>
+                    <div class="row" id="income_streams">
+                        <div class="col-sm-3" id="resources"></div>
+                        <div class="col-sm-3" id="frequency"></div>
+                        <div class="col-sm-3" id="amounts"></div>
+                        <div class="col-sm-3" id="uses"></div>
+                    </div>
+                    <!--
+                        Add input for subcategories 
+                            -> Institution
+                            -> Account Type
+                            ?-> Acc # (last 4)
+                            ?-> Purpose
+                    -->
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
+                        <div class="col-sm-5 inputs">
+                            <input type="number" id="financial_accounts-amount">
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="financial_accounts-error"></div>
+                    </div>
+                    <div class="row" hidden id="financial_accounts-heads">
+                        <div class="col-sm-3" ><h5>Institution</h5></div>
+                        <div class="col-sm-3" ><h5>Type</h5></div>
+                        <div class="col-sm-3" ><h5>Account #</h5></div>
+                        <div class="col-sm-3" ><h5>Purpose</h5></div>
+                    </div>
+                    <div class="row" id="financial_accounts">
+                        <div class="col-sm-3" id="institution"></div>
+                        <div class="col-sm-3" id="account_types"></div>
+                        <div class="col-sm-3" id="account_numbers"></div>
+                        <div class="col-sm-3" id="purposes"></div>
+                    </div>
+                    <!--
+                        Eventually calculate actual value based on 2 weeks expenses 
+                            -> Based on fixed nationwide average || Based on user's estimated weekly spending
+                            ?-> By average of attended uni's local cost of living
+                            ?-> Flight or roadtrip home included
+                    -->
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label>Estimate Needed Emergency Cash: </label></div>
+                        <div class="col-sm-5 inputs">
+                            <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="emergency_cash_guess-error"></div>
+                    </div>
+                    <!--
+                        Eventually savings needed to meet goal based on time until graduation 
+                            -> Based on emergency cash needed, loans, future needs
+                            ?-> By using attended uni's state average info && By using estimated rate of inflation
+                    -->
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label>Estimate Needed Monthly Saving: </label></div>
+                        <div class="col-sm-5 inputs">
+                            <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
+                        </div>
+                        <div class="col-sm-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
+                    </div>
+                    <!--
+                        Add input for generating monthly expense report: 
+                            -> Importance (1-5)
+                            -> Amount
+                            ?-> Date
+                            ?-> Expense
+                    -->
 
-
-        <div id="display" class="overflow"></div>
+                    <!--div class="row">
+                        <div class="col-sm-3 labels"></div>
+                        <!-div class="col-sm-5"><button type="submit">Save Changes</button></div>
+                        <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="listInputs(this.form)"/></div>
+                        <!-div class="col-sm-5"><input type="submit" value="Save Changes"/></div>
+                        <div class="col-sm-4"></div>
+                    </div-->
+                    
+                
+                
+                <!--form id="data-form"-->
+                    <div class="row">
+                        <div class="col-sm-3 labels my-auto"><label for="passkey">Passkey: </label></div>
+                        <div class="col-sm-5">
+                            <input type="password" id="passkey" name="passkey" class="data-input">
+                        </div>
+                        <div class="col-sm-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-5 labels center">
+                            <label for="encrypted_file" class="file-upload">Upload Encrypted</label>
+                            <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-5 center"><button onclick="downloadFile();return false;">New Download</button></div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                </form>
+            </section>
+            <section>
+                <div id="display" class="overflow"></div>
+            </section>
+        </main>
         <script>
             /*Using either IndexedDB or Cache api 
                 ->Create storage model to save clustered datasets for later retrieval
@@ -167,6 +188,12 @@
             const passkeyError = document.getElementById('passkey-error');
             const finForm = document.forms[0];
             const dataForm = document.forms[1];
+            const encoder = new TextEncoder('utf-8');
+            const decoder = new TextDecoder('utf-8');
+            const imgReader = new FileReader();
+
+
+
 
             function updateIncomeStreams(){
                 for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
@@ -281,7 +308,7 @@
                         displayTable += '<tr>';
                             for(val of values){
                                 //console.log(y);
-                                //console.log(data[y]);
+                                //console.log(data[y][1]);
                                 if(y < data.length){
                                     displayTable += '<td>' + data[y][1] + '</td>';
                                 }  
@@ -357,41 +384,55 @@
                 }
                 return buf;
             }
+            
+                    
             function storeInputs(){
-                const financeForm = document.getElementById('finance-form');
-                const storageObj = {data: [{}]};
-                for(input of financeForm.getElementsByClassName('form-input')){
-                    storageObj.data[0][input.id] = input.value;
+                //const financeForm = document.getElementById('finance-form');
+                const storageObj = {};
+                const imgData = [];
+                for(input of finForm.getElementsByClassName('form-input')){
+                    storageObj[input.id] = input.value;
+                }for(column of incomeTable.children){
+                    const cacheArr = [];
+                    for(input of column.children){
+                        cacheArr.push(input.value);
+                    }
+                    storageObj[column.id] = cacheArr;
+                }for(column of accountTable.children){
+                    const cacheArr = [];
+                    for(input of column.children){
+                        cacheArr.push(input.value);
+                    }
+                    storageObj[column.id] = cacheArr;
+                }if(typeof finForm.govId.files[0] !== 'undefined'){
+                    console.log(finForm.govId.files[0]);                    
+                    imgReader.readAsDataURL(finForm.govId.files[0]);
                 }
-                for(column of incomeTable.children){
-                        const cacheArr = [];
-                        for(input of column.children){
-                            cacheArr.push(input.value);
-                        }
-                        storageObj.data[0][column.id] = cacheArr;
-                    }
-                for(column of accountTable.children){
-                        const cacheArr = [];
-                        for(input of column.children){
-                            cacheArr.push(input.value);
-                        }
-                        storageObj.data[0][column.id] = cacheArr;
-                    }
-                //console.log(storageObj);
-                return storageObj;
+                return {data:[storageObj], images: []};
             }
             const operations = window.crypto.subtle || window.crypto.webkitSubtle;        
 
             async function encryptToString(content, key){
                 const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                console.log(content);
                 
+
+                //console.log(new Uint8Array(content[1].govId.buffer))
+                //const idBuf = new ArrayBuffer()
+                //idEnc.test = await decoder.decode(new Uint8Array(content.data[0].govId));
+                //const idString = String.fromCharCode.apply(null, new Uint8Array(content[1].govId));                
+                console.log(content.images[0]);
+                console.log(JSON.stringify(content.images[0]));
+                //content.data[0].govId = idEnc;                
+                console.log(JSON.stringify(content));
+
                 // input must be encoded to a buffer or TypedArray
-                const encoder = new TextEncoder('utf-8');
-                const contentEncoded = encoder.encode(JSON.stringify(content).trim());
+                const contentEncoded = 
+                encoder.encode(JSON.stringify(content).trim());
+                console.log(content);
 
                 //key material must be 16, 24 or 32 bytes 
                 const keyEnc = encoder.encode(key.padStart(16, key).slice(0, 16));
-                //console.log(content);
                 //console.log(keyEnc);
                 console.log(contentEncoded);
 
@@ -415,33 +456,44 @@
                     allData.iv = iv,
                     //allData.content = new Uint8Array(encryptedData);
                     allData.content = String.fromCharCode.apply(null, new Uint8Array(encryptedData));
+                    //allData.images = String.fromCharCode.apply(null, new Uint8Array());
 
-                //console.log(allData);
-                //console.log(encryptedData);
+                console.log(allData);
+                console.log(encryptedData);
                 return JSON.stringify(allData);
             }
-
+            const imgProg = ()=>{
+                    while(imgReader.readyState == 1){
+                        console.log(imgReader.readyState); 
+                    }return;
+            }
             async function downloadFile() {
                 const passkey = passkeyInput.value;
                 passkeyError.hidden = true;
                 if(passkey.length >= 8){
                     const link = document.createElement("a");
-                    const content = await storeInputs();
-                    const encrypted = await encryptToString(content, passkey)
+                    const content = await storeInputs().then(
+                    imgReader.onloadend = async ()=>{
+                        console.log(imgReader.result);
+                        content.images[0].push(imgReader.result);
+                        const encrypted = await encryptToString(content, passkey)
+                        return;
+                    });
+                    
                     const file = new Blob([encrypted], { type: 'application/json' });
                     link.href = URL.createObjectURL(file);
                     link.download = "finance-data.json";
                     link.click();
                     URL.revokeObjectURL(link.href); 
                 }else{
-                    passkeyError.innerHTML = 'Passkey must be 8+ characters.';
+                    passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
                     passkeyError.hidden = false;
                 }
                 
             };
 
             const fileReader = new FileReader();
-            const fileField = document.querySelector('input[type=file]');
+            const fileField = document.getElementById('encrypted_file');
             const fileFieldLabel = fileField.labels[0];
             //console.log(fileField)
             //console.log(fileFieldLabel)
@@ -467,7 +519,6 @@
                     const passkey = passkeyInput.value;
                     if(passkey.length >= 8){
                         const fileJSON = JSON.parse(fileReader.result);
-                        const encoder = new TextEncoder('utf-8');
                         //key material must be 16, 24 or 32 bytes 
                         const keyEnc = await encoder.encode(passkey.padStart(16, passkey).slice(0, 16));
                         //console.log(fileJSON);
@@ -484,22 +535,31 @@
                             encryptedData
                         );
                         //console.log(decryptedData);
-                        const decoder = new TextDecoder();
                         const contentDecrypted = decoder.decode(decryptedData);
                         console.log(JSON.parse(contentDecrypted));
                         listInputs(JSON.parse(contentDecrypted));
                         createTable(JSON.parse(contentDecrypted), display);
                         //display.innerHTML = contentDecrypted;
                     }else{
-                        passkeyError.innerHTML = 'Passkey must be 8+ characters.';
+                        passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
                         passkeyError.hidden = false;
                     }
                 }catch{
-                    passkeyError.innerHTML = 'Decryption error, try different passkey.';
+                    passkeyError.firstElementChild.innerHTML = 'Passkey is incorrect.';
                     passkeyError.hidden = false;
                 }
             }
             
+            passkeyInput.addEventListener('change', ()=>{
+                if(passkeyInput.value.length < 8){
+                    fileFieldLabel.style.cursor = 'not-allowed';
+                    fileFieldLabel.style.pointerEvents = 'none';
+                }else{
+                    fileFieldLabel.style.pointerEvents = 'auto';
+                    fileFieldLabel.style.cursor = 'pointer';
+
+                }
+            });
             
         </script>
     </body>
