@@ -7,18 +7,19 @@
         <link async="true" rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div class="header row">
+            <div class="col-3">
+                <img id="bsu-logo" src="bsuLogo.png"/>
+            </div>
+        </div>
         <main>
             
             <section>
-                <div class="row">
-                    <div class="col-3" id="bsu-logo">
-                        <img src="bsuLogo.png"/>
-                    </div>
-                </div>
+                
                 <form id="finance-form">
                     <div class="row">
                         <div class="col-sm-3 labels my-auto"><label>Name: </label></div>
-                        <div class="col-sm-5 row inputs">
+                        <div class="col-sm-5 row split-inputs">
                             <div class="col-6">
                                 <input type="text" id="first_name" name="whole_name" class="form-input"><br>
                                 <label for="first_name"><small>First</small></label>
@@ -34,8 +35,12 @@
                         <div class="col-sm-3 labels">
                             <label for="govId">State Issue ID:</label>
                         </div>
-                        <div class="col-sm-5 inputs center">
-                            <input type="file" accept="image/*" id="govId" name="govId" class="image-input">
+                        <div class="col-sm-5 split-inputs row">
+                            <div class="col-4">
+                                <label for="govId" class="image-upload">Upload Image</label>
+                                <input type="file" accept="image/*" id="govId" name="govId" class="image-input">
+                            </div>
+                            <div class="col-8" id="govIdDisplay"></div>
                         </div>
                         <div class="col-sm-4"></div>
                     </div>
@@ -134,7 +139,7 @@
                     <!--div class="row">
                         <div class="col-sm-3 labels"></div>
                         <!-div class="col-sm-5"><button type="submit">Save Changes</button></div>
-                        <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="listInputs(this.form)"/></div>
+                        <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="formDisplayUpdate(this.form)"/></div>
                         <!-div class="col-sm-5"><input type="submit" value="Save Changes"/></div>
                         <div class="col-sm-4"></div>
                     </div-->
@@ -144,7 +149,7 @@
                 <!--form id="data-form"-->
                     <div class="row">
                         <div class="col-sm-3 labels my-auto"><label for="passkey">Passkey: </label></div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-5 inputs">
                             <input type="password" id="passkey" name="passkey" class="data-input">
                         </div>
                         <div class="col-sm-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
@@ -188,11 +193,18 @@
             const passkeyError = document.getElementById('passkey-error');
             const finForm = document.forms[0];
             const dataForm = document.forms[1];
-            const encoder = new TextEncoder('utf-8');
-            const decoder = new TextDecoder('utf-8');
+            const encoderUTF8 = new TextEncoder('utf-8');
+            const decoderUTF8 = new TextDecoder('utf-8');
             const imgReader = new FileReader();
+            const idDisplay = document.getElementById('govIdDisplay');
 
 
+            finForm.govId.addEventListener('change', function(){
+                imgReader.readAsDataURL(this.files[0]);
+                imgReader.onloadend = ()=>{
+                    idDisplay.innerHTML = '<img src="'+imgReader.result+'"/>'
+                }
+            });
 
 
             function updateIncomeStreams(){
@@ -277,6 +289,7 @@
                         col3.appendChild(purpose.cloneNode(true));
             }
             const createTable = async (json, target) => {
+                idDisplay.innerHTML = json.images.govId;
                 let displayTable = '<table>';
                 if(typeof json.data[0] !== 'undefined'){
                     //console.log(json.data[0]);
@@ -285,7 +298,7 @@
                     values = [];
                     for(entry of entries){
                         const name = entry[0];
-                        const val = entry[0];
+                        const val = entry[1];
                         const words = name.split('_');
                         //console.log(words);
                         const labelCapitalized = words.map(word => word.replace(word.at(0), word.at(0).toUpperCase()));
@@ -327,7 +340,7 @@
                     target.innerHTML = displayTable;
             }
 
-            function listInputs(json){
+            function formDisplayUpdate(json){
                 if(typeof json.data !== 'undefined'){
                     const data = json.data[0];
                     finForm.first_name.value = data.first_name;
@@ -376,120 +389,118 @@
             }
 
             function str2ab(str) {
-                //console.log(str);
-                const buf = new ArrayBuffer(str.length);
-                const bufView = new Uint8Array(buf);
-                for (let i=0, strLen=str.length; i < strLen; i++) {
-                    bufView[i] = str.charCodeAt(i);
+                try{
+                    console.log(str);
+                    const buf = new ArrayBuffer(str.length);
+                    const bufView = new Uint8Array(buf);
+                    for (let i=0, strLen=str.length; i < strLen; i++) {
+                        bufView[i] = str.charCodeAt(i);
+                    }
+                    return buf;
+                }catch{
+                    console.error('Error converting from Type String to ArrayBuffer');
                 }
-                return buf;
             }
-            
-                    
+            function ab2str(ab) {
+                console.log(ab);
+                try{
+                    let str = '';
+                    const bufView = new Uint8Array(ab);
+                    for(let i=0, bytesLen=bufView.byteLength; i<bytesLen;i++){
+                        str += String.fromCharCode(bufView[i]);
+                    }
+                    return str;
+                }catch{
+                    console.error('Error converting to Type String from ArrayBuffer')
+                }
+            }
+
+            const addImgString = ()=>{
+                    try{
+                        if(imgReader.readyState != 1){
+                            const imgData = imgReader.result;
+                            return imgData;
+                        }
+                    }catch{
+                        console.error("FileReader still processing image upload");
+                    }
+            }
             function storeInputs(){
-                //const financeForm = document.getElementById('finance-form');
-                const storageObj = {};
-                const imgData = [];
+                const storageObj = {data:[{}], images:{}};
                 for(input of finForm.getElementsByClassName('form-input')){
-                    storageObj[input.id] = input.value;
+                    storageObj.data[0][input.id] = input.value;
                 }for(column of incomeTable.children){
                     const cacheArr = [];
                     for(input of column.children){
                         cacheArr.push(input.value);
                     }
-                    storageObj[column.id] = cacheArr;
+                    storageObj.data[0][column.id] = cacheArr;
                 }for(column of accountTable.children){
                     const cacheArr = [];
                     for(input of column.children){
                         cacheArr.push(input.value);
                     }
-                    storageObj[column.id] = cacheArr;
+                    storageObj.data[0][column.id] = cacheArr;
                 }if(typeof finForm.govId.files[0] !== 'undefined'){
-                    console.log(finForm.govId.files[0]);                    
-                    imgReader.readAsDataURL(finForm.govId.files[0]);
+                    storageObj.images['govId'] = '<img src="'+addImgString()+'"/>';
+                    //storageObj.data[0]['state_id'] = '<img src="'+addImgString()+'"/>';
                 }
-                return {data:[storageObj], images: []};
+                return storageObj;
             }
             const operations = window.crypto.subtle || window.crypto.webkitSubtle;        
 
-            async function encryptToString(content, key){
-                const iv = window.crypto.getRandomValues(new Uint8Array(12));
-                console.log(content);
-                
-
-                //console.log(new Uint8Array(content[1].govId.buffer))
-                //const idBuf = new ArrayBuffer()
-                //idEnc.test = await decoder.decode(new Uint8Array(content.data[0].govId));
-                //const idString = String.fromCharCode.apply(null, new Uint8Array(content[1].govId));                
-                console.log(content.images[0]);
-                console.log(JSON.stringify(content.images[0]));
-                //content.data[0].govId = idEnc;                
-                console.log(JSON.stringify(content));
-
-                // input must be encoded to a buffer or TypedArray
-                const contentEncoded = 
-                encoder.encode(JSON.stringify(content).trim());
-                console.log(content);
-
-                //key material must be 16, 24 or 32 bytes 
-                const keyEnc = encoder.encode(key.padStart(16, key).slice(0, 16));
-                //console.log(keyEnc);
-                console.log(contentEncoded);
-
-                const cryptKey = await operations.importKey(
-                    'raw', 
-                    keyEnc,
-                    { name: 'AES-GCM' },
-                    true,
-                    ['encrypt', 'decrypt']
-                );
-                
-                const encryptedData = await operations.encrypt(
-                    { name: 'AES-GCM', iv: iv },
-                    cryptKey,
-                    contentEncoded
-                );
-                //const secretKey = await operations.exportKey('raw', cryptKey);                
-                
-                const allData = {};
-                    //allData.key = new Uint8Array(secretKey),
-                    allData.iv = iv,
-                    //allData.content = new Uint8Array(encryptedData);
-                    allData.content = String.fromCharCode.apply(null, new Uint8Array(encryptedData));
-                    //allData.images = String.fromCharCode.apply(null, new Uint8Array());
-
-                console.log(allData);
-                console.log(encryptedData);
-                return JSON.stringify(allData);
-            }
-            const imgProg = ()=>{
-                    while(imgReader.readyState == 1){
-                        console.log(imgReader.readyState); 
-                    }return;
-            }
-            async function downloadFile() {
-                const passkey = passkeyInput.value;
+            async function newCryptoKey(){
                 passkeyError.hidden = true;
-                if(passkey.length >= 8){
-                    const link = document.createElement("a");
-                    const content = await storeInputs().then(
-                    imgReader.onloadend = async ()=>{
-                        console.log(imgReader.result);
-                        content.images[0].push(imgReader.result);
-                        const encrypted = await encryptToString(content, passkey)
-                        return;
-                    });
-                    
-                    const file = new Blob([encrypted], { type: 'application/json' });
-                    link.href = URL.createObjectURL(file);
-                    link.download = "finance-data.json";
-                    link.click();
-                    URL.revokeObjectURL(link.href); 
-                }else{
+                try{
+                    const key = passkeyInput.value;
+                    //key material must be 16, 24 or 32 bytes 
+                    const keyEnc = encoderUTF8.encode(key.padStart(16, key).slice(0, 16));
+                    const newKey = await operations.importKey(
+                        'raw', 
+                        keyEnc,
+                        { name: 'AES-GCM' },
+                        true,
+                        ['encrypt', 'decrypt']
+                    );
+                    return newKey; 
+                }catch{
                     passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
                     passkeyError.hidden = false;
                 }
                 
+            }
+
+            async function encryptToString(content, cryptKey){
+                //Randomized initial variables for salting
+                const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+                const encryptedData = await operations.encrypt(
+                    { name: 'AES-GCM', iv: iv },
+                    cryptKey,
+                    content
+                );
+                
+                const allData = {};
+                    allData.iv = iv,
+                    allData.content = await ab2str(encryptedData);
+                //console.log(allData);
+                //console.log(encryptedData);
+                return JSON.stringify(allData);
+            }
+            
+            async function downloadFile() {
+                    const cryptoKey = await newCryptoKey();
+                    const link = document.createElement("a");
+                    const content = await storeInputs();
+                    console.log(content);
+                    const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
+                    const encrypted = await encryptToString(contentEncoded, cryptoKey);
+                    console.log(encrypted);
+                    const file = new Blob([encrypted], { type: 'application/json' });
+                    link.href = URL.createObjectURL(file);
+                    link.download = "finance-data.json";
+                    link.click();
+                    URL.revokeObjectURL(link.href);    
             };
 
             const fileReader = new FileReader();
@@ -514,39 +525,30 @@
                 }
             });
             
-            fileReader.onload = async function(){  
+            fileReader.onloadend = async function(){  
                 try{  
-                    const passkey = passkeyInput.value;
-                    if(passkey.length >= 8){
                         const fileJSON = JSON.parse(fileReader.result);
                         //key material must be 16, 24 or 32 bytes 
-                        const keyEnc = await encoder.encode(passkey.padStart(16, passkey).slice(0, 16));
                         //console.log(fileJSON);
-                        const key =  await operations.importKey('raw', keyEnc, {name: 'AES-GCM'}, true, ['encrypt', 'decrypt']);                
-                        //const key = await operations.importKey('raw', new Uint8Array(Object.values(fileJSON.key)), {name: 'AES-GCM'}, true, ['encrypt', 'decrypt']);                
+                        const cryptoKey = await newCryptoKey();               
                         const iv = new Uint8Array(Object.values(fileJSON.iv));
-                        //const encryptedData = new Uint8Array(Object.values(fileJSON.content));
+                        //const decodedData = decoderUTF8.decode();
                         const encryptedData = await str2ab(fileJSON.content);
                         //console.log(key);
                         //console.log(encryptedData);
                         const decryptedData = await operations.decrypt(
                         { name: 'AES-GCM', iv: iv },
-                            key,
+                            cryptoKey,
                             encryptedData
                         );
                         //console.log(decryptedData);
-                        const contentDecrypted = decoder.decode(decryptedData);
+                        const contentDecrypted = decoderUTF8.decode(decryptedData);
                         console.log(JSON.parse(contentDecrypted));
-                        listInputs(JSON.parse(contentDecrypted));
+                        formDisplayUpdate(JSON.parse(contentDecrypted));
                         createTable(JSON.parse(contentDecrypted), display);
                         //display.innerHTML = contentDecrypted;
-                    }else{
-                        passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
-                        passkeyError.hidden = false;
-                    }
                 }catch{
-                    passkeyError.firstElementChild.innerHTML = 'Passkey is incorrect.';
-                    passkeyError.hidden = false;
+                    console.error("Passkey is Incorrect");
                 }
             }
             

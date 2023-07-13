@@ -63,9 +63,7 @@ main{
     padding: 2.5% 0;
     background: linear-gradient(179deg, transparent, #fff 15%);
 }
-#bsu-logo{
-    max-height: 48px;
-}
+
  
   @media only screen and (min-width: 768px) {
     /* For desktop: */
@@ -83,10 +81,6 @@ main{
     .col-12 {width: 100%;}
 }
 
-[class*="col-"] {
-    float: left;
-    padding: 5px;
-}
 
 .row{
     padding-bottom: 10px;
@@ -102,6 +96,9 @@ main{
 img {
     max-width: 100%;
     height: auto;
+}
+#bsu-logo{
+    max-height: 4rem;
 }
 
 /** Overflow (for tables) - https://www.w3schools.com/howto/howto_css_table_responsive.asp **/
@@ -137,9 +134,17 @@ body{
     background: linear-gradient(180deg, #0033A0, transparent 11%),
         linear-gradient(181deg, #0033A0, #0033A0 3%, transparent 8%);
     color: #141827;
-    padding: 10% 0;
 }
+.header{
+    padding: 1rem 0 2rem 1rem;
+}
+.row.split-inputs>[class*=col-]{
+    padding-inline-end: 0;
 
+}
+.row.split-inputs{
+    padding-right: 0;
+}
 .labels>label, button{
     font-size: 1.1em;
     font-weight: bold;
@@ -159,30 +164,33 @@ select, textarea{
     display: block;
     margin: 4px 0 1.5px;
 }
-button, .file-upload{
-    background-color: #0033A0;
+button, .file-upload, .image-upload{
+    background-color: #d64309;
     color: #fff;
     padding: 5% 12.5%;
-    border: #fff 5px solid;
-    border-radius: 50px;
+    border: #d64309 5px solid;
+    border-radius: 3px;
 }.file-upload{
     pointer-events: none;
+}.image-upload{
+    background-color: #0033A0;
+    border-color: #0033A0;
+    padding: .5rem;
+}.image-upload:hover{
+    background-color: #011d80;
+    border-color: #011d80;
+    font-size: 105%;
 }
 button:hover, .file-upload:hover{
-    background-color: #011d80;
-    padding: 5% 12.5%;
-    border-radius: 50px;
+    background-color: #bb3200;
+    border-color: #bb3200;
     font-size: 105%;
 }
 #financial_accounts>div, #income_streams>div{
     padding: 0 10px;
 }
-#encrypted_file{
+input[type=file]{
     display: none;
-}
-#govId{
-    height: auto;
-    width: fit-content;
 }
 h5{
     font-size: 1rem;
