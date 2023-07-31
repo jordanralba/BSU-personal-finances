@@ -60,36 +60,24 @@
 
 }
 main{
-    padding: 2.5% 0;
-    background: linear-gradient(179deg, transparent, #fff 15%);
+    padding: 0;
+    width: 100%;
+    margin-top: -3rem;
 }
-
- 
-  @media only screen and (min-width: 768px) {
-    /* For desktop: */
-    .col-1 {width: 8.33%;}
-    .col-2 {width: 16.66%;}
-    .col-3 {width: 25%;}
-    .col-4 {width: 33.33%;}
-    .col-5 {width: 41.66%;}
-    .col-6 {width: 50%;}
-    .col-7 {width: 58.33%;}
-    .col-8 {width: 66.66%;}
-    .col-9 {width: 75%;}
-    .col-10 {width: 83.33%;}
-    .col-11 {width: 91.66%;}
-    .col-12 {width: 100%;}
+body{
+    color: #141827;
+    overflow-y:scroll;
 }
-
-
+form{
+    padding: 2rem;
+}
 .row{
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
+    padding-top: .5rem;
 }
 
-.row::after {
-    content: "";
-    clear: both;
-    display: table;
+.split-inputs>*{
+    padding-right: 0;
 }
 
 /** Image - https://www.w3schools.com/css/css_rwd_grid.asp **/   
@@ -98,15 +86,38 @@ img {
     height: auto;
 }
 #bsu-logo{
-    max-height: 4rem;
+    height: 4rem;
+    display: block;
+    background: url(bsu-leftalignedlogo-orange.svg) no-repeat;
+    background-size: contain;
+    transition: height .3s ease-in-out;
 }
+@media only screen and (max-width: 767px) {
+    #bsu-logo{
+        background: url(bsu-blogo-orange.svg) no-repeat;
+        background-size: contain;
+        height: 57px;
+    }
+}
+
+object{
+    max-height: 350px;
+    min-height: 150px;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+.inputs>input{
+    margin-bottom: .5rem;
+}
+
 
 /** Overflow (for tables) - https://www.w3schools.com/howto/howto_css_table_responsive.asp **/
 .overflow {
     overflow-x:auto;
+    overflow-y:auto;
 }
 a {
-    color: #c1cff1;  
     text-decoration: none; 
 }
 table, th, td {
@@ -115,12 +126,8 @@ table, th, td {
     background: #fff;
     background-color: rgba(26,29,33,.0392156863)
   }
-  .center{
-      text-align:center;
-  }
   .error-message {
     height: 54px;
-    border: 2px solid #141827;
     border-radius: 0.25rem;
     color: #bb1f00;
     font-weight:bold;
@@ -130,70 +137,115 @@ table, th, td {
     color: #bb1f00;
     border-bottom: 3px solid #bb1f00;
 }
-body{
-    background: linear-gradient(180deg, #0033A0, transparent 11%),
-        linear-gradient(181deg, #0033A0, #0033A0 3%, transparent 8%);
-    color: #141827;
-}
-.header{
-    padding: 1rem 0 2rem 1rem;
-}
-.row.split-inputs>[class*=col-]{
-    padding-inline-end: 0;
 
+.header{
+    padding: 2rem;
+    padding-bottom: 9rem;
+    background: linear-gradient(180deg, #0033A0 5rem, transparent 11rem), linear-gradient(181deg, #0033A0, #0033A0 4rem, transparent 10rem);
 }
-.row.split-inputs{
-    padding-right: 0;
-}
-.labels>label, button{
-    font-size: 1.1em;
-    font-weight: bold;
-}
-section{
-    padding: 0 2.5%;
-}
-input,
-select, textarea{
+input, select, textarea{
     border: 1px solid #dddfe3;
     background-color: #f6f7f9;
     border-radius: 0.25px;
-    width: 100%;
     height: 54px;
     margin: 2.5px 0 1.5px;
-}textarea{
+}
+input, textarea, .income_frequency-input{
+    width: 100%;
+}
+#document_select{
+    background-color: transparent;
+    border-color: transparent;
+    max-height: 100%;
+}
+
+textarea{
     display: block;
     margin: 4px 0 1.5px;
 }
-button, .file-upload, .image-upload{
-    background-color: #d64309;
-    color: #fff;
-    padding: 5% 12.5%;
-    border: #d64309 5px solid;
-    border-radius: 3px;
-}.file-upload{
-    pointer-events: none;
-}.image-upload{
-    background-color: #0033A0;
-    border-color: #0033A0;
-    padding: .5rem;
-}.image-upload:hover{
-    background-color: #011d80;
-    border-color: #011d80;
-    font-size: 105%;
-}
-button:hover, .file-upload:hover{
-    background-color: #bb3200;
-    border-color: #bb3200;
-    font-size: 105%;
-}
+
 #financial_accounts>div, #income_streams>div{
     padding: 0 10px;
+}
+.scroll-container{
+    max-height: 81px;
 }
 input[type=file]{
     display: none;
 }
 h5{
     font-size: 1rem;
+}
+
+.center{
+    text-align: center;
+}
+
+button, .file-upload, .image-upload {
+    transition: all .15s ease-in-out;
+    width: auto;
+    min-width: 2rem;
+    display: inline-block;
+    line-height: 1;
+    height: auto;
+    cursor: pointer;
+    text-decoration: none;
+    border: 0;
+    padding: 0;
+    background-color: #d64309;
+    border: 4px solid #d64309;
+    color: #fff;
+    font-family: Gotham A,Gotham B,Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    line-height: 1.375;
+    padding: 14px 42px 14px 14px;
+    position: relative;
+    text-align: center;
+    border-radius: 0;
+}
+button:hover,
+button:focus, .file-upload:hover {
+    background-color: #bb3200;
+    border-color: #bb3200;
+}
+button::after, .file-upload::after, .image-upload::after{
+    background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 11.2'%3E%3Cpath fill='%23fff' d='M9.4 0L8.2 1.2l3.6 3.6H0v1.7h11.8l-3.6 3.6 1.2 1.1L15 5.6z'/%3E%3C/svg%3E") 100% no-repeat;
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 15px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transition: all .15s ease-in-out;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 15px;
+}
+button:hover:after, .file-upload:hover:after,
+.image-upload:hover:after {
+    right: 14px;
+    transition: all .15s ease-in-out
+}
+
+.file-upload{
+    pointer-events: none;
+}.image-upload, #yearly_income-calc{
+    background-color: #0033A0;
+    border-color: #0033A0;
+}.image-upload:hover, #yearly_income-calc:hover{
+    background-color: #011d80;
+    border-color: #011d80;
+}
+#backTop{
+    position: fixed;
+    bottom: 5%;
+    right: 2rem;
+    rotate: -90deg;
+    padding: 1rem;
+}#backTop::after{
+    right: .5rem;
 }
 
 

@@ -7,172 +7,205 @@
         <link async="true" rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="header row">
-            <div class="col-3">
-                <img id="bsu-logo" src="bsuLogo.png"/>
-            </div>
+        <div class="header sticky-top">
+            <a id="bsu-logo" ></a>
         </div>
-        <main>
-            
-            <section>
-                
-                <form id="finance-form">
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label>Name: </label></div>
-                        <div class="col-sm-5 row split-inputs">
-                            <div class="col-6">
-                                <input type="text" id="first_name" name="whole_name" class="form-input"><br>
-                                <label for="first_name"><small>First</small></label>
+        <div>
+            <button id="backTop" onclick="scrollBackTop();"></button>
+        </div>
+        <main>                
+            <form id="finance-form">
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label>Name: </label></div>
+                    <div class="col-md-5 row split-inputs">
+                        <div class="col-6">
+                            <input type="text" id="first_name" name="whole_name" class="form-input"><br>
+                            <label for="first_name"><small>First</small></label>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="last_name" name="whole_name" class="form-input"><br>
+                            <label for="last_name"><small>Last</small></label>
+                        </div> 
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 labels my-auto">
+                        <label>Important Documents:</label> <br>
+                        <select id="document_select" name="document_select">
+                            <option value="0">State ID</option>
+                            <option value="1">Auto Insurance</option>
+                            <option value="2">Resume</option>
+                            <option value="3">Cover Letter</option>
+                            <option value="4">Diploma</option>
+                            <option value="5">Certification #1</option>
+                            <option value="6">Certification #2</option>
+                            <option value="7">Certification #3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5 split-inputs">
+                        <div id="documentDisplay">
+                            <object id="state_id"></object>
+                            <object id="auto_insurance" hidden></object>
+                            <object id="resume" hidden></object>
+                            <object id="cover_letter" hidden></object>
+                            <object id="diploma" hidden></object>
+                            <object id="certificate-one" hidden></object>
+                            <object id="certificate-two" hidden></object>
+                            <object id="certificate-three" hidden></object>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto">
+                                <label for="important_documents" class="image-upload overflow">Upload</label>
+                                <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
                             </div>
-                            <div class="col-6">
-                                <input type="text" id="last_name" name="whole_name" class="form-input"><br>
-                                <label for="last_name"><small>Last</small></label>
-                            </div> 
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="whole_name-error"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3 labels">
-                            <label for="govId">State Issue ID:</label>
-                        </div>
-                        <div class="col-sm-5 split-inputs row">
-                            <div class="col-4">
-                                <label for="govId" class="image-upload">Upload Image</label>
-                                <input type="file" accept="image/*" id="govId" name="govId" class="image-input">
+                            <div class="col-auto">
+                                <a id="document_download" class="image-upload overflow">Download</a>
                             </div>
-                            <div class="col-8" id="govIdDisplay"></div>
+                            
                         </div>
-                        <div class="col-sm-4"></div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label>University ID: </label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="number" id="uni_id" name="uni_id" class="form-input">
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="uni_id-error"></div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label>University ID: </label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" id="uni_id" name="uni_id" class="form-input">
                     </div>
-                    <!--
-                        Add input for subcategories 
-                            -> Resource
-                            -> Frequency
-                            -> Amount
-                            ?-> Use by percentage
-                    -->
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="number" id="income_streams-amount">
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="income_streams-error"></div>
-                    </div>
-                    <div class="row" hidden id="income_streams-heads">
-                        <div class="col-sm-3" ><h5>Resource</h5></div>
-                        <div class="col-sm-3" ><h5>Frequency</h5></div>
-                        <div class="col-sm-3" ><h5>Amount</h5></div>
-                        <div class="col-sm-3" ><h5>Usage(%)</h5></div>
-                    </div>
-                    <div class="row" id="income_streams">
-                        <div class="col-sm-3" id="resources"></div>
-                        <div class="col-sm-3" id="frequency"></div>
-                        <div class="col-sm-3" id="amounts"></div>
-                        <div class="col-sm-3" id="uses"></div>
-                    </div>
-                    <!--
-                        Add input for subcategories 
-                            -> Institution
-                            -> Account Type
-                            ?-> Acc # (last 4)
-                            ?-> Purpose
-                    -->
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="number" id="financial_accounts-amount">
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="financial_accounts-error"></div>
-                    </div>
-                    <div class="row" hidden id="financial_accounts-heads">
-                        <div class="col-sm-3" ><h5>Institution</h5></div>
-                        <div class="col-sm-3" ><h5>Type</h5></div>
-                        <div class="col-sm-3" ><h5>Account #</h5></div>
-                        <div class="col-sm-3" ><h5>Purpose</h5></div>
-                    </div>
-                    <div class="row" id="financial_accounts">
-                        <div class="col-sm-3" id="institution"></div>
-                        <div class="col-sm-3" id="account_types"></div>
-                        <div class="col-sm-3" id="account_numbers"></div>
-                        <div class="col-sm-3" id="purposes"></div>
-                    </div>
-                    <!--
-                        Eventually calculate actual value based on 2 weeks expenses 
-                            -> Based on fixed nationwide average || Based on user's estimated weekly spending
-                            ?-> By average of attended uni's local cost of living
-                            ?-> Flight or roadtrip home included
-                    -->
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label>Estimate Needed Emergency Cash: </label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="emergency_cash_guess-error"></div>
-                    </div>
-                    <!--
-                        Eventually savings needed to meet goal based on time until graduation 
-                            -> Based on emergency cash needed, loans, future needs
-                            ?-> By using attended uni's state average info && By using estimated rate of inflation
-                    -->
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label>Estimate Needed Monthly Saving: </label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
-                        </div>
-                        <div class="col-sm-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
-                    </div>
-                    <!--
-                        Add input for generating monthly expense report: 
-                            -> Importance (1-5)
-                            -> Amount
-                            ?-> Date
-                            ?-> Expense
-                    -->
+                    <div class="col-md-4 error-message" hidden="" id="uni_id-error"></div>
+                </div>
+                <!--
+                    Add input for subcategories 
+                        -> Resource
+                        -> Frequency
+                        -> Amount
+                        ?-> Use by percentage
+                -->
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" id="income_streams-amount"> <br>
+                        <button id="yearly_income-calc" onclick="scrollBackTop();return false;">Calculate</button>
 
-                    <!--div class="row">
-                        <div class="col-sm-3 labels"></div>
-                        <!-div class="col-sm-5"><button type="submit">Save Changes</button></div>
-                        <div class="col-sm-5 inputs"><input type="button" name="save" value="Save Changes" onclick="formDisplayUpdate(this.form)"/></div>
-                        <!-div class="col-sm-5"><input type="submit" value="Save Changes"/></div>
-                        <div class="col-sm-4"></div>
-                    </div-->
+                    </div>
                     
+                    
+                    <div class="col-md-4">
+                    </div>
+                </div>              
+                <div class="row" hidden id="income_streams-heads">
+                    <div class="col-3" ><h5>Resource</h5></div>
+                    <div class="col-3" ><h5>Frequency</h5></div>
+                    <div class="col-3" ><h5>Amount</h5></div>
+                    <div class="col-3" ><h5>Usage(%)</h5></div>
+                </div>
+                <div class="row scroll-container overflow" id="income_streams">
+                    <div class="col-3" id="resources"></div>
+                    <div class="col-3" id="frequency"></div>
+                    <div class="col-3" id="amounts"></div>
+                    <div class="col-3" id="uses"></div>
+                </div>
+                <!--
+                    Add input for subcategories 
+                        -> Institution
+                        -> Account Type
+                        ?-> Acc # (last 4)
+                        ?-> Purpose
+                -->
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" id="financial_accounts-amount">
+                    </div>
+                    <div class="col-md-4" hidden="" id="financial_accounts-error"></div>
+                </div>
+                <div class="row" hidden id="financial_accounts-heads">
+                    <div class="col-md-3" ><h5>Institution</h5></div>
+                    <div class="col-md-3" ><h5>Type</h5></div>
+                    <div class="col-md-3" ><h5>Account #</h5></div>
+                    <div class="col-md-3" ><h5>Purpose</h5></div>
+                </div>
+                <div class="row scroll-container overflow" id="financial_accounts">
+                    <div class="col-md-3" id="institution"></div>
+                    <div class="col-md-3" id="account_types"></div>
+                    <div class="col-md-3" id="account_numbers"></div>
+                    <div class="col-md-3" id="purposes"></div>
+                </div>
+                <!--
+                    Eventually calculate actual value based on 2 weeks expenses 
+                        -> Based on fixed nationwide average || Based on user's estimated weekly spending
+                        ?-> By average of attended uni's local cost of living
+                        ?-> Flight or roadtrip home included
+                -->
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label>Estimate Needed Emergency Cash: </label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
+                    </div>
+                    <div class="col-md-4 error-message" hidden="" id="emergency_cash_guess-error"></div>
+                </div>
+                <!--
+                    Eventually savings needed to meet goal based on time until graduation 
+                        -> Based on emergency cash needed, loans, future needs
+                        ?-> By using attended uni's state average info && By using estimated rate of inflation
+                -->
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label>Estimate Needed Monthly Saving: </label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
+                    </div>
+                    <div class="col-md-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
+                </div>
+                <!--
+                    Add input for generating monthly expense report: 
+                        -> Importance (1-5)
+                        -> Amount
+                        ?-> Date
+                        ?-> Expense
+                -->
+
+                <!--div class="row">
+                    <div class="col-md-3 labels"></div>
+                    <!-div class="col-md-5"><button type="submit">Save Changes</button></div>
+                    <div class="col-md-5 inputs"><input type="button" name="save" value="Save Changes" onclick="formDisplayUpdate(this.form)"/></div>
+                    <!-div class="col-md-5"><input type="submit" value="Save Changes"/></div>
+                    <div class="col-md-4"></div>
+                </div-->
                 
-                
-                <!--form id="data-form"-->
-                    <div class="row">
-                        <div class="col-sm-3 labels my-auto"><label for="passkey">Passkey: </label></div>
-                        <div class="col-sm-5 inputs">
-                            <input type="password" id="passkey" name="passkey" class="data-input">
+            
+            
+            <!--form id="data-form"-->
+                <div class="row">
+                    <div class="col-md-3 labels my-auto"><label for="passkey">Passkey: </label></div>
+                    <div class="col-md-5 inputs">
+                        <input type="password" id="passkey" name="passkey" class="data-input">
+                    </div>
+                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5 inputs">
+                        <div class="row">
+                            <div class="col-auto">
+                                <button onclick="downloadFile();return false;">New</button>
+                            </div>
+                            <div class="col-auto">
+                                <label for="encrypted_file" class="file-upload">Saved</label>
+                                <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
+                            </div>
                         </div>
-                        <div class="col-sm-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-5 labels center">
-                            <label for="encrypted_file" class="file-upload">Upload Encrypted</label>
-                            <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
-                        </div>
-                        <div class="col-sm-4"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-5 center"><button onclick="downloadFile();return false;">New Download</button></div>
-                        <div class="col-sm-4"></div>
-                    </div>
-                </form>
-            </section>
-            <section>
-                <div id="display" class="overflow"></div>
-            </section>
+                    <div class="col-md-4"></div>
+                </div>
+            </form>
         </main>
+        <script>
+            //Scroll Top Button
+            const backTop = document.getElementById('backTop');
+            function scrollBackTop(){
+                window.scrollTo(0, 0);
+            }
+        </script>
         <script>
             /*Using either IndexedDB or Cache api 
                 ->Create storage model to save clustered datasets for later retrieval
@@ -188,7 +221,7 @@
             const accountAmount = document.getElementById('financial_accounts-amount');
             const divNode = document.createElement('div');
             const inputNode = document.createElement('input');
-            const display = document.getElementById('display');
+            const imageNode = document.createElement('img');
             const passkeyInput = document.getElementById('passkey');
             const passkeyError = document.getElementById('passkey-error');
             const finForm = document.forms[0];
@@ -196,16 +229,27 @@
             const encoderUTF8 = new TextEncoder('utf-8');
             const decoderUTF8 = new TextDecoder('utf-8');
             const imgReader = new FileReader();
-            const idDisplay = document.getElementById('govIdDisplay');
+            const docDisplay = document.getElementById('documentDisplay');
+            const docDownload = document.getElementById('document_download');
 
-
-            finForm.govId.addEventListener('change', function(){
+            finForm.document_select.addEventListener('change', ()=>{
+                const targetDoc = finForm.document_select.value;
+                for(child of docDisplay.children){
+                    child.hidden = true;
+                }
+                docDisplay.children[targetDoc].hidden = false;
+                docDownload.href = docDisplay.children[targetDoc].data;
+                docDownload.download = docDisplay.children[targetDoc].id;
+            });
+            
+            finForm.important_documents.addEventListener('change', function(){
                 imgReader.readAsDataURL(this.files[0]);
                 imgReader.onloadend = ()=>{
-                    idDisplay.innerHTML = '<img src="'+imgReader.result+'"/>'
+                    const targetDoc = finForm.document_select.value;
+                    docDisplay.children[targetDoc].setAttribute('data', imgReader.result);
                 }
             });
-
+            
 
             function updateIncomeStreams(){
                 for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
@@ -246,13 +290,33 @@
                 const col1 = incomeTable.children[1];
                 const col2 = incomeTable.children[2];
                 const col3 = incomeTable.children[3];
-
+                const optionNode = document.createElement('option');
                     const resource = inputNode.cloneNode(true);
                         resource.setAttribute('type', 'text');
                         resource.setAttribute('class', 'income_resource-input');
                         col.appendChild(resource.cloneNode(true));
-                    const frequency = resource.cloneNode(true);
+                    const frequency = document.createElement('select');
                         frequency.setAttribute('class', 'income_frequency-input');
+                    const frequencyOpt = optionNode.cloneNode(true);
+                        frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 1;
+                        frequencyOpt.text = "Annually";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 2;
+                        frequencyOpt.text = "Semiannually";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 4;
+                        frequencyOpt.text = "Quarterly";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 12;
+                        frequencyOpt.text = "Monthly";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 26;
+                        frequencyOpt.text = "Biweekly";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
+                        frequencyOpt.value = 52;
+                        frequencyOpt.text = "Weekly";
+                            frequency.appendChild(frequencyOpt.cloneNode(true));
                         col1.appendChild(frequency.cloneNode(true));
                     const dollar = resource.cloneNode(true);
                         dollar.setAttribute('type', 'number');
@@ -288,8 +352,12 @@
                         purpose.setAttribute('class', 'account_purposes-input')
                         col3.appendChild(purpose.cloneNode(true));
             }
+
+            function calcSavings(){
+
+            }
+
             const createTable = async (json, target) => {
-                idDisplay.innerHTML = json.images.govId;
                 let displayTable = '<table>';
                 if(typeof json.data[0] !== 'undefined'){
                     //console.log(json.data[0]);
@@ -300,7 +368,7 @@
                         const name = entry[0];
                         const val = entry[1];
                         const words = name.split('_');
-                        //console.log(words);
+                        //con   sole.log(words);
                         const labelCapitalized = words.map(word => word.replace(word.at(0), word.at(0).toUpperCase()));
                         //console.log(labelArr);
                         const labelString = labelCapitalized.join(' ');
@@ -385,6 +453,10 @@
                         purposesInputs[index].value = resource;                        
                     }
 
+                }if(typeof json.documents !== 'undefined'){
+                    for(const [index, content] of Object.entries(json.documents)){
+                        docDisplay.children[index].setAttribute('data', content);
+                    }
                 }
             }
 
@@ -399,11 +471,12 @@
                     return buf;
                 }catch{
                     console.error('Error converting from Type String to ArrayBuffer');
+                    
                 }
             }
             function ab2str(ab) {
-                console.log(ab);
                 try{
+                    console.log(ab);
                     let str = '';
                     const bufView = new Uint8Array(ab);
                     for(let i=0, bytesLen=bufView.byteLength; i<bytesLen;i++){
@@ -426,7 +499,7 @@
                     }
             }
             function storeInputs(){
-                const storageObj = {data:[{}], images:{}};
+                const storageObj = {data:[{}], documents:[]};
                 for(input of finForm.getElementsByClassName('form-input')){
                     storageObj.data[0][input.id] = input.value;
                 }for(column of incomeTable.children){
@@ -441,9 +514,10 @@
                         cacheArr.push(input.value);
                     }
                     storageObj.data[0][column.id] = cacheArr;
-                }if(typeof finForm.govId.files[0] !== 'undefined'){
-                    storageObj.images['govId'] = '<img src="'+addImgString()+'"/>';
-                    //storageObj.data[0]['state_id'] = '<img src="'+addImgString()+'"/>';
+                }for(const [index, child] of Object.entries(docDisplay.children)){
+                    if(typeof child.data !== 'undefined'){    
+                        storageObj.documents.push(child.data);
+                    }
                 }
                 return storageObj;
             }
@@ -469,7 +543,6 @@
                 }
                 
             }
-
             async function encryptToString(content, cryptKey){
                 //Randomized initial variables for salting
                 const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -492,10 +565,10 @@
                     const cryptoKey = await newCryptoKey();
                     const link = document.createElement("a");
                     const content = await storeInputs();
-                    console.log(content);
+                    //console.log(content);
                     const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
                     const encrypted = await encryptToString(contentEncoded, cryptoKey);
-                    console.log(encrypted);
+                    //console.log(encrypted);
                     const file = new Blob([encrypted], { type: 'application/json' });
                     link.href = URL.createObjectURL(file);
                     link.download = "finance-data.json";
@@ -545,7 +618,7 @@
                         const contentDecrypted = decoderUTF8.decode(decryptedData);
                         console.log(JSON.parse(contentDecrypted));
                         formDisplayUpdate(JSON.parse(contentDecrypted));
-                        createTable(JSON.parse(contentDecrypted), display);
+                        //createTable(JSON.parse(contentDecrypted), display);
                         //display.innerHTML = contentDecrypted;
                 }catch{
                     console.error("Passkey is Incorrect");
