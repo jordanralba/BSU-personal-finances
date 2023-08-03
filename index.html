@@ -176,7 +176,10 @@
             
             <!--form id="data-form"-->
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label for="passkey">Passkey: </label></div>
+                    <div class="col-md-3 labels my-auto">
+                        <label for="passkey">Passkey: </label>
+                        <p>Make sure you choose a password you will remember. Once you download it can be used to access all the confidential information herein.</p>
+                    </div>
                     <div class="col-md-5 inputs">
                         <input type="password" id="passkey" name="passkey" class="data-input">
                     </div>
@@ -187,12 +190,12 @@
                     <div class="col-md-5 inputs">
                         <div class="row">
                             <div class="col-auto">
-                                <button onclick="downloadFile();return false;">New</button>
+                                <button onclick="downloadEncryptedFile();return false;">New</button>
                             </div>
                             <div class="col-auto">
                                 <label for="encrypted_file" class="file-upload">Saved</label>
                                 <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
-                            </div>
+                            </div>      
                         </div>
                     </div>
                     <div class="col-md-4"></div>
@@ -233,15 +236,20 @@
             const docDownload = document.getElementById('document_download');
 
             finForm.document_select.addEventListener('change', ()=>{
-                const targetDoc = finForm.document_select.value;
+                
                 for(child of docDisplay.children){
                     child.hidden = true;
                 }
+                const targetDoc = finForm.document_select.value;
                 docDisplay.children[targetDoc].hidden = false;
+            });
+            
+            docDownload.addEventListener('click', ()=>{
+                const targetDoc = finForm.document_select.value;
                 docDownload.href = docDisplay.children[targetDoc].data;
                 docDownload.download = docDisplay.children[targetDoc].id;
             });
-            
+
             finForm.important_documents.addEventListener('change', function(){
                 imgReader.readAsDataURL(this.files[0]);
                 imgReader.onloadend = ()=>{
@@ -249,6 +257,7 @@
                     docDisplay.children[targetDoc].setAttribute('data', imgReader.result);
                 }
             });
+
             
 
             function updateIncomeStreams(){
@@ -561,7 +570,7 @@
                 return JSON.stringify(allData);
             }
             
-            async function downloadFile() {
+            async function downloadEncryptedFile() {
                     const cryptoKey = await newCryptoKey();
                     const link = document.createElement("a");
                     const content = await storeInputs();

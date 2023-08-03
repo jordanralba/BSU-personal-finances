@@ -56,7 +56,7 @@
 /** Grid system - https://www.w3schools.com/css/css_rwd_grid.asp **/
 * {
     box-sizing: border-box;
-    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
+    
 
 }
 main{
@@ -70,6 +70,9 @@ body{
 }
 form{
     padding: 2rem;
+}
+label{
+    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
 }
 .row{
     padding-bottom: 1rem;
