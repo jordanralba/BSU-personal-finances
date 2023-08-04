@@ -11,12 +11,12 @@
             <a id="bsu-logo" ></a>
         </div>
         <div>
-            <button id="backTop" onclick="scrollBackTop();"></button>
+            <button id="backTop" hidden onclick="scrollBackTop();"></button>
         </div>
         <main>                
             <form id="finance-form">
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label>Name: </label></div>
+                    <div class="col-md-3 labels my-3"><label>Name: </label></div>
                     <div class="col-md-5 row split-inputs">
                         <div class="col-6">
                             <input type="text" id="first_name" name="whole_name" class="form-input"><br>
@@ -30,18 +30,9 @@
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 labels my-auto">
+                    <div class="col-md-3 labels my-3">
                         <label>Important Documents:</label> <br>
-                        <select id="document_select" name="document_select">
-                            <option value="0">State ID</option>
-                            <option value="1">Auto Insurance</option>
-                            <option value="2">Resume</option>
-                            <option value="3">Cover Letter</option>
-                            <option value="4">Diploma</option>
-                            <option value="5">Certification #1</option>
-                            <option value="6">Certification #2</option>
-                            <option value="7">Certification #3</option>
-                        </select>
+                        <p>If the document is not displaying, then select and then deselect a different option and it will load on return.</p>
                     </div>
                     <div class="col-md-5 split-inputs">
                         <div id="documentDisplay">
@@ -62,13 +53,24 @@
                             <div class="col-auto">
                                 <a id="document_download" class="image-upload overflow">Download</a>
                             </div>
-                            
+                            <div class="col-auto">
+                                <select id="document_select" name="document_select">
+                                    <option value="0">State ID</option>
+                                    <option value="1">Auto Insurance</option>
+                                    <option value="2">Resume</option>
+                                    <option value="3">Cover Letter</option>
+                                    <option value="4">Diploma</option>
+                                    <option value="5">Certification #1</option>
+                                    <option value="6">Certification #2</option>
+                                    <option value="7">Certification #3</option>
+                                </select>                            
+                            </div> 
                         </div>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label>University ID: </label></div>
+                    <div class="col-md-3 labels my-3"><label>University ID: </label></div>
                     <div class="col-md-5 inputs">
                         <input type="number" id="uni_id" name="uni_id" class="form-input">
                     </div>
@@ -82,14 +84,11 @@
                         ?-> Use by percentage
                 -->
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
+                    <div class="col-md-3 labels my-3"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
                     <div class="col-md-5 inputs">
                         <input type="number" id="income_streams-amount"> <br>
-                        <button id="yearly_income-calc" onclick="scrollBackTop();return false;">Calculate</button>
 
                     </div>
-                    
-                    
                     <div class="col-md-4">
                     </div>
                 </div>              
@@ -113,7 +112,7 @@
                         ?-> Purpose
                 -->
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
+                    <div class="col-md-3 labels my-3"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
                     <div class="col-md-5 inputs">
                         <input type="number" id="financial_accounts-amount">
                     </div>
@@ -138,7 +137,10 @@
                         ?-> Flight or roadtrip home included
                 -->
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label>Estimate Needed Emergency Cash: </label></div>
+                    <div class="col-md-3 labels my-3">
+                        <label>Estimate Needed Emergency Cash: </label>
+                        <p>Total is roughly 3-6 months of your annual earnings.</p>
+                    </div>
                     <div class="col-md-5 inputs">
                         <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
                     </div>
@@ -150,11 +152,22 @@
                         ?-> By using attended uni's state average info && By using estimated rate of inflation
                 -->
                 <div class="row">
-                    <div class="col-md-3 labels my-auto"><label>Estimate Needed Monthly Saving: </label></div>
+                    <div class="col-md-3 labels my-3"><label>Estimate Needed Monthly Saving: </label></div>
                     <div class="col-md-5 inputs">
                         <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
                     </div>
                     <div class="col-md-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 labels my-3">
+                        <label>Annual Income: </label>
+                        <p>Calculated from your income streams input above.</p>
+                    </div>
+                    <div class="col-md-5 inputs">
+                        <input type="number" step="0.01" id="annual_income" name="annual_income" class="form-input">
+                        <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
+                    </div>
+                    <div class="col-md-4"></div>
                 </div>
                 <!--
                     Add input for generating monthly expense report: 
@@ -177,8 +190,8 @@
             <!--form id="data-form"-->
                 <div class="row">
                     <div class="col-md-3 labels my-auto">
-                        <label for="passkey">Passkey: </label>
-                        <p>Make sure you choose a password you will remember. Once you download it can be used to access all the confidential information herein.</p>
+                        <label for="passkey">Password: </label>
+                        <p>Make sure you choose a password you will remember. Once you download a save, your password is used to access all the confidential information herein.</p>
                     </div>
                     <div class="col-md-5 inputs">
                         <input type="password" id="passkey" name="passkey" class="data-input">
@@ -190,10 +203,10 @@
                     <div class="col-md-5 inputs">
                         <div class="row">
                             <div class="col-auto">
-                                <button onclick="downloadEncryptedFile();return false;">New</button>
+                                <button onclick="downloadEncryptedFile();return false;">New Download</button>
                             </div>
                             <div class="col-auto">
-                                <label for="encrypted_file" class="file-upload">Saved</label>
+                                <label for="encrypted_file" class="file-upload">Upload Save</label>
                                 <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
                             </div>      
                         </div>
@@ -208,6 +221,13 @@
             function scrollBackTop(){
                 window.scrollTo(0, 0);
             }
+            window.addEventListener('onscroll', ()=>{
+                if(document.body.scrollTop > 1){
+                    backTop.hidden = false;
+                }else{
+                    backTop.hidden = true;
+                }
+            });
         </script>
         <script>
             /*Using either IndexedDB or Cache api 
@@ -228,12 +248,14 @@
             const passkeyInput = document.getElementById('passkey');
             const passkeyError = document.getElementById('passkey-error');
             const finForm = document.forms[0];
-            const dataForm = document.forms[1];
             const encoderUTF8 = new TextEncoder('utf-8');
             const decoderUTF8 = new TextDecoder('utf-8');
             const imgReader = new FileReader();
             const docDisplay = document.getElementById('documentDisplay');
             const docDownload = document.getElementById('document_download');
+
+            function handleForm(event) { event.preventDefault(); }
+            finForm.addEventListener('submit', handleForm);
 
             finForm.document_select.addEventListener('change', ()=>{
                 
@@ -362,8 +384,18 @@
                         col3.appendChild(purpose.cloneNode(true));
             }
 
-            function calcSavings(){
-
+            function calcAnnualIncome(){
+                const income_amounts = document.getElementsByClassName('income_amounts-input');
+                const income_frequency = document.getElementsByClassName('income_frequency-input');
+                let savings = 0;
+                for(i=0;i<income_amounts.length;i++){
+                   savings += income_frequency[i].value * income_amounts[i].value;
+                }
+                finForm.annual_income.value = savings.toFixed(2);
+                const emergencySavings = (savings/4).toFixed(2);
+                finForm.emergency_cash_guess.value = emergencySavings;
+                finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2);
+                return;
             }
 
             const createTable = async (json, target) => {
@@ -425,6 +457,7 @@
                     finForm.uni_id.value = data.uni_id;
                     finForm.emergency_cash_guess.value = data.emergency_cash_guess;
                     finForm.monthly_saving_guess.value = data.monthly_saving_guess;
+                    finForm.annual_income.value = data.annual_income;
                     incomeAmount.value = data.resources.length;
                     updateIncomeStreams();
                     const resourceInputs = document.querySelectorAll('.income_resource-input');
