@@ -14,8 +14,8 @@
             <button id="backTop" hidden onclick="scrollBackTop();"></button>
         </div>
         <main>                
-            <form id="finance-form center">
-                <div class="row">
+            <form id="finance-form">
+                <div class="row section1">
                     <div class="col-md-3 labels my-3"><label>Name: </label></div>
                     <div class="col-md-5 row split-inputs">
                         <div class="col-6">
@@ -208,7 +208,7 @@
                             </div>      
                         </div>
                     </div>
-                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
+                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Password must be 8+ characters.</a></div>
                 </div>
                 <div class="row">
                     <div class="col-md-3"></div>
@@ -605,7 +605,7 @@
                     );
                     return newKey; 
                 }catch{
-                    passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
+                    passkeyError.firstElementChild.innerHTML = 'Password must be 8+ characters.';
                     passkeyError.hidden = false;
                 }
                 
@@ -688,7 +688,7 @@
                         //createTable(JSON.parse(contentDecrypted), display);
                         //display.innerHTML = contentDecrypted;
                 }catch{
-                    console.error("Passkey is Incorrect");
+                    console.error("Password is Incorrect");
                 }
             }
             

@@ -284,4 +284,20 @@ button:hover:after, .file-upload:hover:after,
     right: 8px;
 }
 
+text {
+    color: white;
+}
+
+.section1 {
+    background-color: white;
+}
+
+.section2 {
+    background-color: #0033A0;
+}
+
+.section3 {
+    background-color: #bb3200;
+}
+
 
