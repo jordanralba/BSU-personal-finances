@@ -1,0 +1,7 @@
+Password notification on hover 
+	Details why Upload can't be completed
+
+Object reload on data input
+
+Replace rem with 16px mults
+	display scale in windows setting can mess with it

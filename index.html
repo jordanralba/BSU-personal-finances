@@ -7,7 +7,7 @@
         <link async="true" rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div class="header sticky-top">
+        <div class="header-container sticky-top">
             <a id="bsu-logo" ></a>
         </div>
         <div>
@@ -32,39 +32,38 @@
                 <div class="row">
                     <div class="col-md-3 labels my-3">
                         <label>Important Documents:</label> <br>
-                        <p>If the document is not displaying, then select and then deselect a different option and it will load on return.</p>
+                        <p>Files larger than </p>
                     </div>
-                    <div class="col-md-5 split-inputs">
-                        <div id="documentDisplay">
-                            <object id="state_id"></object>
-                            <object id="auto_insurance" hidden></object>
-                            <object id="resume" hidden></object>
-                            <object id="cover_letter" hidden></object>
-                            <object id="diploma" hidden></object>
-                            <object id="certificate-one" hidden></object>
-                            <object id="certificate-two" hidden></object>
-                            <object id="certificate-three" hidden></object>
-                        </div>
+                    <div class="col-md-5 ">
+                        
+                            <iframe id="documentDisplay" src=""></iframe>
+                        
                         <div class="row">
-                            <div class="col-auto">
-                                <label for="important_documents" class="image-upload overflow">Upload</label>
-                                <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    <select id="document_select" name="document_select">
+                                        <option value="0">State ID</option>
+                                        <option value="1">Auto Insurance</option>
+                                        <option value="2">Resume</option>
+                                        <option value="3">Cover Letter</option>
+                                        <option value="4">Diploma</option>
+                                        <option value="5">Certification #1</option>
+                                        <option value="6">Certification #2</option>
+                                        <option value="7">Certification #3</option>
+                                    </select>                            
+                                </div> 
+                                <div class="col-md-auto">
+                                    <a id="document_download" class="image-upload">Download</a>
+                                </div>
+                                <div class="col-md-auto">
+                                    <label for="important_documents" id="document_upload" class="image-upload">Upload</label>
+                                    <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <a id="document_download" class="image-upload overflow">Download</a>
-                            </div>
-                            <div class="col-auto">
-                                <select id="document_select" name="document_select">
-                                    <option value="0">State ID</option>
-                                    <option value="1">Auto Insurance</option>
-                                    <option value="2">Resume</option>
-                                    <option value="3">Cover Letter</option>
-                                    <option value="4">Diploma</option>
-                                    <option value="5">Certification #1</option>
-                                    <option value="6">Certification #2</option>
-                                    <option value="7">Certification #3</option>
-                                </select>                            
-                            </div> 
+                            
+                            
+                            
+                            
                         </div>
                     </div>
                     <div class="col-md-4"></div>
@@ -165,7 +164,11 @@
                     </div>
                     <div class="col-md-5 inputs">
                         <input type="number" step="0.01" id="annual_income" name="annual_income" class="form-input">
-                        <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
+                        <div class="row">
+                            <div class="col-auto">
+                                <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
@@ -195,12 +198,6 @@
                     </div>
                     <div class="col-md-5 inputs">
                         <input type="password" id="passkey" name="passkey" class="data-input">
-                    </div>
-                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-5 inputs">
                         <div class="row">
                             <div class="col-auto">
                                 <button onclick="downloadEncryptedFile();return false;">New Download</button>
@@ -210,6 +207,13 @@
                                 <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
                             </div>      
                         </div>
+                    </div>
+                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-5 inputs">
+                        
                     </div>
                     <div class="col-md-4"></div>
                 </div>
@@ -253,32 +257,46 @@
             const imgReader = new FileReader();
             const docDisplay = document.getElementById('documentDisplay');
             const docDownload = document.getElementById('document_download');
+            const docDataObject = {}; 
 
             function handleForm(event) { event.preventDefault(); }
             finForm.addEventListener('submit', handleForm);
 
             finForm.document_select.addEventListener('change', ()=>{
                 
-                for(child of docDisplay.children){
-                    child.hidden = true;
-                }
+                // for(child of docDisplay.children){
+                //     child.hidden = true;
+                // }
                 const targetDoc = finForm.document_select.value;
-                docDisplay.children[targetDoc].hidden = false;
+                if(typeof docDataObject[targetDoc] !== 'undefined'){
+                    docDisplay.src = docDataObject[targetDoc];
+                }else{
+                    docDisplay.src = "";
+                }
+                //docDisplay.children[targetDoc].hidden = false;
             });
             
             docDownload.addEventListener('click', ()=>{
+                
                 const targetDoc = finForm.document_select.value;
-                docDownload.href = docDisplay.children[targetDoc].data;
-                docDownload.download = docDisplay.children[targetDoc].id;
+                if(typeof docDataObject[targetDoc] !== 'undefined'){
+                    const docSelect = document.getElementById('document_select');
+                    docDownload.href = docDataObject[targetDoc];
+                    docDownload.download = docSelect.options[docSelect.selectedIndex].innerText;
+                }
             });
 
             finForm.important_documents.addEventListener('change', function(){
                 imgReader.readAsDataURL(this.files[0]);
-                imgReader.onloadend = ()=>{
-                    const targetDoc = finForm.document_select.value;
-                    docDisplay.children[targetDoc].setAttribute('data', imgReader.result);
-                }
             });
+            imgReader.onloadend = ()=>{ 
+                    const targetDoc = finForm.document_select.value;
+                    //docDisplay.children[targetDoc].setAttribute('data', imgReader.result);
+                    //docDisplay.children[targetDoc].data = imgReader.result;
+                    docDisplay.src = imgReader.result;
+                    //docDisplay.children[targetDoc].hidden = false;
+                    docDataObject[targetDoc] = imgReader.result; 
+            }
 
             
 
@@ -496,9 +514,14 @@
                     }
 
                 }if(typeof json.documents !== 'undefined'){
-                    for(const [index, content] of Object.entries(json.documents)){
-                        docDisplay.children[index].setAttribute('data', content);
+                    const targetDoc = finForm.document_select.value;
+                    for(const [index, obj] of Object.entries(json.documents)){
+                        const content = Object.entries(obj)
+                        console.log(obj)
+                        console.log(content[0])
+                        docDataObject[content[0][0]] = content[0][1];
                     }
+                    docDisplay.src = docDataObject[targetDoc];
                 }
             }
 
@@ -556,9 +579,11 @@
                         cacheArr.push(input.value);
                     }
                     storageObj.data[0][column.id] = cacheArr;
-                }for(const [index, child] of Object.entries(docDisplay.children)){
-                    if(typeof child.data !== 'undefined'){    
-                        storageObj.documents.push(child.data);
+                }for(const [index, entry] of Object.entries(docDataObject)){
+                    const tempObj = {};
+                    if(typeof entry[index] !== 'undefined'){  
+                        tempObj[index] = entry;  
+                        storageObj.documents.push(tempObj);
                     }
                 }
                 return storageObj;
