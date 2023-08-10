@@ -73,7 +73,8 @@ main{
 }
 label{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
-    
+    display: flex;
+    flex-direction: column;
 }
 .row{
     padding-bottom: 16px;
