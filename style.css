@@ -70,6 +70,7 @@ form>*{
 }
 main{
     overflow-x: hidden;
+    background-color: #d64309;
 }
 label{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
