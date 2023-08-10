@@ -73,9 +73,7 @@ main{
 }
 label{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
 }
 .row{
     padding-bottom: 16px;
