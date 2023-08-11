@@ -8,40 +8,82 @@
     </head>
     <body>
         <div class="header-container sticky-top">
-            <a id="bsu-logo" ></a>
+            <div class="row">
+                <div class="col-12">
+                    <a id="bsu-logo" class="" alt="logo" ></a>
+                </div>
+            </div>
         </div>
         <div>
             <button id="backTop" hidden onclick="scrollBackTop();"></button>
         </div>
-        <main>                
-            <form id="finance-form">
-                <div class="row">
-                    <div class="col-md-3 labels my-3"><label>Name: </label></div>
-                    <div class="col-md-5 row split-inputs">
-                        <div class="col-6">
-                            <input type="text" id="first_name" name="whole_name" class="form-input"><br>
-                            <label for="first_name"><small>First</small></label>
+        <main>       
+        <form class="container-fluid" id="finance-form">
+
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-auto">
+
+                            <label>Name: </label>  
+
                         </div>
-                        <div class="col-6">
-                            <input type="text" id="last_name" name="whole_name" class="form-input"><br>
-                            <label for="last_name"><small>Last</small></label>
-                        </div> 
                     </div>
-                    <div class="col-md-4"></div>
+                    <div class="row" id="whole_name-input">
+                        <div class="col">
+
+                            <input type="text" id="first_name" name="first_name" class="form-input"><br>
+                            <label for="first_name" class="sub-label">First</label>
+
+                        </div>
+                        <div class="col">
+
+                            <input type="text" id="last_name" name="last_name" class="form-input"><br>
+                            <label for="last_name" class="sub-label">Last</label>
+
+                        </div>
+                    </div>      
                 </div>
-                <div class="row">
-                    <div class="col-md-3 labels my-3">
-                        <label>Important Documents:</label> <br>
-                        <p>Files larger than </p>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label>University ID: </label>
+                        </div>
                     </div>
-                    <div class="col-md-5 ">
-                        
-                            <iframe id="documentDisplay" src=""></iframe>
-                        
-                        <div class="row">
+                    <input type="number" id="uni_id" name="uni_id" class="form-input">
+                </div>
+                <div class="col-md-3 error-message" hidden="" id="uni_id-error"></div>
+            </div>
+
+            <div class="row input-row">
+                <div class="col-md-12 lgright-splash">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label>Important Documents:</label>
+                        </div>
+                        <div class="col-auto">
+                            <p>Upload files that will be beneficial to keep track of and have secure.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" id="display-container">
+                            <img hidden id="imgDisplay" class="doc-display" src=""/>
+                            <object hidden id="documentDisplay" class="doc-display" ></object>
+                            <!--svg hidden id="svgDisplay" class="doc-display" data=""></svg-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="row">
-                                <div class="col-md-auto">
+                                <div class="col-2"></div>
+                                <div class="col-8 center">
                                     <select id="document_select" name="document_select">
+                                        <option value=""><i class="sub-label">Choose Document</i></option>
                                         <option value="0">State ID</option>
                                         <option value="1">Auto Insurance</option>
                                         <option value="2">Resume</option>
@@ -50,174 +92,203 @@
                                         <option value="5">Certification #1</option>
                                         <option value="6">Certification #2</option>
                                         <option value="7">Certification #3</option>
-                                    </select>                            
-                                </div> 
-                                <div class="col-md-auto">
+                                    </select>
+                                </div>                                
+                                <div class="col-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 center">
                                     <a id="document_download" class="image-upload">Download</a>
                                 </div>
-                                <div class="col-md-auto">
+                                <div class="col-sm-6 center">
                                     <label for="important_documents" id="document_upload" class="image-upload">Upload</label>
                                     <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
                                 </div>
-                            </div>
-                            
-                            
-                            
-                            
+                            </div>                          
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label for="income_streams-amount">Total Streams of Income:&nbsp;</label>
+                        </div>
+                        <div class="col-auto">
+                            <p>Input the amount representing how many unique and consistent sources you collect from.</p>
                         </div>
                     </div>
-                    <div class="col-md-4"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 labels my-3"><label>University ID: </label></div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" id="uni_id" name="uni_id" class="form-input">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" id="income_streams-amount">
+                        </div>
                     </div>
-                    <div class="col-md-4 error-message" hidden="" id="uni_id-error"></div>
-                </div>
-                <!--
-                    Add input for subcategories 
-                        -> Resource
-                        -> Frequency
-                        -> Amount
-                        ?-> Use by percentage
-                -->
-                <div class="row">
-                    <div class="col-md-3 labels my-3"><label for="income_streams-amount">Total Income Streams:&nbsp;</label></div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" id="income_streams-amount"> <br>
-
+                    <div class="row" hidden id="income_streams-heads">
+                        <div class="col-sm-3" ><h5>Resource</h5></div>
+                        <div class="col-sm-3" ><h5>Frequency</h5></div>
+                        <div class="col-sm-3" ><h5>Amount</h5></div>
+                        <div class="col-sm-3" ><h5>Usage(%)</h5></div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="row scroll-container overflow" id="income_streams">
+                        <div class="col-sm-3" id="resources"></div>
+                        <div class="col-sm-3" id="frequency"></div>
+                        <div class="col-sm-3" id="amounts"></div>
+                        <div class="col-sm-3" id="uses"></div>
                     </div>
-                </div>              
-                <div class="row" hidden id="income_streams-heads">
-                    <div class="col-3" ><h5>Resource</h5></div>
-                    <div class="col-3" ><h5>Frequency</h5></div>
-                    <div class="col-3" ><h5>Amount</h5></div>
-                    <div class="col-3" ><h5>Usage(%)</h5></div>
                 </div>
-                <div class="row scroll-container overflow" id="income_streams">
-                    <div class="col-3" id="resources"></div>
-                    <div class="col-3" id="frequency"></div>
-                    <div class="col-3" id="amounts"></div>
-                    <div class="col-3" id="uses"></div>
+                <div class="col-md-3">
                 </div>
-                <!--
-                    Add input for subcategories 
-                        -> Institution
-                        -> Account Type
-                        ?-> Acc # (last 4)
-                        ?-> Purpose
-                -->
-                <div class="row">
-                    <div class="col-md-3 labels my-3"><label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label></div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" id="financial_accounts-amount">
-                    </div>
-                    <div class="col-md-4" hidden="" id="financial_accounts-error"></div>
-                </div>
-                <div class="row" hidden id="financial_accounts-heads">
-                    <div class="col-md-3" ><h5>Institution</h5></div>
-                    <div class="col-md-3" ><h5>Type</h5></div>
-                    <div class="col-md-3" ><h5>Account #</h5></div>
-                    <div class="col-md-3" ><h5>Purpose</h5></div>
-                </div>
-                <div class="row scroll-container overflow" id="financial_accounts">
-                    <div class="col-md-3" id="institution"></div>
-                    <div class="col-md-3" id="account_types"></div>
-                    <div class="col-md-3" id="account_numbers"></div>
-                    <div class="col-md-3" id="purposes"></div>
-                </div>
-                <!--
-                    Eventually calculate actual value based on 2 weeks expenses 
-                        -> Based on fixed nationwide average || Based on user's estimated weekly spending
-                        ?-> By average of attended uni's local cost of living
-                        ?-> Flight or roadtrip home included
-                -->
-                <div class="row">
-                    <div class="col-md-3 labels my-3">
-                        <label>Estimate Needed Emergency Cash: </label>
-                        <p>Total is roughly 3-6 months of your annual earnings.</p>
-                    </div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
-                    </div>
-                    <div class="col-md-4 error-message" hidden="" id="emergency_cash_guess-error"></div>
-                </div>
-                <!--
-                    Eventually savings needed to meet goal based on time until graduation 
-                        -> Based on emergency cash needed, loans, future needs
-                        ?-> By using attended uni's state average info && By using estimated rate of inflation
-                -->
-                <div class="row">
-                    <div class="col-md-3 labels my-3"><label>Estimate Needed Monthly Saving: </label></div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
-                    </div>
-                    <div class="col-md-4 error-message" hidden="" id="monthly_saving_guess-error"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 labels my-3">
-                        <label>Annual Income: </label>
-                        <p>Calculated from your income streams input above.</p>
-                    </div>
-                    <div class="col-md-5 inputs">
-                        <input type="number" step="0.01" id="annual_income" name="annual_income" class="form-input">
-                        <div class="row">
-                            <div class="col-auto">
-                                <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
+            </div>   
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label for="financial_accounts-amount">Total Financial Accounts:&nbsp;</label>
+                        </div>
+                        <div class="col-auto">
+                            <p>At the bare minimum a person should have a checkings and savings</p>
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <input type="number" id="financial_accounts-amount">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4"></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" hidden id="financial_accounts-heads">
+                                <div class="col-sm-3" ><h5>Institution</h5></div>
+                                <div class="col-sm-3" ><h5>Type</h5></div>
+                                <div class="col-sm-3" ><h5>Account #</h5></div>
+                                <div class="col-sm-3" ><h5>Purpose</h5></div>
+                            </div>
+                            <div class="row scroll-container overflow" id="financial_accounts">
+                                <div class="col-sm-3" id="institution"></div>
+                                <div class="col-sm-3" id="account_types"></div>
+                                <div class="col-sm-3" id="account_numbers"></div>
+                                <div class="col-sm-3" id="purposes"></div>
+                            </div>
+                        </div>
+                    </div>             
                 </div>
-                <!--
-                    Add input for generating monthly expense report: 
-                        -> Importance (1-5)
-                        -> Amount
-                        ?-> Date
-                        ?-> Expense
-                -->
-
-                <!--div class="row">
-                    <div class="col-md-3 labels"></div>
-                    <!-div class="col-md-5"><button type="submit">Save Changes</button></div>
-                    <div class="col-md-5 inputs"><input type="button" name="save" value="Save Changes" onclick="formDisplayUpdate(this.form)"/></div>
-                    <!-div class="col-md-5"><input type="submit" value="Save Changes"/></div>
-                    <div class="col-md-4"></div>
-                </div-->
-                
+                <div class="col-md-3"></div>
+            </div>            
             
-            
-            <!--form id="data-form"-->
-                <div class="row">
-                    <div class="col-md-3 labels my-auto">
-                        <label for="passkey">Password: </label>
-                        <p>Make sure you choose a password you will remember. Once you download a save, your password is used to access all the confidential information herein.</p>
-                    </div>
-                    <div class="col-md-5 inputs">
-                        <input type="password" id="passkey" name="passkey" class="data-input">
-                        <div class="row">
-                            <div class="col-auto">
-                                <button onclick="downloadEncryptedFile();return false;">New Download</button>
-                            </div>
-                            <div class="col-auto">
-                                <label for="encrypted_file" class="file-upload">Upload Save</label>
-                                <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
-                            </div>      
+            <!--    
+                Eventually
+                    -> Based on fixed nationwide average || Based on user's estimated weekly spending
+                    ?-> By average of attended uni's local cost of living
+                    ?-> Flight or roadtrip home included
+            -->
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label>Emergency Cash: </label>
+                        </div>
+                        <div class="col-auto">
+                            <p><span class="important-text">Note: </span>Total is calculated from 4 months of total income</p>
                         </div>
                     </div>
-                    <div class="col-md-4 error-message my-auto" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-5 inputs">
-                        
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
+                        </div>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
-            </form>
+                <div class="col-md-3"></div>
+            </div>
+            
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label>Monthly Saving: </label>
+                        </div>
+                        <div class="col-auto">
+                            <p><span class="important-text">Note: </span>Rate based on meeting emergency savings goal in one year.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 error-message" id="monthly_saving_guess-error"></div>
+            </div>
+
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    
+                    <div class="row">
+                        <div class="col-auto">
+                            <label>Annual Income: </label>
+                        </div>
+                        <div class="col-auto">
+                            <p>Calculated from your income streams input above.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="number" step="0.01" id="annual_income" name="annual_income" class="form-input">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>      
+        
+        <!--form id="data-form"-->
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-auto">
+                            <label for="passkey">Password: <span class="sub-label">Choose something memorable and secure</span></label>
+                        </div>
+                        <div class="col-auto">
+                            <p>Once you download a new save, the password can be used to access all the confidential information herein.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="password" id="passkey" name="passkey" class="data-input">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="new_encryption" name="new_encryption" class="data-input">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button onclick="downloadEncryptedFile();return false;">New Download</button>
+                        </div>
+                        <div class="col-auto">
+                            <label for="encrypted_file" class="file-upload">Upload Save</label>
+                            <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
+                        </div>      
+                    </div>
+                </div>
+                <div class="col-md-3 error-message" hidden="" id="passkey-error"><a class="error-text mx-auto">Passkey must be 8+ characters.</a></div>
+            </div>
+        </form>
         </main>
         <script>
             //Scroll Top Button
@@ -255,7 +326,7 @@
             const encoderUTF8 = new TextEncoder('utf-8');
             const decoderUTF8 = new TextDecoder('utf-8');
             const imgReader = new FileReader();
-            const docDisplay = document.getElementById('documentDisplay');
+            const docDisplays = document.getElementsByClassName('doc-display');
             const docDownload = document.getElementById('document_download');
             const docDataObject = {}; 
 
@@ -263,40 +334,68 @@
             finForm.addEventListener('submit', handleForm);
 
             finForm.document_select.addEventListener('change', ()=>{
-                
-                // for(child of docDisplay.children){
-                //     child.hidden = true;
-                // }
                 const targetDoc = finForm.document_select.value;
+                docDisplays[0].src = '';
+                docDisplays[1].data = '';
                 if(typeof docDataObject[targetDoc] !== 'undefined'){
-                    docDisplay.src = docDataObject[targetDoc];
-                }else{
-                    docDisplay.src = "";
+                    updateDocDisplay(docDataObject[targetDoc]);
                 }
                 //docDisplay.children[targetDoc].hidden = false;
             });
             
             docDownload.addEventListener('click', ()=>{
-                
                 const targetDoc = finForm.document_select.value;
                 if(typeof docDataObject[targetDoc] !== 'undefined'){
                     const docSelect = document.getElementById('document_select');
-                    docDownload.href = docDataObject[targetDoc];
+                    const fileData = Object.values(docDataObject[targetDoc]);
+                    docDownload.href = fileData[1];
                     docDownload.download = docSelect.options[docSelect.selectedIndex].innerText;
+                }else{
+                    //download Error
                 }
             });
 
-            finForm.important_documents.addEventListener('change', function(){
+            finForm.important_documents.addEventListener('change', function(e){
+                const fileType = ""+this.files[0].type;
                 imgReader.readAsDataURL(this.files[0]);
+                const targetDoc = finForm.document_select.value;
+                if(targetDoc !== ""){
+                    imgReader.onloadend = ()=>{ 
+                        const storObj = {};
+                        storObj.type = fileType;
+                        storObj.content = imgReader.result;
+                        docDataObject[targetDoc] = storObj;
+                        updateDocDisplay(storObj);
+                        finForm.important_documents.value = null; 
+                    }
+                }
             });
-            imgReader.onloadend = ()=>{ 
-                    const targetDoc = finForm.document_select.value;
-                    //docDisplay.children[targetDoc].setAttribute('data', imgReader.result);
-                    //docDisplay.children[targetDoc].data = imgReader.result;
-                    docDisplay.src = imgReader.result;
-                    //docDisplay.children[targetDoc].hidden = false;
-                    docDataObject[targetDoc] = imgReader.result; 
+            function updateDocDisplay(json = {}){
+                if(json.type.includes('svg') || json.type.includes('application')){
+                            console.log('svg');
+                            console.log('application');
+                            docDisplays[1].data = json.content;
+                            docDisplays[1].type = json.type;
+                            docDisplays[0].hidden = true;
+                            docDisplays[1].hidden = false;
+                            //docDisplays[2].hidden = true;
+                        }else if(json.type.includes('image')){
+                            console.log('image');
+                            docDisplays[0].src = json.content;
+                            docDisplays[0].type = json.type;
+                            docDisplays[0].hidden = false;
+                            docDisplays[1].hidden = true;
+                            //docDisplays[2].hidden = true;
+                        }else if(json.type.includes('application')){
+                            console.log('application');
+                            docDisplays[1].data = json.content;
+                            docDisplays[0].hidden = true;
+                            docDisplays[1].hidden = false;
+                            //docDisplays[2].hidden = true;
+                        }
+                return;
             }
+            
 
             
 
@@ -518,16 +617,18 @@
                     for(const [index, obj] of Object.entries(json.documents)){
                         const content = Object.entries(obj)
                         console.log(obj)
-                        console.log(content[0])
+                        console.log(content)
                         docDataObject[content[0][0]] = content[0][1];
+                        console.log(docDataObject);
                     }
-                    docDisplay.src = docDataObject[targetDoc];
+                    if(parseInt(targetDoc) >= 0){
+                        updateDocDisplay(docDataObject[parseInt(targetDoc)]);
+                    }
                 }
             }
 
             function str2ab(str) {
                 try{
-                    console.log(str);
                     const buf = new ArrayBuffer(str.length);
                     const bufView = new Uint8Array(buf);
                     for (let i=0, strLen=str.length; i < strLen; i++) {
@@ -536,7 +637,6 @@
                     return buf;
                 }catch{
                     console.error('Error converting from Type String to ArrayBuffer');
-                    
                 }
             }
             function ab2str(ab) {
@@ -579,77 +679,93 @@
                         cacheArr.push(input.value);
                     }
                     storageObj.data[0][column.id] = cacheArr;
-                }for(const [index, entry] of Object.entries(docDataObject)){
-                    const tempObj = {};
-                    if(typeof entry[index] !== 'undefined'){  
-                        tempObj[index] = entry;  
-                        storageObj.documents.push(tempObj);
-                    }
                 }
+                const docSelectElement = document.getElementById('document_select');
+                for(const [index, entry] of Object.entries(docDataObject)){
+                    
+                    console.log(entry)
+                    console.log(index)
+                    entry.name = docSelectElement.options[parseInt(index)+1].innerText;
+                    console.log(entry)
+                    const tempObj = {}
+                    tempObj[index] = entry
+                    storageObj.documents.push(tempObj);
+                    
+                }console.log(storageObj);
                 return storageObj;
             }
             const operations = window.crypto.subtle || window.crypto.webkitSubtle;        
 
             async function newCryptoKey(){
                 passkeyError.hidden = true;
-                try{
-                    const key = passkeyInput.value;
-                    //key material must be 16, 24 or 32 bytes 
-                    const keyEnc = encoderUTF8.encode(key.padStart(16, key).slice(0, 16));
-                    const newKey = await operations.importKey(
-                        'raw', 
-                        keyEnc,
-                        { name: 'AES-GCM' },
-                        true,
-                        ['encrypt', 'decrypt']
-                    );
-                    return newKey; 
-                }catch{
-                    passkeyError.firstElementChild.innerHTML = 'Passkey must be 8+ characters.';
+                //key material must be 16, 24 or 32 bytes
+                const key = passkeyInput.value;
+                if(7 < key.length){ 
+                    if(key.length < 33){
+                        const keyEnc = encoderUTF8.encode(key.padStart(16, key).slice(0, 16));
+                        const newKey = await operations.importKey(
+                            'raw', 
+                            keyEnc,
+                            { name: 'AES-GCM' },
+                            true,
+                            ['encrypt', 'decrypt']);
+                            return newKey; 
+                    }else{
+                        const keyEnc = encoderUTF8.encode(key.slice(0, 32));
+                        const newKey = await operations.importKey(
+                            'raw', 
+                            keyEnc,
+                            { name: 'AES-GCM' },
+                            true,
+                            ['encrypt', 'decrypt']);
+                            return newKey;
+                    }
+                }else{
+                    passkeyError.firstElementChild.innerHTML = 'Must be 8 or more characters';
                     passkeyError.hidden = false;
                 }
-                
             }
             async function encryptToString(content, cryptKey){
                 //Randomized initial variables for salting
                 const iv = window.crypto.getRandomValues(new Uint8Array(12));
-
                 const encryptedData = await operations.encrypt(
                     { name: 'AES-GCM', iv: iv },
                     cryptKey,
                     content
                 );
-                
                 const allData = {};
                     allData.iv = iv,
                     allData.content = await ab2str(encryptedData);
-                //console.log(allData);
-                //console.log(encryptedData);
                 return JSON.stringify(allData);
             }
             
             async function downloadEncryptedFile() {
-                    const cryptoKey = await newCryptoKey();
-                    const link = document.createElement("a");
-                    const content = await storeInputs();
-                    //console.log(content);
-                    const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
-                    const encrypted = await encryptToString(contentEncoded, cryptoKey);
-                    //console.log(encrypted);
-                    const file = new Blob([encrypted], { type: 'application/json' });
+                const newEncName = document.getElementById('new_encryption');
+                const tempObj = {};
+                const cryptoKey = await newCryptoKey();
+                const link = document.createElement("a");
+                const content = await storeInputs();
+                const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
+                const encrypted = await encryptToString(contentEncoded, cryptoKey);
+                const file = new Blob([encrypted], { type: 'text/plain' });
                     link.href = URL.createObjectURL(file);
-                    link.download = "finance-data.json";
+                if(newEncName.value.length > 1){
+                    link.download = newEncName.value;
                     link.click();
-                    URL.revokeObjectURL(link.href);    
+                }else{
+                    link.download = "finance-tracker.txt";
+                    link.click();
+                }
+                URL.revokeObjectURL(link.href);       
             };
 
             const fileReader = new FileReader();
             const fileField = document.getElementById('encrypted_file');
             const fileFieldLabel = fileField.labels[0];
-            //console.log(fileField)
-            //console.log(fileFieldLabel)
+            
             fileField.addEventListener('change', function() {
                 try{
+                    //check if matches previous password input
                     if(passkeyInput.value.length >= 8){
                         fileReader.disabled = false;
                         passkeyError.hidden = true;
@@ -666,27 +782,20 @@
             });
             
             fileReader.onloadend = async function(){  
+                const fileJSON = JSON.parse(fileReader.result);
+                //key material must be 16, 24 or 32 bytes 
+                const cryptoKey = await newCryptoKey();               
+                const iv = new Uint8Array(Object.values(fileJSON.iv));
+                const encryptedData = await str2ab(fileJSON.content);
                 try{  
-                        const fileJSON = JSON.parse(fileReader.result);
-                        //key material must be 16, 24 or 32 bytes 
-                        //console.log(fileJSON);
-                        const cryptoKey = await newCryptoKey();               
-                        const iv = new Uint8Array(Object.values(fileJSON.iv));
-                        //const decodedData = decoderUTF8.decode();
-                        const encryptedData = await str2ab(fileJSON.content);
-                        //console.log(key);
-                        //console.log(encryptedData);
-                        const decryptedData = await operations.decrypt(
-                        { name: 'AES-GCM', iv: iv },
-                            cryptoKey,
-                            encryptedData
-                        );
-                        //console.log(decryptedData);
-                        const contentDecrypted = decoderUTF8.decode(decryptedData);
-                        console.log(JSON.parse(contentDecrypted));
-                        formDisplayUpdate(JSON.parse(contentDecrypted));
-                        //createTable(JSON.parse(contentDecrypted), display);
-                        //display.innerHTML = contentDecrypted;
+                    const decryptedData = await operations.decrypt(
+                    { name: 'AES-GCM', iv: iv },
+                        cryptoKey,
+                        encryptedData
+                    );
+                    const decodedData = decoderUTF8.decode(decryptedData);
+                    console.log(JSON.parse(decodedData))
+                    formDisplayUpdate(JSON.parse(decodedData));
                 }catch{
                     console.error("Passkey is Incorrect");
                 }
@@ -699,7 +808,6 @@
                 }else{
                     fileFieldLabel.style.pointerEvents = 'auto';
                     fileFieldLabel.style.cursor = 'pointer';
-
                 }
             });
             

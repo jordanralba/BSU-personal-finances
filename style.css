@@ -56,87 +56,122 @@
 /** Grid system - https://www.w3schools.com/css/css_rwd_grid.asp **/
 * {
     box-sizing: border-box;
-}
-main{
-    padding: 0;
-    width: 100%;
-    margin-top: -48px;
+    transition: all .3s ease;
 }
 body{
     color: #141827;
 }
-form>*{
-    padding: 0 32px;
-}
 main{
     overflow-x: hidden;
 }
-label{
-    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
+
+.input-row{
+    padding: 32px;
 }
-.row{
+.content-Col>.row{
     padding-bottom: 16px;
-    padding-top: 8px;
 }
 
-.split-inputs>*{
+#bsu-logo{
+    height: 58px;
+    width: 387px;
+    margin: 29px;
+    display: block;
+    background: url(bsu-leftalignedlogo-orange.svg) no-repeat;
+    background-size: contain; 
+    transition: background-image .2s ease-in-out;
+}
+.header-container{
+    margin-bottom: 29px;
+    overflow-x: hidden; 
+    width: 100%;
+    /* background: linear-gradient(135deg, #001F60 calc(33% + 58px), #0033A0 calc(33% + 58px), #0033A0 calc(34% + 58px), #001F60 calc(34% + 58px), #001F60 calc(35% + 58px), #0033A0 calc(35% + 58px), #0033A0 76.5%, transparent 76.5%); */
+    /* background-image: linear-gradient(135deg, #001F60 38%, #0033a0 38%, #0033a0 39%, #001F60 39%, #001F60 40%, #0033A0 40%, #0033A0 88.5%, #001F60 88.5%, #001F60 90.5%, #0033a0 92%, #0033a0 93%, #001F60 93%, #001F60 93.5%, transparent 94%);*/ 
+    background-image: linear-gradient(135deg, #001F60 400px, #0033a0 400px, #0033a0 425px, #001F60 425px, #001F60 435px, #0033A0 435px, #0033A0 460px, #0033a0 94%, #001F60 94%, #001F60 calc(94% + 10px), transparent calc(94% + 10px));  
+    /*animation: gradient 2s ease infinite;*/
+    transition: background-image .2s ease-in-out;
+}
+@keyframes gradient {
+	0% {
+		background-image: linear-gradient(135deg, #001F60 400px, #0033a0 400px, #0033a0 425px, #001F60 425px, #001F60 435px, #0033A0 435px, #0033A0 89%, #001F60 89%, #001F60 calc(89% + 10px), transparent calc(89% + 10px));  
+        ;
+	}
+	100% {
+		background-image: linear-gradient(135deg, #001F60 160px, #0033a0 160px, #0033a0 176px, #001F60 176px, #001F60 192px, #0033A0 192px, #0033A0 89%, #001F60 89%, #001F60 calc(89% + 10px), transparent calc(89% + 10px)); 
+	}
+}
+/* .header-container::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-width: 20px 20px 0px 116px;
+    border-style: solid;
+    border-color: #53565a #fff #0033A0;
+} */
+
+.orangeright-splash{
+    background-color: #d64309;
+    color: #fff;
+    transform: translate(calc(100%/12));    
+    padding: 32px;
     padding-right: 0;
 }
 
-/** Image - https://www.w3schools.com/css/css_rwd_grid.asp **/   
-img {
-    max-width: 100%;
-    height: auto;
+.lgright-splash{
+    background-color: #f6f7f9;
+    color: #141827;
+    transform: translate(calc(100%/12));
+    padding: 32px;
+    padding-right: 0;
 }
-#bsu-logo{
-    height: 57px;
-    display: block;
-    background: url(bsu-leftalignedlogo-orange.svg) no-repeat;
-    background-size: contain;
-    transition: height .3s ease-in-out;
-}
-.header-container{
-    padding: 28px;
-    padding-bottom: 132px;    
-    background: linear-gradient(180deg, #0033A0 64px, transparent 160px), linear-gradient(179deg, #0033A0, #0033A0 72px, transparent 168px);
-    overflow: hidden;
-}
-/*.header-container::after{
-    position: absolute;
-    content: " ";
-    display: block;
-    left:0;
-    bottom:-20px;
-    width:100%;
-    border-style: solid;
-    border-width: 200px 100vw 200px 200px;
-    border-image: linear-gradient(136deg, #0033A0 64px, transparent 160px);
+
+
+@media only screen and (max-width: 767px) {
     
-}*/
-
-@media only screen and (max-width: 575px) {
-    #bsu-logo{
-        background: url(bsu-blogo-orange.svg) no-repeat;
-        background-size: contain;
-
+    .orangeright-splash,
+    .lgright-splash{
+        transform: none;
+        padding-right: 32px;
     }
 
 }
-
-.orange-splash{
-    background-color: #d64309;
+@media only screen and (max-width: 593px){
+    #bsu-logo{
+        background-image: url(bsu-blogo-orange.svg);
+        background-repeat: no-repeat;
+        background-size: contain;        
+    } 
+    .header-container{
+        /* background: linear-gradient(135deg, #001F60 calc(33% + 58px), #0033A0 calc(33% + 58px), #0033A0 calc(34% + 58px), #001F60 calc(34% + 58px), #001F60 calc(35% + 58px), #0033A0 calc(35% + 58px), #0033A0);
+        background-position: 20%;
+        transition: all 3s ease; */
+        /* background-image: linear-gradient(135deg, #001F60 160px, #0033a0 160px, #0033a0 176px, #001F60 176px, #001F60 192px, #0033A0 192px, #0033A0 89%, #001F60 89%, #001F60 calc(89% + 10px), transparent calc(89% + 10px));  */
+        background-image: linear-gradient(135deg, #001F60 400px, #0033a0 400px, #0033a0 425px, #001F60 425px, #001F60 435px, #0033A0 435px, #0033A0 460px, #001F60 460px, #001F60 470px, transparent 470px);
+    }
 }
 
-iframe{
-    /*max-height: 350px;*/
-    min-height: 250px;
+img, img.doc-display{
+    max-width: 100%;
     height: auto;
-    width: 100%;
-}
-.inputs>input{
-    margin-bottom: 8px;
+    max-height: 100%;
+    object-fit: contain;
 }
 
+#display-container{
+    height: 400px;
+    max-width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 1rem;
+}
+.doc-display{
+    width: 100%;
+    height: 100%;
+}
 
 /** Overflow (for tables) - https://www.w3schools.com/howto/howto_css_table_responsive.asp **/
 .overflow {
@@ -146,13 +181,16 @@ iframe{
 a {
     text-decoration: none; 
 }
-table, th, td {
-    border: 1px solid #0033A0;
-    padding: 5px;
-    background: #fff;
-    background-color: rgba(26,29,33,.0392156863)
-  }
-  .error-message {
+p{
+    font-size: 16px;
+}
+.important-text{
+    font-size: 110%;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.error-message {
     height: 54px;
     border-radius: 4px;
     color: #bb1f00;
@@ -163,50 +201,56 @@ table, th, td {
     color: #bb1f00;
     border-bottom: 3px solid #bb1f00;
 }
-
-
+h5{
+    font-size: 20px;
+}
+label, button, select{
+    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
+}label{
+    font-size: 20px;
+}
+.sub-label{
+    font-size: 16px;
+    font-weight: 500;
+}
 input, select, textarea{
     border: 1px solid #dddfe3;
     background-color: #f6f7f9;
     border-radius: 0.25px;
     height: 54px;
     margin: 2.5px 0 1.5px;
+    font-size: 16px;
+    font-weight: 500;
 }
 input, textarea, .income_frequency-input{
     width: 100%;
+}
+textarea{
+    display: block;
+    margin: 4px 0 1.5px;
 }
 #document_select{
     background-color: transparent;
     border-color: transparent;
     max-height: 100%;
 }
-
-textarea{
-    display: block;
-    margin: 4px 0 1.5px;
-}
-
 #financial_accounts>div, #income_streams>div{
     padding: 0 10px;
 }
 .scroll-container{
-    height: 124px;
+    height: 182px;
 }
 input[type=file]{
     display: none;
 }
-h5{
-    font-size: 16px;
-}
-
 .center{
     text-align: center;
 }
-
 button, .file-upload, .image-upload, #document_select{
+    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
     transition: all .15s ease-in-out;
     width: auto;
-    min-width: 32px;
+    min-width: fit-content;
     display: inline-block;
     line-height: 1;
     height: auto;
@@ -216,8 +260,6 @@ button, .file-upload, .image-upload, #document_select{
     background-color: #d64309;
     border: 4px solid #d64309;
     color: #fff;
-    font-family: Gotham A,Gotham B,Helvetica,Arial,sans-serif;
-    font-weight: 700;   
     padding: 14px 42px 14px 14px;
     text-align: center;
     border-radius: 0;   
@@ -225,18 +267,12 @@ button, .file-upload, .image-upload, #document_select{
 }
 #document_select{
     padding-right: 14px;
-    text-align: left;
     margin: 0;
     border-width: 2px;    
     margin-bottom: 8px;
+    width: 100%;
+}
 
-}
-#document_select, #document_download, #document_upload{
-    max-width: 100%;
-}
-/* .col-auto{
-    margin-top: 8px;
-} */
 button:hover,
 button:focus, .file-upload:hover {
     background-color: #bb3200;
@@ -268,6 +304,7 @@ button:hover:after, .file-upload:hover:after,
 }.image-upload, #annual_income-calc{
     background-color: #0033A0;
     border-color: #0033A0;
+    width: 100%
 }.image-upload:hover, #annual_income-calc:hover{
     background-color: #011d80;
     border-color: #011d80;

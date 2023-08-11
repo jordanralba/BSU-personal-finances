@@ -3,5 +3,12 @@ Password notification on hover
 
 Object reload on data input
 
-Replace rem with 16px mults
-	display scale in windows setting can mess with it
+Google Analytics to Track University ID
+	Contact Diane Later
+
+Aria and Accessibility
+	Nick is my slave labor
+
+ToolTips to match Prior Checklist
+	Reassure for safety
+Use RegExp to discern the filetype
