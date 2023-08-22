@@ -1,14 +1,10 @@
-Password notification on hover 
-	Details why Upload can't be completed
+Upload disabled by default, remove the class .disabled when password is 8 or more characters
 
 Google Analytics to Track University ID
 	Contact Diane Later
 
 Aria and Accessibility
 	Nick is my slave labor
-
-ToolTips to match Prior Checklist
-	Reassure for safety
 
 
 Add password reveal button instead of password check

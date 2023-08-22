@@ -472,11 +472,13 @@ fileReader.onloadend = async function(){
 }
 
 passkeyInput.addEventListener('change', ()=>{
-    if(passkeyInput.value.length < 8){
-        fileFieldLabel.style.cursor = 'not-allowed';
-        fileFieldLabel.style.pointerEvents = 'none';
+    if(passkeyInput.value.length >= 8){
+        console.log(fileFieldLabel.className)
+        fileFieldLabel.className = fileFieldLabel.className.replace('disabled', '') ;
     }else{
-        fileFieldLabel.style.pointerEvents = 'auto';
-        fileFieldLabel.style.cursor = 'pointer';
+        console.log(fileFieldLabel.className)
+        if(!fileFieldLabel.className.includes('disabled')){
+           fileFieldLabel.className += 'disabled'; 
+        }
     }
 });
