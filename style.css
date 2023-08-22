@@ -293,7 +293,8 @@ input[type=file]{
     padding-right: 14px;
     border-width: 2px;    
     margin-bottom: 8px;
-    width: 100%;
+    max-width: 100%;
+    width: max-content;
 }
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus{
