@@ -139,7 +139,7 @@ main{
 @media only screen and (max-width: 767px) {
     
     .orangeright-splash,
-    .lgright-splash{
+    .lgleft-splash{
         transform: none;
     }
 
