@@ -3,8 +3,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Personal Finances</title>
-        <link async="true" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">  
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link async="true" rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="media/favicon.ico">
     </head>
     <body>
         <div class="header-container sticky-top">
@@ -60,11 +61,12 @@
                 <div class="col-md-3 error-message" hidden="" id="uni_id-error"></div>
             </div>
 
-            <div class="row input-row lgright-splash">
+            <div class="row input-row lg_left-splash">
+                <div class="col-md-4"></div>
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
-                            <label>Important Documents: <span class="sub-label">Long term storage for documents that are detrimental to your financial health.</span></label>
+                            <label>Important Documents: <span class="sub-label">Secure storage to ensure safe keeping and financial health.</span></label>
                         </div>
                     </div>
                     <div class="row">
@@ -75,16 +77,15 @@
                     <div class="row">
                         <div class="col-md-12" id="display-container">
                             <img hidden id="imgDisplay" class="doc-display" src=""/>
-                            <object hidden id="documentDisplay" class="doc-display" ></object>
+                            <object hidden id="documentDisplay" class="doc-display" ></object> 
                             <!--svg hidden id="svgDisplay" class="doc-display" data=""></svg-->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-8 center">
-                                    <select id="document_select" title="Select the name to save the file under." name="document_select">
+                                <div class="col-10">
+                                    <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
                                         <option value=""><i class="sub-label">Choose Document</i></option>
                                         <option value="0">State ID</option>
                                         <option value="1">Auto Insurance</option>
@@ -95,15 +96,16 @@
                                         <option value="6">Certification #2</option>
                                         <option value="7">Certification #3</option>
                                     </select>
+                                </div>
+                                <div class="col-auto my-auto">
+                                    <a role="button" id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></a>
                                 </div>                                
-                                <div class="col-md-2"></div>
+                                </div>                                
+                                <div class="col-md-3"></div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6 center">
-                                    <a id="document_download" title="Downloads only the file being displayed with the name selected." class="image-upload">Download</a>
-                                </div>
-                                <div class="col-sm-6 center">
-                                    <label for="important_documents" id="document_upload" title="Uploads a file to the slot of the name selected." class="image-upload">Upload</label>
+                                <div class="col-auto">
+                                    <label for="important_documents" id="document_upload"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Uploads a file to the slot of the name selected." class="file-upload btn btn-secondary">Upload</label>
                                     <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
                                 </div>
                             </div>                          
@@ -117,12 +119,12 @@
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
-                            <label for="income_streams-amount">Income Streams:&nbsp;</label>
+                            <label for="income_streams-amount">Income Streams:&nbsp;<span class="sub-label">How many sources of income do you rely on consistently?</span></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <p><span class="sub-label">Note: </span>Input the amount representing how many unique and consistent sources you collect from.</p>
+                            <p><span class="sub-label">Note: </span>This will provide calculated annual income for budgeting purposes.</p>
                         </div>
                     </div> 
                     <div class="row">
@@ -130,7 +132,7 @@
                             <input type="number" id="income_streams-amount">
                         </div>
                     </div>
-                    <div class="row" id="income_streams-heads">
+                    <div class="row" id="h-income_streams">
                         <div class="col-sm-3" ><h5>Resource</h5></div>
                         <div class="col-sm-3" ><h5>Frequency</h5></div>
                         <div class="col-sm-3" ><h5>Amount</h5></div>
@@ -151,7 +153,7 @@
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
-                            <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Probably the least important information to have available.</span></label>
+                            <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Enter the number of monetary accounts currently open under your name (Includes joint accounts).</span></label>
                         </div>
                     </div>
                     <div class="row">
@@ -162,14 +164,12 @@
                     </div> 
                     <div class="row">
                         <div class="col-12">
-                            <div class="row">
-                                <input type="number" id="financial_accounts-amount">
-                            </div>
+                            <input type="number" id="financial_accounts-amount">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="row" id="financial_accounts-heads">
+                            <div class="row" id="h-financial_accounts">
                                 <div class="col-sm-3" ><h5>Institution</h5></div>
                                 <div class="col-sm-3" ><h5>Type</h5></div>
                                 <div class="col-sm-3" ><h5>Account #</h5></div>
@@ -198,23 +198,24 @@
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
-                            <label>Emergency Cash: <span class="sub-label">A few months savings intended for any unforseen hurdles in life.</span></label>
+                            <label>Emergency Cash: <span class="sub-label">Have a rational amount of cash on hand in case of emergency.</span></label>
                         </div>
                         
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <p><span class="important-text">Note: </span>Total is calculated from 4 months of total income</p>
+                            <p><span class="important-text">Note: </span>Save at least enough for a trip home and/or cost of food and gas for two weeks</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-2 my-auto center"><button class="btn btn-primary btn-calc" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Estimate based on 4 months of total income or the current value." type="button" id="emergency_cash-calc" onclick="calcEmergencyCash();return false;"></button></div>
+                        <div class="col-10">
                             <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <button id="emergency_cash-calc" onclick="calcEmergencyCash();return false;">Calculate</button>
+                            
                         </div>
                     </div>
                 </div>
@@ -229,19 +230,20 @@
                             <label>Monthly Saving: </label>
                         </div>
                         <div class="col-auto">
-                            <p><span class="important-text">Note: </span>Calculates minimun needed to meet emergency savings goal in one year.</p>
+                            <p><span class="important-text">Note: </span>Value can be changed as you wish but will override if button is pressed.</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-2 my-auto center">
+                            <button class="btn btn-primary btn-calc" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Total is minimum needed to meet emergency savings goal in one year." type="button" id="monthly_saving-calc" onclick="calcMonthlySaving();return false;"></button>
+                        </div>
+                        <div class="col-10">
                             <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-auto">
-                            <button id="monthly_saving-calc" onclick="calcMonthlySaving();return false;">Calculate</button>
-                        </div>
-                    </div>
+                    <!--div class="row">
+                        
+                    </div-->
                 </div>
                 <div class="col-md-3 error-message" id="monthly_saving_guess-error"></div>
             </div>
@@ -256,26 +258,27 @@
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <p><span class="sub-label">Note: </span>Calculation made from your income inputs above.</p>
+                            <p><span class="sub-label">Note: </span>This value is not accounting for taxes.</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-2 my-auto center">
+                            <button class="btn btn-primary btn-calc" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Calculation made from your income inputs above."  type="button" id="annual_income-calc" onclick="calcAnnualIncome();return false;"></button>
+                        </div>
+                        <div class="col-10">
                             <input type="number" step="0.01" id="annual_income" name="annual_income" class="form-input">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-auto">
-                            <button id="annual_income-calc" onclick="calcAnnualIncome();return false;">Calculate</button>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-3"></div>
             </div>      
         
         <!--form id="data-form"-->
-            <div class="row input-row orangeleft-splash">
-                <div class="col-md-4"></div>
+            <div class="row input-row orange_right-splash">
+               
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
@@ -301,10 +304,10 @@
                     </div>
                     <div class="row">
                         <div class="col-auto">
-                            <button onclick="downloadEncryptedFile();return false;">New Download</button>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Password must be set prior to downloading a new save or uploading a previous one." onclick="downloadEncryptedFile();return false;">New Download</button>
                         </div>
                         <div class="col-auto">
-                            <label for="encrypted_file" title="Password needs to be input before upload" class="file-upload">Upload Save</label>
+                            <label role="button" for="encrypted_file" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Password must be set prior to uploading a previous save." class="file-upload btn btn-secondary disabled">Upload Save</label>
                             <input type="file" accept=".txt" id="encrypted_file" name="encrypted_file" class="data-input">
                         </div>      
                     </div>
@@ -328,5 +331,10 @@
             });
         </script>
         <script src="main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        <script>
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        </script>
     </body>
 </html>

@@ -71,12 +71,16 @@ main{
     padding-bottom: calc(.5 * var(--bs-gutter-x));
 }   
 
+.custom-tooltip {
+    --bs-tooltip-bg: rgb(63,68,68);
+    --bs-tooltip-color: #fff;
+}
 #bsu-logo{
     height: 58px;
     width: 387px;
     margin: 29px;
     display: block;
-    background: url(bsu-leftalignedlogo-orange.svg) no-repeat;
+    background: url(media/bsu-leftalignedlogo-orange.svg) no-repeat;
     background-size: contain; 
     transition: background-image .2s ease-in-out;
 }
@@ -117,36 +121,49 @@ main{
     padding-right: 0;
 }
 
-.lgright-splash{
+.lg_right-splash, .lg_left-splash{
     background-color: #f6f7f9;
     color: #141827;
     transform: translate(calc(100%/12));
+}.lg_left-splash{
+    transform: translate(calc(100%/-4));
 }
-.lgright-splash>*{
+.lg_right-splash>*, .orange_right-splash>*{
     padding-top: calc(.5 * var(--bs-gutter-x));
 }
 
-.orangeleft-splash{
+.orange_left-splash, .orange_right-splash{
     background-color: #d64309;
     color: #FFF;
     transform: translate(calc(100%/-4));
+}.orange_right-splash{
+    transform: translate(calc(100%/12));
 }
-.orangeleft-splash>*{
+.orange_left-splash>*, .lg_left-splash>*{
     padding-top: calc(.5 * var(--bs-gutter-x));
 }
 
 
 @media only screen and (max-width: 767px) {
     
-    .orangeright-splash,
-    .lgleft-splash{
+    .orange_right-splash, .orange_left-splash,
+    .lg_left-splash, .lg_right-splash{
         transform: none;
     }
+    
+
+}
+@media only screen and (max-width: 575px) {
+    
+    .btn-calc{
+        margin: 24px;
+    }
+    
 
 }
 @media only screen and (max-width: 593px){
     #bsu-logo{
-        background-image: url(bsu-blogo-orange.svg);
+        background-image: url(media/bsu-blogo-orange.svg);
         background-repeat: no-repeat;
         background-size: contain;        
     } 
@@ -226,21 +243,24 @@ input, select, textarea{
 }
 input, textarea, .income_frequency-input{
     width: 100%;
+    max-width: 100%;
 }
 textarea{
     display: block;
     margin: 4px 0 1.5px;
 }
 #document_select{
-    background-color: transparent;
-    border-color: transparent;
-    max-height: 100%;
+   
 }
 #financial_accounts>div, #income_streams>div{
     padding: 0 10px;
 }
 .scroll-container{
-    height: 182px;
+    height: 178px;
+    scrollbar-gutter: stable;
+}
+#h-income_streams, #h-financial_accounts{
+    opacity: 0;
 }
 input[type=file]{
     display: none;
@@ -248,11 +268,12 @@ input[type=file]{
 .center{
     text-align: center;
 }
-button, .file-upload, .image-upload, #document_select, #annual_income-calc{
+.btn, .file-upload, .file-download, #document_select{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
     transition: all .15s ease-in-out;
     width: auto;
     min-width: fit-content;
+    max-width: 100%;
     display: inline-block;
     line-height: 1;
     height: auto;
@@ -268,25 +289,29 @@ button, .file-upload, .image-upload, #document_select, #annual_income-calc{
     margin-bottom: 8px; 
 }
 #document_select{
+    max-height: 100%;
     padding-right: 14px;
-    margin: 0;
     border-width: 2px;    
     margin-bottom: 8px;
     width: 100%;
 }
 
-#annual_income-calc:hover, .file-upload:hover {
+.btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus{
     background-color: #bb3200;
     border-color: #bb3200;
+    --bs-btn-hover-bg: #bb3200;
+    --bs-btn-active-bg: #bb3200; 
+    --bs-btn-hover-border-color: #bb3200;
+    --bs-btn-active-border-color: #bb3200;
 }
-button::after, .file-upload::after, .image-upload::after{
+.btn::after, .file-upload::after{
     background: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 11.2'%3E%3Cpath fill='%23fff' d='M9.4 0L8.2 1.2l3.6 3.6H0v1.7h11.8l-3.6 3.6 1.2 1.1L15 5.6z'/%3E%3C/svg%3E") 100% no-repeat;
     background-size: contain;
     content: "";
     display: block;
     height: 15px;
     position: absolute;
-    right: 16px;
+    right: 15px;
     top: 50%;
     transition: all .15s ease-in-out;
     -webkit-transform: translateY(-50%);
@@ -294,18 +319,53 @@ button::after, .file-upload::after, .image-upload::after{
     transform: translateY(-50%);
     width: 15px;
 }
-button:hover:after, .file-upload:hover:after,
-.image-upload:hover:after {
+.btn-calc{
+    margin: 2.5px 0 1.5px;
+    padding: 16px;
+    width: auto;
+}.file-download{
+    padding: 16px;
+}
+.btn-calc::after{
+    background: url(media/calculator-icon.svg) 100% no-repeat;
+    background-size: contain;
+    height: 20px;
+    width: 20px;
+    top: 16px;
+    right: 6px;
+}
+.file-download::after{    
+    height: 20px;
+    width: 20px;
+    top: 4px;
+    rotate: 90deg;
+    border: solid 2px;
+    border-color: transparent #fff transparent transparent;
+}
+.btn-primary:hover:after, .btn-secondary:hover:after {
     right: 14px;
     transition: all .15s ease-in-out
 }
-button, .file-upload, .image-upload{
+.btn-calc:hover:after{
+    right: 6px;
+    scale: 1.1;
+}
+.btn-secondary{
     background-color: #0033A0;
     border-color: #0033A0;
-    width: 100%
-}button:hover, .file-upload:hover, .image-upload:hover{
+}.btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus{
     background-color: #011d80;
     border-color: #011d80;
+    --bs-btn-hover-bg: #011d80;
+    --bs-btn-active-bg: #011d80; 
+    --bs-btn-hover-border-color: #011d80;
+    --bs-btn-active-border-color: #011d80;
+}
+
+.btn.disabled {
+    background-color: #0033A0;
+    border-color: rgba(0,114,206, 0);
+    opacity: 80%;
 }
 #backTop{
     position: fixed;

@@ -42,7 +42,14 @@ docDownload.addEventListener('click', ()=>{
         //download Error
     }
 });
-
+function b64ToBlob(b64EncodedData){
+    const contentAsBytes = atob(b64EncodedData);
+            const byteNumbers = new Array(contentAsBytes.length);
+            for (let i = 0; i < contentAsBytes.length; i++) {
+                byteNumbers[i] = contentAsBytes.charCodeAt(i);
+            }
+            return new Uint8Array(byteNumbers);
+}
 finForm.important_documents.addEventListener('change', function(e){
     const fileType = ""+this.files[0].type;
     const fileSize = this.files[0].size / 1000;
@@ -60,7 +67,7 @@ finForm.important_documents.addEventListener('change', function(e){
         }
     }
 });
-
+const temporaryTestingObject = {};
 function updateDocDisplay(json = {}){
     if(json.type.includes('svg')){
                 docDisplays[1].data = json.content;
@@ -69,8 +76,10 @@ function updateDocDisplay(json = {}){
                 docDisplays[1].hidden = false;    
     }else if(json.type.includes('application')){
         if(json.size > 2000){
-            const largePDF = new Blob([json.content], {type: "application/pdf"});
+            const contentAsByteArray = b64ToBlob(json.content.split(",")[1]);
+            const largePDF = new Blob([contentAsByteArray], {type: "application/pdf"});
             docDisplays[1].data = URL.createObjectURL(largePDF);
+            URL.revokeObjectURL(largePDF);
         }else{
             docDisplays[1].data = json.content;
         }
@@ -90,37 +99,37 @@ function updateDocDisplay(json = {}){
 
 
 function updateIncomeStreams(){
-    const incomeHeads = document.getElementById('income_streams-heads');
-    const incomeTable = document.getElementById('income_streams');
-    for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
-        incomeRow(incomeTable);
+    const incomeHeads = document.getElementById('h-income_streams');
+    const incomeInputTable = document.getElementById('income_streams');
+    for(x=incomeInputTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
+        incomeRow(incomeInputTable);
     }
-    for(i=incomeTable.firstElementChild.children.length;i > incomeAmount.value;i--){
-        for(element of incomeTable.children){
+    for(i=incomeInputTable.firstElementChild.children.length;i > incomeAmount.value;i--){
+        for(element of incomeInputTable.children){
             element.lastChild.remove();
         }
     }
-    if(incomeTable.firstElementChild.children.length <= 0){
-        incomeHeads.hidden = true;
+    if(incomeInputTable.firstElementChild.children.length <= 0){
+        incomeHeads.style.opacity = 0;
     }else{
-        incomeHeads.hidden = false;
+        incomeHeads.style.opacity = 100;
     }
 }
 function updateFinancialAccounts(){
-    const accountHeads = document.getElementById('financial_accounts-heads');
-    const accountTable = document.getElementById('financial_accounts');
-    for(x=accountTable.firstElementChild.children.length+1;x<=accountAmount.value;x++){
-        accountRow(accountTable);
+    const accountHeads = document.getElementById('h-financial_accounts');
+    const accountInputTable = document.getElementById('financial_accounts');
+    for(x=accountInputTable.firstElementChild.children.length+1;x<=accountAmount.value;x++){
+        accountRow(accountInputTable);
     }
-    for(i=accountTable.firstElementChild.children.length;i > accountAmount.value;i--){
-        for(element of accountTable.children){
+    for(i=accountInputTable.firstElementChild.children.length;i > accountAmount.value;i--){
+        for(element of accountInputTable.children){
             element.lastChild.remove();
         }
     }
-    if(accountTable.firstElementChild.children.length <= 0){
-        accountHeads.hidden = true;
+    if(accountInputTable.firstElementChild.children.length <= 0){
+        accountHeads.style.opacity = 0;
     }else{
-        accountHeads.hidden = false;
+        accountHeads.style.opacity = 100;
     }
 }
 incomeAmount.addEventListener('change', (event)=>{
@@ -214,11 +223,17 @@ function calcEmergencyCash(){
     for(i=0;i<income_amounts.length;i++){
        savings += income_frequency[i].value * income_amounts[i].value;
     }
-    if(finForm.emergency_cash_guess.value > 0){
-       const emergencySavings = (savings/4).toFixed(2); 
+    console.log(finForm.emergency_cash_guess.value)
+    if(parseFloat(finForm.emergency_cash_guess.value) > 0){
+        console.log(finForm.emergency_cash_guess.value)
+       const emergencySavings = (parseFloat(finForm.emergency_cash_guess.value)/4).toFixed(2);
+       finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2); 
+    }else{
+        const emergencySavings = (savings/4).toFixed(2);
+        finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2);
     }
     
-    finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2);
+    
     return;
 }function calcAnnualIncome(){
     const income_amounts = document.getElementsByClassName('income_amounts-input');
@@ -229,57 +244,6 @@ function calcEmergencyCash(){
     }
     finForm.annual_income.value = savings.toFixed(2);
     return;
-}
-
-const createTable = async (json, target) => {
-    let displayTable = '<table>';
-    if(typeof json.data[0] !== 'undefined'){
-        //console.log(json.data[0]);
-        const entries = Object.entries(json.data[0]);
-        const labels = [],
-        values = [];
-        for(entry of entries){
-            const name = entry[0];
-            const val = entry[1];
-            const words = name.split('_');
-            //con   sole.log(words);
-            const labelCapitalized = words.map(word => word.replace(word.at(0), word.at(0).toUpperCase()));
-            //console.log(labelArr);
-            const labelString = labelCapitalized.join(' ');
-            //console.log(labelString);
-            labels.push(labelString);
-            values.push(val);
-        }
-        displayTable += '<thead><tr>';
-        for(label of labels){
-            displayTable += '<th >'+label+'</th>';
-        }
-        displayTable += '</tr>' +
-        '</thead>' +
-        '<tbody>';
-        for (row of json.data) {
-            const data = Object.entries(row);
-            let y = 0;
-            displayTable += '<tr>';
-                for(val of values){
-                    //console.log(y);
-                    //console.log(data[y][1]);
-                    if(y < data.length){
-                        displayTable += '<td>' + data[y][1] + '</td>';
-                    }  
-                    y++;
-                }
-            displayTable += '</tr>';
-        }
-    }else {
-         displayTable += '<thead>' +
-            '<tr></tr>' +
-            '</thead>'+
-            '<tbody>'
-    }
-        displayTable += '</tbody></table>';
-        //console.log(displayTable);
-        target.innerHTML = displayTable;
 }
 
 function formDisplayUpdate(json){
@@ -370,6 +334,8 @@ function ab2str(ab) {
 }
 
 function storeInputs(){
+    const incomeTable = document.getElementById('income_streams');
+    const accountTable = document.getElementById('financial_accounts');
     const storageObj = {data:[{}], documents:[]};
     for(input of finForm.getElementsByClassName('form-input')){
         storageObj.data[0][input.id] = input.value;
@@ -451,6 +417,7 @@ async function downloadEncryptedFile() {
     const cryptoKey = await newCryptoKey();
     const link = document.createElement("a");
     const content = await storeInputs();
+    console.log(content);
     const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
     const encrypted = await encryptToString(contentEncoded, cryptoKey);
     const file = new Blob([encrypted], { type: 'text/plain' });

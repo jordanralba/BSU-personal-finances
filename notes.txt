@@ -11,10 +11,10 @@ ToolTips to match Prior Checklist
 	Reassure for safety
 
 
-If pdf file is larger than 2mb then convert into a Blob and display the file itself.
-	https://stackoverflow.com/questions/73507162/display-pdf-file-over-2mb-using-embed-element
 Add password reveal button instead of password check
 
-Swap Password background orientation with important documents
+Naming convention 
+	Kebab to signify element type
 
-Fix scrollContainer
+Use destructuring syntax
+	Match variable name to the HTMLInputElement name attribute
