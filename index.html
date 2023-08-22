@@ -18,7 +18,7 @@
             <button id="backTop" hidden onclick="scrollBackTop();"></button>
         </div>
         <main>       
-        <form class="container-fluid" id="finance-form">
+        <form class="container-fluid d-flex flex-column gap-5" id="finance-form">
 
             <div class="row input-row">
                 <div class="col-md-1"></div>
@@ -60,8 +60,8 @@
                 <div class="col-md-3 error-message" hidden="" id="uni_id-error"></div>
             </div>
 
-            <div class="row input-row">
-                <div class="col-md-12 content-Col lgright-splash">
+            <div class="row input-row lgright-splash">
+                <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label>Important Documents: <span class="sub-label">Long term storage for documents that are detrimental to your financial health.</span></label>
@@ -73,18 +73,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6" id="display-container">
+                        <div class="col-md-12" id="display-container">
                             <img hidden id="imgDisplay" class="doc-display" src=""/>
                             <object hidden id="documentDisplay" class="doc-display" ></object>
                             <!--svg hidden id="svgDisplay" class="doc-display" data=""></svg-->
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8 center">
-                                    <select id="document_select" name="document_select">
+                                    <select id="document_select" title="Select the name to save the file under." name="document_select">
                                         <option value=""><i class="sub-label">Choose Document</i></option>
                                         <option value="0">State ID</option>
                                         <option value="1">Auto Insurance</option>
@@ -100,10 +100,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 center">
-                                    <a id="document_download" class="image-upload">Download</a>
+                                    <a id="document_download" title="Downloads only the file being displayed with the name selected." class="image-upload">Download</a>
                                 </div>
                                 <div class="col-sm-6 center">
-                                    <label for="important_documents" id="document_upload" class="image-upload">Upload</label>
+                                    <label for="important_documents" id="document_upload" title="Uploads a file to the slot of the name selected." class="image-upload">Upload</label>
                                     <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
                                 </div>
                             </div>                          
@@ -212,6 +212,11 @@
                             <input type="number" step="0.01" id="emergency_cash_guess" name="emergency_cash_guess" class="form-input">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button id="emergency_cash-calc" onclick="calcEmergencyCash();return false;">Calculate</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -230,6 +235,11 @@
                     <div class="row">
                         <div class="col-12">
                             <input type="number" step="0.01" id="monthly_saving_guess" name="monthly_saving_guess" class="form-input">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button id="monthly_saving-calc" onclick="calcMonthlySaving();return false;">Calculate</button>
                         </div>
                     </div>
                 </div>
@@ -264,8 +274,8 @@
             </div>      
         
         <!--form id="data-form"-->
-            <div class="row input-row">
-                <div class="col-md-1"></div>
+            <div class="row input-row orangeleft-splash">
+                <div class="col-md-4"></div>
                 <div class="col-md-8 content-Col">
                     <div class="row">
                         <div class="col-auto">
@@ -294,8 +304,8 @@
                             <button onclick="downloadEncryptedFile();return false;">New Download</button>
                         </div>
                         <div class="col-auto">
-                            <label for="encrypted_file" class="file-upload">Upload Save</label>
-                            <input type="file" accept=".json" id="encrypted_file" name="encrypted_file" class="data-input">
+                            <label for="encrypted_file" title="Password needs to be input before upload" class="file-upload">Upload Save</label>
+                            <input type="file" accept=".txt" id="encrypted_file" name="encrypted_file" class="data-input">
                         </div>      
                     </div>
                 </div>
@@ -324,15 +334,8 @@
                     Table - Expense Report, Financial Institutions, Income Streams
                     D3 Viz - Estimate Vs Actual Emergency Cash, Saving Needed to Reach Goal
             */ 
-            const incomeHeads = document.getElementById('income_streams-heads');
-            const incomeTable = document.getElementById('income_streams');
             const incomeAmount = document.getElementById('income_streams-amount');
-            const accountHeads = document.getElementById('financial_accounts-heads');
-            const accountTable = document.getElementById('financial_accounts');
             const accountAmount = document.getElementById('financial_accounts-amount');
-            const divNode = document.createElement('div');
-            const inputNode = document.createElement('input');
-            const imageNode = document.createElement('img');
             const passkeyInput = document.getElementById('passkey');
             const passkeyError = document.getElementById('passkey-error');
             const finForm = document.forms[0];
@@ -370,6 +373,7 @@
 
             finForm.important_documents.addEventListener('change', function(e){
                 const fileType = ""+this.files[0].type;
+                const fileSize = this.files[0].size / 1000;
                 imgReader.readAsDataURL(this.files[0]);
                 const targetDoc = finForm.document_select.value;
                 if(targetDoc !== ""){
@@ -377,6 +381,7 @@
                         const storObj = {};
                         storObj.type = fileType;
                         storObj.content = imgReader.result;
+                        storObj.size = fileSize;
                         docDataObject[targetDoc] = storObj;
                         updateDocDisplay(storObj);
                         finForm.important_documents.value = null; 
@@ -384,28 +389,27 @@
                 }
             });
             function updateDocDisplay(json = {}){
-                if(json.type.includes('svg') || json.type.includes('application')){
-                            console.log('svg');
-                            console.log('application');
+                if(json.type.includes('svg')){
                             docDisplays[1].data = json.content;
                             docDisplays[1].type = json.type;
                             docDisplays[0].hidden = true;
-                            docDisplays[1].hidden = false;
-                            //docDisplays[2].hidden = true;
-                        }else if(json.type.includes('image')){
-                            console.log('image');
-                            docDisplays[0].src = json.content;
-                            docDisplays[0].type = json.type;
-                            docDisplays[0].hidden = false;
-                            docDisplays[1].hidden = true;
-                            //docDisplays[2].hidden = true;
-                        }else if(json.type.includes('application')){
-                            console.log('application');
-                            docDisplays[1].data = json.content;
+                            docDisplays[1].hidden = false;    
+                }else if(json.type.includes('application')){
+                    if(json.size > 2000){
+                        const largePDF = new Blob([json.content], {type: "application/pdf"});
+                        docDisplays[1].data = URL.createObjectURL(largePDF);
+                    }else{
+                        docDisplays[1].data = json.content;
+                    }
+                            docDisplays[1].type = json.type;
                             docDisplays[0].hidden = true;
                             docDisplays[1].hidden = false;
-                            //docDisplays[2].hidden = true;
-                        }
+                }else if(json.type.includes('image')){
+                    docDisplays[0].src = json.content;
+                    docDisplays[0].type = json.type;
+                    docDisplays[0].hidden = false;
+                    docDisplays[1].hidden = true;
+                }
                 return;
             }
             
@@ -413,8 +417,10 @@
             
 
             function updateIncomeStreams(){
+                const incomeHeads = document.getElementById('income_streams-heads');
+                const incomeTable = document.getElementById('income_streams');
                 for(x=incomeTable.firstElementChild.children.length+1;x<=incomeAmount.value;x++){
-                    incomeRow();
+                    incomeRow(incomeTable);
                 }
                 for(i=incomeTable.firstElementChild.children.length;i > incomeAmount.value;i--){
                     for(element of incomeTable.children){
@@ -428,8 +434,10 @@
                 }
             }
             function updateFinancialAccounts(){
+                const accountHeads = document.getElementById('financial_accounts-heads');
+                const accountTable = document.getElementById('financial_accounts');
                 for(x=accountTable.firstElementChild.children.length+1;x<=accountAmount.value;x++){
-                    accountRow();
+                    accountRow(accountTable);
                 }
                 for(i=accountTable.firstElementChild.children.length;i > accountAmount.value;i--){
                     for(element of accountTable.children){
@@ -446,11 +454,12 @@
                 updateIncomeStreams();
             });
 
-            function incomeRow(action){
-                const col = incomeTable.children[0];
-                const col1 = incomeTable.children[1];
-                const col2 = incomeTable.children[2];
-                const col3 = incomeTable.children[3];
+            function incomeRow(table){
+                const inputNode = document.createElement('input');
+                const col = table.children[0];
+                const col1 = table.children[1];
+                const col2 = table.children[2];
+                const col3 = table.children[3];
                 const optionNode = document.createElement('option');
                     const resource = inputNode.cloneNode(true);
                         resource.setAttribute('type', 'text');
@@ -493,11 +502,12 @@
                 updateFinancialAccounts();
             });
 
-            function accountRow(action){
-                const col = accountTable.children[0];
-                const col1 = accountTable.children[1];
-                const col2 = accountTable.children[2];
-                const col3 = accountTable.children[3];
+            function accountRow(table){
+                const inputNode = document.createElement('input');
+                const col = table.children[0];
+                const col1 = table.children[1];
+                const col2 = table.children[2];
+                const col3 = table.children[3];
                     const institution = inputNode.cloneNode(true);
                         institution.setAttribute('type', 'text');
                         institution.setAttribute('class', 'account_institution-input');
@@ -666,16 +676,6 @@
                 }
             }
 
-            const addImgString = ()=>{
-                    try{
-                        if(imgReader.readyState != 1){
-                            const imgData = imgReader.result;
-                            return imgData;
-                        }
-                    }catch{
-                        console.error("FileReader still processing image upload");
-                    }
-            }
             function storeInputs(){
                 const storageObj = {data:[{}], documents:[]};
                 for(input of finForm.getElementsByClassName('form-input')){
@@ -779,10 +779,6 @@
             fileField.addEventListener('change', function() {
                 try{
                     //check if matches previous password input
-                    if(passkeyInput.value.length >= 8){
-                        fileReader.disabled = false;
-                        passkeyError.hidden = true;
-                    }
                     if(!fileField.disabled){
                         fileFieldLabel.innerHTML = fileField.files[0].name;
                         fileReader.readAsText(this.files[0]);
@@ -790,7 +786,7 @@
                     }
                 }catch{
                     console.log('No File');
-                    fileFieldLabel.innerHTML = 'Upload Encrypted';
+                    fileFieldLabel.innerHTML = 'Upload Save';
                 }
             });
             
@@ -810,6 +806,7 @@
                     console.log(JSON.parse(decodedData))
                     formDisplayUpdate(JSON.parse(decodedData));
                 }catch{
+                    fileFieldLabel.innerHTML = "Upload Save"
                     console.error("Passkey is Incorrect");
                 }
             }

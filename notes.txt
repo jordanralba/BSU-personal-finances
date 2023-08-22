@@ -1,8 +1,6 @@
 Password notification on hover 
 	Details why Upload can't be completed
 
-Object reload on data input
-
 Google Analytics to Track University ID
 	Contact Diane Later
 
@@ -11,4 +9,8 @@ Aria and Accessibility
 
 ToolTips to match Prior Checklist
 	Reassure for safety
-Use RegExp to discern the filetype
+
+
+If pdf file is larger than 2mb then convert into a Blob and display the file itself.
+	https://stackoverflow.com/questions/73507162/display-pdf-file-over-2mb-using-embed-element
+Add password reveal button instead of password check

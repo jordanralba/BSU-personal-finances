@@ -60,17 +60,16 @@
 }
 body{
     color: #141827;
+    padding-bottom: 1rem;
 }
 main{
     overflow-x: hidden;
 }
 
-.input-row{
-    padding: 24px;
-}
+
 .content-Col>.row{
-    padding-bottom: 16px;
-}
+    padding-bottom: calc(.5 * var(--bs-gutter-x));
+}   
 
 #bsu-logo{
     height: 58px;
@@ -122,8 +121,18 @@ main{
     background-color: #f6f7f9;
     color: #141827;
     transform: translate(calc(100%/12));
-    padding: 32px;
-    padding-right: 0;
+}
+.lgright-splash>*{
+    padding-top: calc(.5 * var(--bs-gutter-x));
+}
+
+.orangeleft-splash{
+    background-color: #d64309;
+    color: #FFF;
+    transform: translate(calc(100%/-4));
+}
+.orangeleft-splash>*{
+    padding-top: calc(.5 * var(--bs-gutter-x));
 }
 
 
@@ -132,7 +141,6 @@ main{
     .orangeright-splash,
     .lgright-splash{
         transform: none;
-        padding-right: 32px;
     }
 
 }
@@ -161,12 +169,6 @@ img, img.doc-display{
 #display-container{
     height: 400px;
     max-width: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 1rem;
 }
 .doc-display{
     width: 100%;
@@ -246,7 +248,7 @@ input[type=file]{
 .center{
     text-align: center;
 }
-button, .file-upload, .image-upload, #document_select{
+button, .file-upload, .image-upload, #document_select, #annual_income-calc{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
     transition: all .15s ease-in-out;
     width: auto;
@@ -273,8 +275,7 @@ button, .file-upload, .image-upload, #document_select{
     width: 100%;
 }
 
-button:hover,
-button:focus, .file-upload:hover {
+#annual_income-calc:hover, .file-upload:hover {
     background-color: #bb3200;
     border-color: #bb3200;
 }
@@ -298,14 +299,11 @@ button:hover:after, .file-upload:hover:after,
     right: 14px;
     transition: all .15s ease-in-out
 }
-
-.file-upload{
-    pointer-events: none;
-}.image-upload, #annual_income-calc{
+button, .file-upload, .image-upload{
     background-color: #0033A0;
     border-color: #0033A0;
     width: 100%
-}.image-upload:hover, #annual_income-calc:hover{
+}button:hover, .file-upload:hover, .image-upload:hover{
     background-color: #011d80;
     border-color: #011d80;
 }
