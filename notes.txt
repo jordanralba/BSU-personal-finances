@@ -1,11 +1,10 @@
-Upload disabled by default, remove the class .disabled when password is 8 or more characters
-
 Google Analytics to Track University ID
 	Contact Diane Later
 
 Aria and Accessibility
 	Nick is my slave labor
 
+Add and Delete elements as buttons
 
 Add password reveal button instead of password check
 
@@ -14,3 +13,5 @@ Naming convention
 
 Use destructuring syntax
 	Match variable name to the HTMLInputElement name attribute
+
+LazyLoad the fonts to not delay render

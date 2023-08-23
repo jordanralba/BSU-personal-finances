@@ -8,9 +8,15 @@ Using either IndexedDB or Cache api
 
 const incomeAmount = document.getElementById('income_streams-amount');
 const accountAmount = document.getElementById('financial_accounts-amount');
+const expenseAmount = document.getElementById('expense_report-amount');
+const contactAmount = document.getElementById('emergency_contacts-amount');
+//Move these into their respective functions calling from finForm
+
 const passkeyInput = document.getElementById('passkey');
+const passkeyVerify = document.getElementById('passkey_verify');
 const passkeyError = document.getElementById('passkey-error');
 const finForm = document.forms[0];
+const operations = window.crypto.subtle || window.crypto.webkitSubtle;        
 const encoderUTF8 = new TextEncoder('utf-8');
 const decoderUTF8 = new TextDecoder('utf-8');
 const imgReader = new FileReader();
@@ -27,8 +33,10 @@ finForm.document_select.addEventListener('change', ()=>{
     docDisplays[1].data = '';
     if(typeof docDataObject[targetDoc] !== 'undefined'){
         updateDocDisplay(docDataObject[targetDoc]);
+    }else{
+        docDownload.style.opacity = 0;
+        docDownload.style.visibility = "hidden";
     }
-    //docDisplay.children[targetDoc].hidden = false;
 });
 
 docDownload.addEventListener('click', ()=>{
@@ -77,7 +85,7 @@ function updateDocDisplay(json = {}){
     }else if(json.type.includes('application')){
         if(json.size > 2000){
             const contentAsByteArray = b64ToBlob(json.content.split(",")[1]);
-            const largePDF = new Blob([contentAsByteArray], {type: "application/pdf"});
+            const largePDF = new Blob([contentAsByteArray], {type: "application/pdf"})
             docDisplays[1].data = URL.createObjectURL(largePDF);
             URL.revokeObjectURL(largePDF);
         }else{
@@ -92,6 +100,8 @@ function updateDocDisplay(json = {}){
         docDisplays[0].hidden = false;
         docDisplays[1].hidden = true;
     }
+    docDownload.style.opacity = 100;
+    docDownload.style.visibility = "visible";
     return;
 }
 
@@ -115,6 +125,115 @@ function updateIncomeStreams(){
         incomeHeads.style.opacity = 100;
     }
 }
+function updateExpenseReport(){
+    const expenseHeads = document.getElementById('h-expense_report');
+    const expenseInputTable = document.getElementById('expense_report');
+    for(x=expenseInputTable.firstElementChild.children.length+1;x<=expenseAmount.value;x++){
+        expenseRow(expenseInputTable);
+    }
+    for(i=expenseInputTable.firstElementChild.children.length;i > expenseAmount.value;i--){
+        for(element of expenseInputTable.children){
+            element.lastChild.remove();
+        }
+    }
+    if(expenseInputTable.firstElementChild.children.length <= 0){
+        expenseHeads.style.opacity = 0;
+    }else{
+        expenseHeads.style.opacity = 100;
+    }
+}
+function updateEmergencyContacts(){
+    const contactHeads = document.getElementById('h-emergency_contacts');
+    const contactInputTable = document.getElementById('emergency_contacts');
+    for(x=contactInputTable.firstElementChild.children.length+1;x<=contactAmount.value;x++){
+        contactRow(contactInputTable);
+    }
+    for(i=contactInputTable.firstElementChild.children.length;i > contactAmount.value;i--){
+        for(element of contactInputTable.children){
+            element.lastChild.remove();
+        }
+    }
+    if(contactInputTable.firstElementChild.children.length <= 0){
+        contactHeads.style.opacity = 0;
+    }else{
+        contactHeads.style.opacity = 100;
+    }
+}
+function contactRow(table){
+    const inputNode = document.createElement('input');
+    const col = table.children[0];
+    const col1 = table.children[1];
+    const col2 = table.children[2];
+    const col3 = table.children[3];
+        const contactName = inputNode.cloneNode(true);
+            contactName.setAttribute('type', 'text');
+            contactName.setAttribute('class', 'emergency_contact_name-input');
+                col.appendChild(contactName.cloneNode(true));
+            const relationship = contactName.cloneNode(true);
+                relationship.setAttribute('class', 'emergency_contact_relationship-input');
+                col1.appendChild(relationship.cloneNode(true));
+        const phone = relationship.cloneNode(true);
+            phone.setAttribute('type', 'tel');
+            phone.setAttribute('class', 'emergency_contact_phone-input');
+                col2.appendChild(phone.cloneNode(true));
+        const email = phone.cloneNode(true);
+            email.setAttribute('type', 'email');
+            email.setAttribute('class', 'emergency_contact_email-input');
+            col3.appendChild(email.cloneNode(true));
+}
+contactAmount.addEventListener('change', ()=>{
+    updateEmergencyContacts();
+});
+function expenseRow(table){
+    const inputNode = document.createElement('input');
+    const optionNode = document.createElement('option');
+    const col = table.children[0];
+    const col1 = table.children[1];
+    const col2 = table.children[2];
+    const col3 = table.children[3];
+        const description = inputNode.cloneNode(true);
+            description.setAttribute('type', 'text');
+            description.setAttribute('class', 'expense_description-input');
+                col.appendChild(description.cloneNode(true));
+            const frequency = document.createElement('select');
+                frequency.setAttribute('class', 'expense_frequency-input');
+            const frequencyOpt = optionNode.cloneNode(true);
+                frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 1;
+                frequencyOpt.text = "One-Time";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 1;
+                frequencyOpt.text = "Annual";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 2;
+                frequencyOpt.text = "Semiannually";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 4;
+                frequencyOpt.text = "Quarterly";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 12;
+                frequencyOpt.text = "Monthly";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 26;
+                frequencyOpt.text = "Biweekly";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                frequencyOpt.value = 52;
+                frequencyOpt.text = "Weekly";
+                    frequency.appendChild(frequencyOpt.cloneNode(true));
+                col1.appendChild(frequency.cloneNode(true));
+
+        const amount = description.cloneNode(true);
+            amount.setAttribute('type', 'number');
+            amount.setAttribute('class', 'expense_amount-input');
+                col2.appendChild(amount.cloneNode(true));
+        const payDate = amount.cloneNode(true);
+            payDate.setAttribute('type', 'text');
+            payDate.setAttribute('class', 'expense_date-input');
+            col3.appendChild(payDate.cloneNode(true));
+}
+expenseAmount.addEventListener('change', ()=>{
+    updateExpenseReport();
+});
 function updateFinancialAccounts(){
     const accountHeads = document.getElementById('h-financial_accounts');
     const accountInputTable = document.getElementById('financial_accounts');
@@ -135,7 +254,6 @@ function updateFinancialAccounts(){
 incomeAmount.addEventListener('change', (event)=>{
     updateIncomeStreams();
 });
-
 function incomeRow(table){
     const inputNode = document.createElement('input');
     const col = table.children[0];
@@ -202,47 +320,62 @@ function accountRow(table){
             account_number.setAttribute('class', 'account_numbers-input');
             col2.appendChild(account_number.cloneNode(true));
         const purpose = document.createElement('textarea');
-            purpose.setAttribute('class', 'account_purposes-input')
+            purpose.setAttribute('class', 'account_purposes-input');
             col3.appendChild(purpose.cloneNode(true));
 }
-
-function calcEmergencyCash(){
-    const income_amounts = document.getElementsByClassName('income_amounts-input');
-    const income_frequency = document.getElementsByClassName('income_frequency-input');
-    let savings = 0;
-    for(i=0;i<income_amounts.length;i++){
-       savings += income_frequency[i].value * income_amounts[i].value;
+function newRow(target){
+    switch(target){
+        case 'income': updateIncomeStreams("add");
+            break;
+        case 'account': updateFinancialAccounts("add");
+            break;
+        case 'expense': updateExpenseReport("add");
+            break;
     }
-    const emergencySavings = (savings/4).toFixed(2);
-    finForm.emergency_cash_guess.value = emergencySavings;
     return;
-}function calcMonthlySaving(){
+}function removeRow(target){
+    switch(target){
+        case 'income': updateIncomeStreams("remove");
+            break;
+        case 'account': updateFinancialAccounts("remove");
+            break;
+        case 'expense': updateExpenseReport("remove");
+            break;
+    }
+    return;
+}
+
+function calcAnnualIncome(action){
     const income_amounts = document.getElementsByClassName('income_amounts-input');
     const income_frequency = document.getElementsByClassName('income_frequency-input');
     let savings = 0;
     for(i=0;i<income_amounts.length;i++){
        savings += income_frequency[i].value * income_amounts[i].value;
     }
-    console.log(finForm.emergency_cash_guess.value)
-    if(parseFloat(finForm.emergency_cash_guess.value) > 0){
-        console.log(finForm.emergency_cash_guess.value)
-       const emergencySavings = (parseFloat(finForm.emergency_cash_guess.value)/4).toFixed(2);
+    if(action !== 'displayUpdate'){
+       return savings; 
+    }else{
+       finForm.annual_income.value = savings.toFixed(2); 
+       return;
+    } 
+}
+function calcEmergencyCash(action){
+    const annual_income = calcAnnualIncome("calculate");    
+    const emergencySavings = (annual_income/4).toFixed(2);
+    if(action !== 'displayUpdate'){
+        return emergencySavings;
+    }else{
+        finForm.emergency_savings_guess.value = emergencySavings;
+        return;  
+    }
+}function calcMonthlySaving(){
+    if(finForm.emergency_savings_guess.value > 0){
+       const emergencySavings = (finForm.emergency_savings_guess.value/4).toFixed(2);
        finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2); 
     }else{
-        const emergencySavings = (savings/4).toFixed(2);
+        const emergencySavings = calcEmergencyCash('calculate');
         finForm.monthly_saving_guess.value = (emergencySavings/12).toFixed(2);
     }
-    
-    
-    return;
-}function calcAnnualIncome(){
-    const income_amounts = document.getElementsByClassName('income_amounts-input');
-    const income_frequency = document.getElementsByClassName('income_frequency-input');
-    let savings = 0;
-    for(i=0;i<income_amounts.length;i++){
-       savings += income_frequency[i].value * income_amounts[i].value;
-    }
-    finForm.annual_income.value = savings.toFixed(2);
     return;
 }
 
@@ -252,7 +385,7 @@ function formDisplayUpdate(json){
         finForm.first_name.value = data.first_name;
         finForm.last_name.value = data.last_name;
         finForm.uni_id.value = data.uni_id;
-        finForm.emergency_cash_guess.value = data.emergency_cash_guess;
+        finForm.emergency_savings_guess.value = data.emergency_savings_guess;
         finForm.monthly_saving_guess.value = data.monthly_saving_guess;
         finForm.annual_income.value = data.annual_income;
         incomeAmount.value = data.resources.length;
@@ -290,6 +423,42 @@ function formDisplayUpdate(json){
         }
         for(const [index, resource] of data.purposes.entries()){
             purposesInputs[index].value = resource;                        
+        }
+        expenseAmount.value = data.expense_description.length;
+        updateExpenseReport();
+        const descriptionInputs = document.querySelectorAll('.expense_description-input');
+        const expense_frequencyInputs = document.querySelectorAll('.expense_frequency-input');
+        const expense_amountInputs = document.querySelectorAll('.expense_amount-input');
+        const dateInputs = document.querySelectorAll('.expense_date-input');
+        for(const [index, resource] of data.expense_description.entries()){
+            descriptionInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.expense_frequency.entries()){
+            expense_frequencyInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.expense_amount.entries()){
+            expense_amountInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.expense_date.entries()){
+            dateInputs[index].value = resource;                        
+        }
+        contactAmount.value = data.emergency_contact_name.length;
+        updateEmergencyContacts();
+        const nameInputs = document.querySelectorAll('.emergency_contact_name-input');
+        const relationshipInputs = document.querySelectorAll('.emergency_contact_relationship-input');
+        const phoneInputs = document.querySelectorAll('.emergency_contact_phone-input');
+        const emailInputs = document.querySelectorAll('.emergency_contact_email-input');
+        for(const [index, resource] of data.emergency_contact_name.entries()){
+            nameInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.emergency_contact_relationship.entries()){
+            relationshipInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.emergency_contact_phone.entries()){
+            phoneInputs[index].value = resource;                        
+        }
+        for(const [index, resource] of data.emergency_contact_email.entries()){
+            emailInputs[index].value = resource;                        
         }
 
     }if(typeof json.documents !== 'undefined'){
@@ -336,6 +505,8 @@ function ab2str(ab) {
 function storeInputs(){
     const incomeTable = document.getElementById('income_streams');
     const accountTable = document.getElementById('financial_accounts');
+    const expenseTable = document.getElementById('expense_report');
+    const contactTable = document.getElementById('emergency_contacts');
     const storageObj = {data:[{}], documents:[]};
     for(input of finForm.getElementsByClassName('form-input')){
         storageObj.data[0][input.id] = input.value;
@@ -346,6 +517,18 @@ function storeInputs(){
         }
         storageObj.data[0][column.id] = cacheArr;
     }for(column of accountTable.children){
+        const cacheArr = [];
+        for(input of column.children){
+            cacheArr.push(input.value);
+        }
+        storageObj.data[0][column.id] = cacheArr;
+    }for(column of expenseTable.children){
+        const cacheArr = [];
+        for(input of column.children){
+            cacheArr.push(input.value);
+        }
+        storageObj.data[0][column.id] = cacheArr;
+    }for(column of contactTable.children){
         const cacheArr = [];
         for(input of column.children){
             cacheArr.push(input.value);
@@ -366,12 +549,16 @@ function storeInputs(){
     }console.log(storageObj);
     return storageObj;
 }
-const operations = window.crypto.subtle || window.crypto.webkitSubtle;        
 
 async function newCryptoKey(){
-    passkeyError.hidden = true;
+    passkeyError.style.opacity = 0;
     //key material must be 16, 24 or 32 bytes
     const key = passkeyInput.value;
+    if(passkeyInput.value !== passkeyVerify.value){
+        passkeyError.firstElementChild.innerHTML = "Passwords don't match.";
+        passkeyError.style.opacity = 100;
+        return;
+    }
     if(7 < key.length){ 
         if(key.length < 33){
             const keyEnc = encoderUTF8.encode(key.padStart(16, key).slice(0, 16));
@@ -393,8 +580,8 @@ async function newCryptoKey(){
                 return newKey;
         }
     }else{
-        passkeyError.firstElementChild.innerHTML = 'Must be 8 or more characters';
-        passkeyError.hidden = false;
+        passkeyError.firstElementChild.innerHTML = 'Password must be 8 or more characters';
+        passkeyError.style.opacity = 100;
     }
 }
 async function encryptToString(content, cryptKey){
@@ -422,7 +609,7 @@ async function downloadEncryptedFile() {
     const encrypted = await encryptToString(contentEncoded, cryptoKey);
     const file = new Blob([encrypted], { type: 'text/plain' });
         link.href = URL.createObjectURL(file);
-    if(newEncName.value.length > 1){
+    if(newEncName.value.length >= 1){
         link.download = newEncName.value;
         link.click();
     }else{
@@ -472,6 +659,7 @@ fileReader.onloadend = async function(){
 }
 
 passkeyInput.addEventListener('change', ()=>{
+    console.log(fileFieldLabel.className)
     if(passkeyInput.value.length >= 8){
         console.log(fileFieldLabel.className)
         fileFieldLabel.className = fileFieldLabel.className.replace('disabled', '') ;
