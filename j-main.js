@@ -1,18 +1,23 @@
+//Any elements that will actively do stuff (event listeners)
 const EventSetup = {
-    incomeAmount: { id: 'income_streams-amount', fn: updateAmmount, args: ['incomeAmount', 'income_streams', incomeRow], },
-    accountAmount: { id: 'financial_accounts-amount', fn: updateAmmount, args: ['accountAmount', 'financial_accounts', accountRow], },
-    expenseAmount: { id: 'expense_report-amount', fn: updateAmmount, args: ['expenseAmount', 'expense_report', expenseRow], },
-    contactAmount: { id: 'emergency_contacts-amount', fn: updateAmmount, args: ['contactAmount', 'emergency_contacts', contactRow], },
+    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow], },
+    accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow], },
+    expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow], },
+    contactAmount: { id: 'emergency_contacts-amount', fn: updateAmount, args: ['contactAmount', 'emergency_contacts', contactRow], },
     passkeyInput: { id: 'passkey', fn: updateKeyInput, action: 'keyup', },
     passkeyVerify: { id: 'passkey_verify', },
     passkeyError: { id: 'passkey-error', },
     docDownload: { id: 'document_download', fn: updateDocDownload, action: 'click', },
     fileField: { id: 'encrypted_file', fn: updateFileField },
+    importantDocs: { id: 'important_documents', fn: uploadDocument },
+    docSelect: { id: 'document_select', fn: selectDocument },
     docDisplays: { className: 'doc-display' },
 }
 
 // populate global varables, and add event listeners
 for (const key of Object.keys(EventSetup)) {
+    //Destructure the individual elements in EventSetup
+    //default event is on change
     const { id, className, fn, action = 'change', args = [] } = EventSetup[key]
     let ele;
     if (id) {
@@ -37,9 +42,9 @@ const encoderUTF8 = new TextEncoder('utf-8');
 const decoderUTF8 = new TextDecoder('utf-8');
 const imgReader = new FileReader();
 
-function updateAmmount(e, globalConstString = '', type = '', callback = () => { }) {
+function updateAmount(e, globalConstString = '', type = '', callback = () => { }) {
     const ref = window[globalConstString];
-    const Heads = document.getElementById(`h-${type}`);
+    const heads = document.getElementById(`h-${type}`);
     const InputTable = document.getElementById(`${type}`);
     const { firstElementChild: { children } } = InputTable;
 
@@ -54,9 +59,9 @@ function updateAmmount(e, globalConstString = '', type = '', callback = () => { 
     }
 
     if (children.length <= 0) {
-        Heads.style.opacity = 0;
+        heads.style.opacity = 0;
     } else {
-        Heads.style.opacity = 100;
+        heads.style.opacity = 100;
     }
 }
 
@@ -74,7 +79,7 @@ function populateNode(attributes = [], children = null, parent = null) {
                     break;
             }
         }
-
+        
         if (parent) parent.appendChild(newNode);
         else if (children) children[index]?.appendChild(newNode);
         else console.error('ERROR no children or parent provided for populateNode()')
@@ -115,10 +120,10 @@ function expenseRow({ children }) {
 
 function accountRow({ children }) {
     const setAttribute = [
-        { type: 'text', class: 'account_institution-input', },
+        { class: 'account_institution-input', },
         { class: 'account_types-input', },
         { type: 'number', class: 'account_numbers-input', },
-        { element: 'textarea', class: 'account_purposes-input', },
+        { class: 'account_purposes-input', },
     ]
 
     populateNode(setAttribute, children)
@@ -139,7 +144,7 @@ function incomeRow({ children }) {
             ]
         },
         { type: 'number', step: 0.01, class: 'income_amounts-input', },
-        { element: 'textarea', class: 'income_usage-input', },
+        { class: 'income_usage-input', },
     ]
 
     populateNode(setAttribute, children)
@@ -174,7 +179,7 @@ function updateFileField() {
 
     // check if matches previous password input
     fileFieldLabel.innerHTML = files[0].name;
-    fileReader.readAsText(this.files[0]);
+    fileReader.readAsText(files[0]);
     fileField.value = null;
 }
 
@@ -188,10 +193,11 @@ function b64ToBlob(b64EncodedData) {
     return new Uint8Array(byteNumbers);
 }
 
-finForm.important_documents.addEventListener('change', function (e) {
-    const fileType = this.files[0].type;
-    const fileSize = this.files[0].size / 1000;
-    imgReader.readAsDataURL(this.files[0]);
+function uploadDocument(e) {
+    const { disabled, files, } = importantDocs
+    const fileType = files[0].type;
+    const fileSize = files[0].size / 1000;
+    imgReader.readAsDataURL(files[0]);
     const targetDoc = finForm.document_select.value;
     if (!targetDoc) return
     imgReader.onloadend = () => {
@@ -203,26 +209,32 @@ finForm.important_documents.addEventListener('change', function (e) {
         updateDocDisplay(storObj);
         finForm.important_documents.value = null;
     }
-});
+};
 
-finForm.document_select.addEventListener('change', () => {
-    const targetDoc = finForm.document_select.value;
+function selectDocument(e){
+    const targetDoc = docSelect.value;
     docDisplays[0].src = '';
+    docDisplays[1].innerHTML = '';
     docDisplays[1].data = '';
+    docDisplays[1].type = '';
+    
     if (typeof docDataObject[targetDoc] !== 'undefined') {
         updateDocDisplay(docDataObject[targetDoc]);
     } else {
         docDownload.style.opacity = 0;
         docDownload.style.visibility = "hidden";
     }
-});
+};
 
 function updateDocDisplay({ content, type, size } = {}) {
+    const objElement = document.createElement('object');
+        objElement.setAttribute('class', 'doc-display');
+        objElement.type = type;
     if (type.includes('svg')) {
-        docDisplays[1].data = content;
-        docDisplays[1].type = type;
+        objElement.data = content;
+        
         docDisplays[0].hidden = true;
-        docDisplays[1].hidden = false;
+        docDisplays[1].replaceWith(objElement);
     } else if (type.includes('application')) {
         if (size > 2000) {
             const contentAsByteArray = b64ToBlob(content.split(",")[1]);
@@ -230,11 +242,11 @@ function updateDocDisplay({ content, type, size } = {}) {
             docDisplays[1].data = URL.createObjectURL(largePDF);
             URL.revokeObjectURL(largePDF);
         } else {
-            docDisplays[1].data = content;
+            objElement.data = content;
         }
-        docDisplays[1].type = type;
+        objElement.type = type;
         docDisplays[0].hidden = true;
-        docDisplays[1].hidden = false;
+        docDisplays[1].replaceWith(objElement);
     } else if (type.includes('image')) {
         docDisplays[0].src = content;
         docDisplays[0].type = type;
@@ -245,7 +257,7 @@ function updateDocDisplay({ content, type, size } = {}) {
     docDownload.style.visibility = "visible";
 }
 
-const actionMap = {
+/*const actionMap = {
     income: handleRowChange,
     account: handleRowChange,
     expense: handleRowChange,
@@ -259,9 +271,9 @@ function handleRowChange(target, count = 0) {
     const { args: [str, type, fn] } = EventSetup[`${target}Amount`];
     const ref = window[str];
     ref.value = parseInt(ref.value || 0) + count;
-    updateAmmount(null, str, type, fn);
+    updateAmount(null, str, type, fn);
 }
-
+*/
 function calcAnnualIncome(action) {
     const income_amounts = [...document.getElementsByClassName('income_amounts-input')];
     const income_frequency = [...document.getElementsByClassName('income_frequency-input')];
@@ -271,7 +283,7 @@ function calcAnnualIncome(action) {
         savings += income_frequency[i].value * incEle.value;
     })
 
-    if (action === 'displayUpdate') {
+    if (action !== 'displayUpdate') {
         return savings;
     }
 
@@ -306,17 +318,16 @@ function calcMonthlySaving() {
 function formDisplayUpdate(json) {
     if (typeof json.data !== 'undefined') {
         const data = json.data;
-
-        incomeAmount.value = data.resources.length;
-        accountAmount.value = data.institution.length;
-        expenseAmount.value = data.expense_description.length;
-        contactAmount.value = data.emergency_contact_name.length;
-
-        updateAmmount('', ...EventSetup.incomeAmount.args);
-        updateAmmount('', ...EventSetup.accountAmount.args);
-        updateAmmount('', ...EventSetup.expenseAmount.args);
-        updateAmmount('', ...EventSetup.contactAmount.args);
-
+        incomeAmount.value = data.resources?.length??0;
+        accountAmount.value = data.institution?.length??0;
+        expenseAmount.value = data.expense_description?.length??0;
+        contactAmount.value = data.emergency_contact_name?.length??0;
+        
+        updateAmount('', ...EventSetup.incomeAmount.args);
+        updateAmount('', ...EventSetup.accountAmount.args);
+        updateAmount('', ...EventSetup.expenseAmount.args);
+        updateAmount('', ...EventSetup.contactAmount.args);
+       
         const fillPairs = {
             resources: '.income_resource-input',
             frequency: '.income_frequency-input',
@@ -357,14 +368,14 @@ function formDisplayUpdate(json) {
             }
         }
     }
+    console.log("HELLO")
     if (typeof json.documents !== 'undefined') {
+        console.log('HELLO')
+        //grabs value and renames to targetDoc
         const { value: targetDoc } = finForm.document_select;
         for (const [index, obj] of Object.entries(json.documents)) {
             const content = Object.entries(obj)
-            console.log(obj)
-            console.log(content)
             docDataObject[content[0][0]] = content[0][1];
-            console.log(docDataObject);
         }
         if (parseInt(targetDoc) >= 0) {
             updateDocDisplay(docDataObject[parseInt(targetDoc)]);
@@ -405,10 +416,14 @@ function storeInputs() {
         documents: []
     };
     const remDataSet = {};
+    //can also remove the use of that class
+        //it does nothing
     const exceptions = ['data-input'];
     for (const input of document.querySelectorAll("[class*=-input]")) {
         const { parentElement: { id: pid } } = input;
-        if (exceptions.includes(input.className)) continue;
+
+        if (exceptions.includes(input.className)) continue;//continue skips this iteration of for loop
+        //why compare true instead of breaking on exception?
         if (input.className === 'form-input') {
             storageObj.data[input.id] = input.value;
         } else if (pid) {
@@ -421,16 +436,11 @@ function storeInputs() {
     const { options } = finForm.document_select;
 
     for (const [index, entry] of Object.entries(docDataObject)) {
-        console.log(entry)
-        console.log(index)
-        entry.name = options[parseInt(index) + 1].innerText;
-        console.log(entry)
+        entry.name = options[index].innerText;
         const tempObj = {}
         tempObj[index] = entry
         storageObj.documents.push(tempObj);
-
     }
-
     console.log(storageObj);
     return storageObj;
 }
@@ -484,18 +494,16 @@ async function encryptToString(content, cryptKey) {
 }
 
 async function downloadEncryptedFile() {
-    const newEncName = document.getElementById('new_encryption');
-    const tempObj = {};
+    const { new_encryption } = finForm;
     const cryptoKey = await newCryptoKey();
     const link = document.createElement("a");
     const content = storeInputs();
-    console.log(content);
     const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
     const encrypted = await encryptToString(contentEncoded, cryptoKey);
     const file = new Blob([encrypted], { type: 'text/plain' });
-    link.href = URL.createObjectURL(file);
-    if (newEncName.value.length >= 1) {
-        link.download = newEncName.value;
+        link.href = URL.createObjectURL(file);
+    if (new_encryption.value.length >= 1) {
+        link.download = new_encryption.value;
         link.click();
     } else {
         link.download = "finance-tracker.txt";

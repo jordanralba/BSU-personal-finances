@@ -78,8 +78,7 @@
                     <div class="row">
                         <div class="col-md-12" id="display-container">
                             <img hidden id="imgDisplay" class="doc-display" src=""/>
-                            <object hidden id="documentDisplay" class="doc-display" ></object> 
-                            <!--svg hidden id="svgDisplay" class="doc-display" data=""></svg-->
+                            <object hidden id="documentDisplay" class="doc-display" data="" ></object> 
                         </div>
                     </div>
                     <div class="row">
@@ -87,7 +86,6 @@
                             <div class="row">
                                 <div class="col-auto">
                                     <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
-                                        <option value=""><i class="sub-label">Choose Document</i></option>
                                         <option value="0">State ID</option>
                                         <option value="1">Auto Insurance</option>
                                         <option value="2">Resume</option>
@@ -100,10 +98,10 @@
                                     <div class="row">
                                         <div class="col">
                                             <label for="important_documents" id="document_upload"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Uploads a file to the slot of the name selected." class="file-upload btn btn-secondary">Upload</label>
-                                            <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
+                                            <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents">
                                         </div>
                                         <div class="col-auto my-auto">
-                                            <button id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></button>
+                                            <a id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></a>
                                         </div> 
                                     </div> 
                                 </div>

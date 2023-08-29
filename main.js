@@ -125,41 +125,80 @@ function updateIncomeStreams(){
         incomeHeads.style.opacity = 100;
     }
 }
-function updateExpenseReport(){
+// function updateExpenseReport(){
+//     const expenseHeads = document.getElementById('h-expense_report');
+//     const expenseInputTable = document.getElementById('expense_report');
+//     for(x=expenseInputTable.firstElementChild.children.length+1;x<=expenseAmount.value;x++){
+//         //stuff to make row
+//         expenseRow(expenseInputTable);
+//     }
+//     for(i=expenseInputTable.firstElementChild.children.length;i > expenseAmount.value;i--){
+//         for(element of expenseInputTable.children){
+//             element.lastChild.remove();
+//         }
+//     }
+//     if(expenseInputTable.firstElementChild.children.length <= 0){
+//         expenseHeads.style.opacity = 0;
+//     }else{
+//         expenseHeads.style.opacity = 100;
+//     }
+// }
+function updateEmergencyContacts(){
+    const contactHeads = document.getElementById('h-emergency_contacts');
+    const contactInputContainer = document.getElementById('emergency_contacts');
+    const eleNames = ['contact_name', 'contact_relationship', 'contact_phone', 'contact_email'];
+    const rowNode = document.createElement('div');
+        rowNode.setAttribute('class', 'row');
+    const colNode = rowNode.cloneNode(true);
+        colNode.setAttribute('class', `col-3 ${eleNames[0]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[1]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[2]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[3]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        
+    for(x=contactInputContainer.children.length+1;x<=contactAmount.value;x++){
+        contactRow(contactInputContainer, rowNode.cloneNode(true));
+    }
+    for(i=contactInputContainer.children.length;i > contactAmount.value;i--){
+        contactInputContainer.lastChild.remove();
+    }
+    if(contactInputContainer.children.length <= 0){
+        contactHeads.style.opacity = 0;
+    }else{
+        contactHeads.style.opacity = 100;
+    }
+}function updateExpenseReport(){
     const expenseHeads = document.getElementById('h-expense_report');
-    const expenseInputTable = document.getElementById('expense_report');
-    for(x=expenseInputTable.firstElementChild.children.length+1;x<=expenseAmount.value;x++){
-        expenseRow(expenseInputTable);
+    const expenseInputContainer = document.getElementById('expense_report');
+    const eleNames = ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'];
+    const rowNode = document.createElement('div');
+        rowNode.setAttribute('class', 'row');
+    const colNode = rowNode.cloneNode(true);
+        colNode.setAttribute('class', `col-3 ${eleNames[0]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[1]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[2]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        colNode.setAttribute('class', `col-3 ${eleNames[3]}`);
+        rowNode.appendChild(colNode.cloneNode(true))
+        
+    for(x=expenseInputContainer.children.length+1;x<=expenseAmount.value;x++){
+        expenseRow(expenseInputContainer, rowNode.cloneNode(true));
     }
-    for(i=expenseInputTable.firstElementChild.children.length;i > expenseAmount.value;i--){
-        for(element of expenseInputTable.children){
-            element.lastChild.remove();
-        }
+    for(i=expenseInputContainer.children.length;i > expenseAmount.value;i--){
+        expenseInputContainer.lastChild.remove();
     }
-    if(expenseInputTable.firstElementChild.children.length <= 0){
+    if(expenseInputContainer.children.length <= 0){
         expenseHeads.style.opacity = 0;
     }else{
         expenseHeads.style.opacity = 100;
     }
 }
-function updateEmergencyContacts(){
-    const contactHeads = document.getElementById('h-emergency_contacts');
-    const contactInputTable = document.getElementById('emergency_contacts');
-    for(x=contactInputTable.firstElementChild.children.length+1;x<=contactAmount.value;x++){
-        contactRow(contactInputTable);
-    }
-    for(i=contactInputTable.firstElementChild.children.length;i > contactAmount.value;i--){
-        for(element of contactInputTable.children){
-            element.lastChild.remove();
-        }
-    }
-    if(contactInputTable.firstElementChild.children.length <= 0){
-        contactHeads.style.opacity = 0;
-    }else{
-        contactHeads.style.opacity = 100;
-    }
-}
-function contactRow(table){
+function contactRow(container, table){
     const inputNode = document.createElement('input');
     const col = table.children[0];
     const col1 = table.children[1];
@@ -180,11 +219,12 @@ function contactRow(table){
             email.setAttribute('type', 'email');
             email.setAttribute('class', 'emergency_contact_email-input');
             col3.appendChild(email.cloneNode(true));
+    container.appendChild(table);
 }
 contactAmount.addEventListener('change', ()=>{
     updateEmergencyContacts();
 });
-function expenseRow(table){
+function expenseRow(container, table){
     const inputNode = document.createElement('input');
     const optionNode = document.createElement('option');
     const col = table.children[0];
@@ -230,6 +270,7 @@ function expenseRow(table){
             payDate.setAttribute('type', 'text');
             payDate.setAttribute('class', 'expense_date-input');
             col3.appendChild(payDate.cloneNode(true));
+        container.appendChild(table);
 }
 expenseAmount.addEventListener('change', ()=>{
     updateExpenseReport();
@@ -522,19 +563,25 @@ function storeInputs(){
             cacheArr.push(input.value);
         }
         storageObj.data[0][column.id] = cacheArr;
-    }for(column of expenseTable.children){
-        const cacheArr = [];
-        for(input of column.children){
-            cacheArr.push(input.value);
-        }
-        storageObj.data[0][column.id] = cacheArr;
-    }for(column of contactTable.children){
-        const cacheArr = [];
-        for(input of column.children){
-            cacheArr.push(input.value);
-        }
-        storageObj.data[0][column.id] = cacheArr;
     }
+    const expenseArr = [];
+    for(row of expenseTable.children){
+        const tempObj = {};
+        for(column of row.children){         
+           const cNames = column.className.split(' ');
+           tempObj[cNames[1]] = column.children[0].value;   
+        }
+        expenseArr.push(tempObj);
+    }storageObj.data[0]['expenses'] = expenseArr;
+    const contactArr = [];
+    for(row of contactTable.children){
+        const tempObj = {};
+        for(column of row.children){         
+           const cNames = column.className.split(' ');
+           tempObj[cNames[1]] = column.children[0].value;   
+        }
+        contactArr.push(tempObj);
+    }storageObj.data[0]['contacts'] = contactArr;
     const docSelectElement = document.getElementById('document_select');
     for(const [index, entry] of Object.entries(docDataObject)){
         
@@ -603,7 +650,7 @@ async function downloadEncryptedFile() {
     const tempObj = {};
     const cryptoKey = await newCryptoKey();
     const link = document.createElement("a");
-    const content = await storeInputs();
+    const content = storeInputs();
     console.log(content);
     const contentEncoded = encoderUTF8.encode(JSON.stringify(content));
     const encrypted = await encryptToString(contentEncoded, cryptoKey);

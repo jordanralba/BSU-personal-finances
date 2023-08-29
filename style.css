@@ -393,6 +393,7 @@ textarea{
 .scroll-container{
     height: 178px;
     scrollbar-gutter: stable;
+    padding: 1rem;
 }
 [id*="h-"] {
     opacity: 0;
