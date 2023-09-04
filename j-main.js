@@ -1,9 +1,9 @@
 //Any elements that will actively do stuff (event listeners)
 const EventSetup = {
-    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow], },
-    accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow], },
-    expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow], },
-    contactAmount: { id: 'emergency_contacts-amount', fn: updateAmount, args: ['contactAmount', 'emergency_contacts', contactRow], },
+    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_resource', 'income_frequency', 'income_amount', 'income_use', ]], },
+    accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow, ['account_institution','account_type','account_number','account_purpose', ]], },
+    expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow, ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'],], },
+    contactAmount: { id: 'contacts-amount', fn: updateAmount, args: ['contactAmount', 'contacts', contactRow, ['contact_name','contact_relationship','contact_phone','contact_email',]], },
     passkeyInput: { id: 'passkey', fn: updateKeyInput, action: 'keyup', },
     passkeyVerify: { id: 'passkey_verify', },
     passkeyError: { id: 'passkey-error', },
@@ -42,29 +42,40 @@ const encoderUTF8 = new TextEncoder('utf-8');
 const decoderUTF8 = new TextDecoder('utf-8');
 const imgReader = new FileReader();
 
-function updateAmount(e, globalConstString = '', type = '', callback = () => { }) {
+function updateAmount(e, globalConstString = '', type = '', callback = () => { }, colNames = []) {
     const ref = window[globalConstString];
     const heads = document.getElementById(`h-${type}`);
     const InputTable = document.getElementById(`${type}`);
-    const { firstElementChild: { children } } = InputTable;
+    const rowName = colNames[0].split('_')[0];
+    const rowNode = document.createElement('div');
+        rowNode.setAttribute('class', `row ${rowName}`);
 
-    for (x = children.length + 1; x <= ref.value; x++) {
-        callback(InputTable);
+    for(colName of colNames){
+        const colNode = document.createElement('div');
+        colNode.setAttribute('class', `col-3`);
+        colNode.setAttribute('data-storage', `${colName}`);
+        rowNode.appendChild(colNode.cloneNode(true))
     }
 
-    for (i = children.length; i > ref.value; i--) {
-        for (element of InputTable.children) {
-            element.lastChild.remove();
-        }
+    //const { firstElementChild: { children } } = InputTable;
+
+    for (x = InputTable.children.length + 1; x <= ref.value; x++) {
+        rowNode.setAttribute('data-index', x-1);
+        InputTable.appendChild(rowNode.cloneNode(true));
+        callback(InputTable.children[x - 1]);
     }
 
-    if (children.length <= 0) {
+    for (i = InputTable.children.length; i > ref.value; i--) {
+        InputTable.lastChild.remove();
+    }
+
+    if (InputTable.children.length <= 0) {
         heads.style.opacity = 0;
     } else {
         heads.style.opacity = 100;
     }
 }
-
+//function deleteRows()
 function populateNode(attributes = [], children = null, parent = null) {
     attributes.forEach(({ element = 'input', ...atts }, index) => {
         const newNode = document.createElement(element);
@@ -79,19 +90,21 @@ function populateNode(attributes = [], children = null, parent = null) {
                     break;
             }
         }
-        
         if (parent) parent.appendChild(newNode);
-        else if (children) children[index]?.appendChild(newNode);
+        else if (children) {
+            console.log(children[index])
+            children[index]?.appendChild(newNode);
+        }
         else console.error('ERROR no children or parent provided for populateNode()')
     })
 }
 
 function contactRow({ children }) {
     const setAttribute = [
-        { type: 'text', class: 'emergency_contact_name-input', },
-        { class: 'emergency_contact_relationship-input', },
-        { type: 'tel', class: 'emergency_contact_phone-input' },
-        { type: 'email', class: 'emergency_contact_email-input' },
+        { type: 'text', class: 'contact_name-input', },
+        { class: 'contact_relationship-input', },
+        { type: 'tel', class: 'contact_phone-input' },
+        { type: 'email', class: 'contact_email-input' },
     ];
     populateNode(setAttribute, children)
 }
@@ -102,7 +115,6 @@ function expenseRow({ children }) {
         {
             element: 'select', class: 'expense_frequency-input',
             children: [
-                { element: 'option', value: 1, text: "One-Time", },
                 { element: 'option', value: 1, text: "Annual", },
                 { element: 'option', value: 2, text: "Semiannually", },
                 { element: 'option', value: 4, text: "Quarterly", },
@@ -114,7 +126,6 @@ function expenseRow({ children }) {
         { type: 'number', class: 'expense_amount-input', },
         { type: 'text', class: 'expense_date-input', },
     ]
-
     populateNode(setAttribute, children)
 }
 
@@ -318,10 +329,10 @@ function calcMonthlySaving() {
 function formDisplayUpdate(json) {
     if (typeof json.data !== 'undefined') {
         const data = json.data;
-        incomeAmount.value = data.resources?.length??0;
-        accountAmount.value = data.institution?.length??0;
-        expenseAmount.value = data.expense_description?.length??0;
-        contactAmount.value = data.emergency_contact_name?.length??0;
+        incomeAmount.value = data.incomes?.length??0;
+        accountAmount.value = data.accounts?.length??0;
+        expenseAmount.value = data.expenses?.length??0;
+        contactAmount.value = data.contacts?.length??0;
         
         updateAmount('', ...EventSetup.incomeAmount.args);
         updateAmount('', ...EventSetup.accountAmount.args);
@@ -329,24 +340,23 @@ function formDisplayUpdate(json) {
         updateAmount('', ...EventSetup.contactAmount.args);
        
         const fillPairs = {
-            resources: '.income_resource-input',
-            frequency: '.income_frequency-input',
-            amounts: '.income_amounts-input',
-            uses: '.income_usage-input',
-            institution: '.account_institution-input',
-            account_types: '.account_purposes-input',
-            account_numbers: '.account_numbers-input',
-            purposes: '.account_types-input',
-            expense_description: '.expense_description-input',
-            expense_frequency: '.expense_frequency-input',
-            expense_amount: '.expense_amount-input',
-            expense_date: '.expense_date-input',
-            emergency_contact_name: '.emergency_contact_name-input',
-            emergency_contact_relationship: '.emergency_contact_relationship-input',
-            emergency_contact_phone: '.emergency_contact_phone-input',
-            emergency_contact_email: '.emergency_contact_email-input',
+            income_resource: 'input.income_resource-input',
+            income_frequency: 'select.income_frequency-input',
+            income_amount: 'input.income_amounts-input',
+            income_use: 'input.income_usage-input',
+            account_institution: 'input.account_institution-input',
+            account_type: 'input.account_types-input',
+            account_number: 'input.account_numbers-input',
+            account_purpose: 'input.account_purposes-input',
+            expense_description: 'input.expense_description-input',
+            expense_frequency: 'select.expense_frequency-input',
+            expense_amount: 'input.expense_amount-input',
+            expense_date: 'input.expense_date-input',
+            contact_name: 'input.contact_name-input',
+            contact_relationship: 'input.contact_relationship-input',
+            contact_phone: 'input.contact_phone-input',
+            contact_email: 'input.contact_email-input',
         }
-
         for (const key of Object.keys(data)) {
             switch (key) {
                 case 'first_name': // let this be a fall-through case
@@ -358,26 +368,25 @@ function formDisplayUpdate(json) {
                     finForm[key].value = data[key];
                     break;
                 default:
-                    if (fillPairs[key]) {
-                        const Inputs = document.querySelectorAll(fillPairs[key]);
-                        for (const [index, resource] of data[key].entries()) {
-                            Inputs[index].value = resource;
+                    if (typeof data[key] === 'object') {
+                        for(const [index, rows] of data[key].entries()){
+                            for (const resource of Object.keys(rows)) {
+                                const Input = document.querySelector(`div.row[data-index='${index}'] ${fillPairs[resource]}`);
+                                Input.value = rows[resource];   
+                            } 
                         }
                     } else console.error(`ERROR key pair: ${key} was not found in function formDisplayUpdate()`)
                     break;
             }
         }
     }
-    console.log("HELLO")
-    if (typeof json.documents !== 'undefined') {
-        console.log('HELLO')
+    if (json.documents?.length) {
         //grabs value and renames to targetDoc
         const { value: targetDoc } = finForm.document_select;
         for (const [index, obj] of Object.entries(json.documents)) {
             const content = Object.entries(obj)
             docDataObject[content[0][0]] = content[0][1];
-        }
-        if (parseInt(targetDoc) >= 0) {
+        }if (parseInt(targetDoc) >= 0) {
             updateDocDisplay(docDataObject[parseInt(targetDoc)]);
         }
     }
@@ -420,15 +429,22 @@ function storeInputs() {
         //it does nothing
     const exceptions = ['data-input'];
     for (const input of document.querySelectorAll("[class*=-input]")) {
-        const { parentElement: { id: pid } } = input;
-
+        const { parentElement, dataset } = input.parentElement;
+        const dataStore = dataset.storage;
+        let y = 0;
         if (exceptions.includes(input.className)) continue;//continue skips this iteration of for loop
         //why compare true instead of breaking on exception?
         if (input.className === 'form-input') {
             storageObj.data[input.id] = input.value;
-        } else if (pid) {
-            if (!remDataSet[pid]) remDataSet[pid] = [];
-            remDataSet[pid].push(input.value);
+        } else if (dataStore) {
+            const pIndex = parentElement.dataset.index;
+            let [saveName, ] = dataStore.split('_');
+            saveName += 's';
+
+            if (!remDataSet[saveName]) remDataSet[saveName] = [];
+            if(remDataSet[saveName].length < pIndex) remDataSet[saveName].length = pIndex;
+
+            remDataSet[saveName][pIndex] = {...remDataSet[saveName][pIndex],[dataStore]: input.value};
         } else console.error(`ERROR no storeInput approach for: ${input.className}`);
     }
     storageObj.data = { ...remDataSet, ...storageObj.data }
@@ -527,8 +543,8 @@ fileReader.onloadend = async function () {
         const decodedData = decoderUTF8.decode(decryptedData);
         console.log(JSON.parse(decodedData))
         formDisplayUpdate(JSON.parse(decodedData));
-    } catch {
+    } catch(error) {
         fileFieldLabel.innerHTML = "Upload Save"
-        console.error("Passkey is Incorrect");
+        console.error(error);
     }
 }

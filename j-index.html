@@ -140,11 +140,8 @@
                         <div class="col-sm-3" ><h5>Amount</h5></div>
                         <div class="col-sm-3" ><h5>Usage(%)</h5></div>
                     </div>
-                    <div class="row scroll-container overflow" id="income_streams">
-                        <div class="col-sm-3" id="resources"></div>
-                        <div class="col-sm-3" id="frequency"></div>
-                        <div class="col-sm-3" id="amounts"></div>
-                        <div class="col-sm-3" id="uses"></div>
+                    <div class="scroll-container overflow" id="income_streams">
+                        
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -177,15 +174,92 @@
                         <div class="col-sm-3" ><h5>Amount</h5></div>
                         <div class="col-sm-3" ><h5>Payment Date</h5></div>
                     </div>
-                    <div class="row scroll-container overflow" id="expense_report">
-                        <div class="col-sm-3" id="expense_description"></div>
-                        <div class="col-sm-3" id="expense_frequency"></div>
-                        <div class="col-sm-3" id="expense_amount"></div>
-                        <div class="col-sm-3" id="expense_date"></div>
+                    <div class="scroll-container overflow" id="expense_report">
+                       
                     </div>
                 </div>
                 <div class="col-md-3"></div>
-            </div>               
+            </div> 
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-md-10 content-Col">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Enter the number of monetary accounts currently open under your name (Includes joint accounts).</span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <p><span class="important-text">Note: </span>We recommend having two checking accounts, one for required spending (bills, housing, etc) and one for discretionary/fun spending, as well as at least one savings account.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!--div class="row">
+                                <div class="col center">
+                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row btn btn-primary "onclick="newInputRow('account');return false;" ></button>
+                                </div>
+                                <div class="col center">
+                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Removes an account row." class="remove-row btn btn-primary "onclick="removeInputRow('account')"></button>
+                                </div>
+                            </div-->
+                            <input type="number" min="0" id="financial_accounts-amount">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" id="h-financial_accounts">
+                                <div class="col-sm-3" ><h5>Institution</h5></div>
+                                <div class="col-sm-3" ><h5>Type</h5></div>
+                                <div class="col-sm-3" ><h5>Account #</h5></div>
+                                <div class="col-sm-3" ><h5>Purpose</h5></div>
+                            </div>
+                            <div class="scroll-container overflow" id="financial_accounts">
+                                
+                            </div>
+                        </div>
+                    </div>             
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 content-Col">
+                    <div class="row">
+                        <div class="col-md-10 content-Col">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label for="contacts-amount">Emergency Contacts:&nbsp;<span class="sub-label">Keep a list of your emergency contacts handy.</span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <p><span class="important-text">Note: </span>You may consider sharing with a roommate or best friend in case of emergency.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" min="0" id="contacts-amount">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" id="h-contacts">
+                                <div class="col-sm-3" ><h5>Name/Company</h5></div>
+                                <div class="col-sm-3" ><h5>Relationship</h5></div>
+                                <div class="col-sm-3" ><h5>Phone #</h5></div>
+                                <div class="col-sm-3" ><h5>Email</h5></div>
+                            </div>
+                            <div class="scroll-container overflow" id="contacts">
+                                
+                            </div>
+                        </div>
+                    </div>             
+                </div>
+                <div class="col-md-3"></div>
+            </div>              
             <!--    
                 Eventually
                     -> Based on fixed nationwide average || Based on user's estimated weekly spending
@@ -267,92 +341,7 @@
                 <div class="col-md-3"></div>
             </div> 
             
-            <div class="row input-row">
-                <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
-                    <div class="row">
-                        <div class="col-md-10 content-Col">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Enter the number of monetary accounts currently open under your name (Includes joint accounts).</span></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <p><span class="important-text">Note: </span>We recommend having two checking accounts, one for required spending (bills, housing, etc) and one for discretionary/fun spending, as well as at least one savings account.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <!--div class="row">
-                                <div class="col center">
-                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row btn btn-primary "onclick="newInputRow('account');return false;" ></button>
-                                </div>
-                                <div class="col center">
-                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Removes an account row." class="remove-row btn btn-primary "onclick="removeInputRow('account')"></button>
-                                </div>
-                            </div-->
-                            <input type="number" min="0" id="financial_accounts-amount">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row" id="h-financial_accounts">
-                                <div class="col-sm-3" ><h5>Institution</h5></div>
-                                <div class="col-sm-3" ><h5>Type</h5></div>
-                                <div class="col-sm-3" ><h5>Account #</h5></div>
-                                <div class="col-sm-3" ><h5>Purpose</h5></div>
-                            </div>
-                            <div class="row scroll-container overflow" id="financial_accounts">
-                                <div class="col-sm-3" id="institution"></div>
-                                <div class="col-sm-3" id="account_types"></div>
-                                <div class="col-sm-3" id="account_numbers"></div>
-                                <div class="col-sm-3" id="purposes"></div>
-                            </div>
-                        </div>
-                    </div>             
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-            <div class="row input-row">
-                <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
-                    <div class="row">
-                        <div class="col-md-10 content-Col">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <label for="emergency_contacts-amount">Emergency Contacts:&nbsp;<span class="sub-label">Keep a list of your emergency contacts handy.</span></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <p><span class="important-text">Note: </span>You may consider sharing with a roommate or best friend in case of emergency.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="number" min="0" id="emergency_contacts-amount">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row" id="h-emergency_contacts">
-                                <div class="col-sm-3" ><h5>Name/Company</h5></div>
-                                <div class="col-sm-3" ><h5>Relationship</h5></div>
-                                <div class="col-sm-3" ><h5>Phone #</h5></div>
-                                <div class="col-sm-3" ><h5>Email</h5></div>
-                            </div>
-                            <div class="row scroll-container overflow" id="emergency_contacts">
-                                <div class="col-sm-3" id="emergency_contact_name"></div>
-                                <div class="col-sm-3" id="emergency_contact_relationship"></div>
-                                <div class="col-sm-3" id="emergency_contact_phone"></div>
-                                <div class="col-sm-3" id="emergency_contact_email"></div>
-                            </div>
-                        </div>
-                    </div>             
-                </div>
-                <div class="col-md-3"></div>
-            </div>
+            
         
         <!--form id="data-form"-->
             <div class="row input-row orange_right-splash">

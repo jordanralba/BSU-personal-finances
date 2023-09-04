@@ -9,7 +9,7 @@ Using either IndexedDB or Cache api
 const incomeAmount = document.getElementById('income_streams-amount');
 const accountAmount = document.getElementById('financial_accounts-amount');
 const expenseAmount = document.getElementById('expense_report-amount');
-const contactAmount = document.getElementById('emergency_contacts-amount');
+const contactAmount = document.getElementById('contacts-amount');
 //Move these into their respective functions calling from finForm
 
 const passkeyInput = document.getElementById('passkey');
@@ -143,12 +143,13 @@ function updateIncomeStreams(){
 //         expenseHeads.style.opacity = 100;
 //     }
 // }
-function updateEmergencyContacts(){
-    const contactHeads = document.getElementById('h-emergency_contacts');
-    const contactInputContainer = document.getElementById('emergency_contacts');
+function updateContacts(){
+    const contactHeads = document.getElementById('h-contacts');
+    const contactInputContainer = document.getElementById('contacts');
     const eleNames = ['contact_name', 'contact_relationship', 'contact_phone', 'contact_email'];
+    const element = 'contact';
     const rowNode = document.createElement('div');
-        rowNode.setAttribute('class', 'row');
+        rowNode.setAttribute('class', `row ${element}`);
     const colNode = rowNode.cloneNode(true);
         colNode.setAttribute('class', `col-3 ${eleNames[0]}`);
         rowNode.appendChild(colNode.cloneNode(true))
@@ -174,8 +175,9 @@ function updateEmergencyContacts(){
     const expenseHeads = document.getElementById('h-expense_report');
     const expenseInputContainer = document.getElementById('expense_report');
     const eleNames = ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'];
+    const element = 'expense';
     const rowNode = document.createElement('div');
-        rowNode.setAttribute('class', 'row');
+        rowNode.setAttribute('class', `row ${element}`);
     const colNode = rowNode.cloneNode(true);
         colNode.setAttribute('class', `col-3 ${eleNames[0]}`);
         rowNode.appendChild(colNode.cloneNode(true))
@@ -206,23 +208,23 @@ function contactRow(container, table){
     const col3 = table.children[3];
         const contactName = inputNode.cloneNode(true);
             contactName.setAttribute('type', 'text');
-            contactName.setAttribute('class', 'emergency_contact_name-input');
+            contactName.setAttribute('class', 'contact_name-input');
                 col.appendChild(contactName.cloneNode(true));
             const relationship = contactName.cloneNode(true);
-                relationship.setAttribute('class', 'emergency_contact_relationship-input');
+                relationship.setAttribute('class', 'contact_relationship-input');
                 col1.appendChild(relationship.cloneNode(true));
         const phone = relationship.cloneNode(true);
             phone.setAttribute('type', 'tel');
-            phone.setAttribute('class', 'emergency_contact_phone-input');
+            phone.setAttribute('class', 'contact_phone-input');
                 col2.appendChild(phone.cloneNode(true));
         const email = phone.cloneNode(true);
             email.setAttribute('type', 'email');
-            email.setAttribute('class', 'emergency_contact_email-input');
+            email.setAttribute('class', 'contact_email-input');
             col3.appendChild(email.cloneNode(true));
     container.appendChild(table);
 }
 contactAmount.addEventListener('change', ()=>{
-    updateEmergencyContacts();
+    updateContacts();
 });
 function expenseRow(container, table){
     const inputNode = document.createElement('input');
@@ -547,23 +549,23 @@ function storeInputs(){
     const incomeTable = document.getElementById('income_streams');
     const accountTable = document.getElementById('financial_accounts');
     const expenseTable = document.getElementById('expense_report');
-    const contactTable = document.getElementById('emergency_contacts');
+    const contactTable = document.getElementById('contacts');
     const storageObj = {data:[{}], documents:[]};
     for(input of finForm.getElementsByClassName('form-input')){
         storageObj.data[0][input.id] = input.value;
-    }for(column of incomeTable.children){
-        const cacheArr = [];
-        for(input of column.children){
-            cacheArr.push(input.value);
-        }
-        storageObj.data[0][column.id] = cacheArr;
-    }for(column of accountTable.children){
-        const cacheArr = [];
-        for(input of column.children){
-            cacheArr.push(input.value);
-        }
-        storageObj.data[0][column.id] = cacheArr;
-    }
+    }//for(column of incomeTable.children){
+    //     const cacheArr = [];
+    //     for(input of column.children){
+    //         cacheArr.push(input.value);
+    //     }
+    //     storageObj.data[0][column.id] = cacheArr;
+    // }for(column of accountTable.children){
+    //     const cacheArr = [];
+    //     for(input of column.children){
+    //         cacheArr.push(input.value);
+    //     }
+    //     storageObj.data[0][column.id] = cacheArr;
+    // }
     const expenseArr = [];
     for(row of expenseTable.children){
         const tempObj = {};
