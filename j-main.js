@@ -1,8 +1,12 @@
 //Any elements that will actively do stuff (event listeners)
 const EventSetup = {
-    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_resource', 'income_frequency', 'income_amount', 'income_use', ]], },
+    addIncomeRow: { id: 'add-income', fn: addRow, action: 'click', args: ['incomeAmount', ], },
+    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_name', 'income_frequency', 'income_amount', 'income_use', ]], },
+    addAccountRow: { id: 'add-account', fn: addRow, action: 'click', args: ['accountAmount', ], },
     accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow, ['account_institution','account_type','account_number','account_purpose', ]], },
+    addExpenseRow: { id: 'add-expense', fn: addRow, action: 'click', args: ['expenseAmount', ], },
     expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow, ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'],], },
+    addContactRow: { id: 'add-contact', fn: addRow, action: 'click', args: ['contactAmount', ], },
     contactAmount: { id: 'contacts-amount', fn: updateAmount, args: ['contactAmount', 'contacts', contactRow, ['contact_name','contact_relationship','contact_phone','contact_email',]], },
     passkeyInput: { id: 'passkey', fn: updateKeyInput, action: 'keyup', },
     passkeyVerify: { id: 'passkey_verify', },
@@ -92,7 +96,6 @@ function populateNode(attributes = [], children = null, parent = null) {
         }
         if (parent) parent.appendChild(newNode);
         else if (children) {
-            console.log(children[index])
             children[index]?.appendChild(newNode);
         }
         else console.error('ERROR no children or parent provided for populateNode()')
@@ -142,7 +145,7 @@ function accountRow({ children }) {
 
 function incomeRow({ children }) {
     const setAttribute = [
-        { type: 'text', class: 'income_resource-input', },
+        { type: 'text', class: 'income_name-input', },
         {
             element: 'select', class: 'income_frequency-input',
             children: [
@@ -159,8 +162,24 @@ function incomeRow({ children }) {
     ]
 
     populateNode(setAttribute, children)
-}
+}   
+function addRow(e, globalConstString = '', ){
+   
+    window[globalConstString].value = parseInt(window[globalConstString].value) + 1;
+    console.log(EventSetup[globalConstString])
+    console.log(window[globalConstString])
+    updateAmount('', ...EventSetup[globalConstString].args);
+} 
 
+
+    incomeAmount.value = 3
+    accountAmount.value = 3
+    expenseAmount.value = 3
+    contactAmount.value = 3
+    updateAmount('', ...EventSetup.incomeAmount.args);
+    updateAmount('', ...EventSetup.accountAmount.args);
+    updateAmount('', ...EventSetup.expenseAmount.args);
+    updateAmount('', ...EventSetup.contactAmount.args);
 function updateKeyInput() {
     let { classList } = fileFieldLabel;
     const { value: passwordString } = passkeyInput;
@@ -340,7 +359,7 @@ function formDisplayUpdate(json) {
         updateAmount('', ...EventSetup.contactAmount.args);
        
         const fillPairs = {
-            income_resource: 'input.income_resource-input',
+            income_name: 'input.income_name-input',
             income_frequency: 'select.income_frequency-input',
             income_amount: 'input.income_amounts-input',
             income_use: 'input.income_usage-input',

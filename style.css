@@ -180,6 +180,9 @@ body{
 main{
     overflow-x: hidden;
 }
+.input-row{
+    margin-bottom: 8rem;
+}
 
 
 .content-Col>.row{
@@ -229,34 +232,26 @@ main{
     border-color: #53565a #fff #0033A0;
 } */
 
-.orangeright-splash{
-    background-color: #d64309;
-    color: #fff;
-    transform: translate(calc(100%/12));    
-    padding: 32px;
-    padding-right: 0;
-}
-
 .lg_right-splash, .lg_left-splash{
     background-color: #f6f7f9;
     color: #141827;
     transform: translate(calc(100%/12));
 }.lg_left-splash{
-    transform: translate(calc(100%/-4));
+    transform: translate(calc(100%/-6));
 }
 .lg_right-splash>*, .orange_right-splash>*{
-    padding-top: calc(.5 * var(--bs-gutter-x));
+    padding-top: 4rem;
 }
 
 .orange_left-splash, .orange_right-splash{
     background-color: #d64309;
     color: #FFF;
-    transform: translate(calc(100%/-4));
+    transform: translate(calc(100%/-6));
 }.orange_right-splash{
     transform: translate(calc(100%/12));
 }
 .orange_left-splash>*, .lg_left-splash>*{
-    padding-top: calc(.5 * var(--bs-gutter-x));
+    padding-top: 4rem;
 }
 
 
@@ -394,6 +389,7 @@ textarea{
     height: 178px;
     scrollbar-gutter: stable;
     padding: 0 .5rem;
+    margin-bottom: 1rem;
 }
 [id*="h-"] {
     opacity: 0;
@@ -407,7 +403,7 @@ input[type=file]{
 }
 .btn, .file-upload, .file-download, #document_select{
     font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
-    transition: all .15s ease-in-out;
+    transition: all .05s ease-in-out;
     width: auto;
     max-width: 100%;
     display: inline-block;
@@ -423,6 +419,12 @@ input[type=file]{
     text-align: center;
     border-radius: 0;   
     margin-bottom: 8px; 
+}
+.add-row{
+    color:#d64309;
+    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
+    letter-spacing: 2px;
+    transition: all .05s ease-in-out;
 }
 #document_select{
     max-height: 100%;
@@ -460,7 +462,7 @@ input[type=file]{
     margin: 2.5px 0 1.5px;
     padding: 16px;
     width: auto;
-}.file-download, .add-row, .remove-row{
+}.file-download{
     padding: 16px;
 }
 .btn-calc::after{
@@ -479,12 +481,19 @@ input[type=file]{
     border: solid 2px;
     border-color: transparent #fff transparent transparent;
 }
-.add-row::after, .remove-row::after{
-    background: url(media/plus-icon.svg) 100% no-repeat;
+.add-row{
+    position: relative;
+}
+.add-row::after{
+    background: url(media/plus-orange-icon.svg) 100% no-repeat;
     background-size: contain;
+    display: block;
+    position: absolute;
     height: 24px;
     width: 24px;
-    right: 5px;
+    right: -32px;
+    transition: all .095s ease-in-out;
+
 }
 .btn-primary:hover:after, .btn-secondary:hover:after {
     right: 14px;
@@ -494,7 +503,7 @@ input[type=file]{
     right: 4px;
 }
 .add-row:hover:after, .remove-row:hover:after{
-    right: 3px;
+    right: -28px;
 }
 .btn-secondary{
     background-color: #0033A0;
