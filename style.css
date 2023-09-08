@@ -179,25 +179,26 @@ input,select,textarea {
     width: 1rem;
     background: url(media/Empty.png);
 }
-.scroll-container::-webkit-scrollbar{
-    width: .75rem;
-    background: url(media/Empty.png)
-}
 body::-webkit-scrollbar-thumb{
     background: rgba(0,51,160,1);
     border: 4px solid;
     border-color: #fff;
     border-radius: 12px;
-}.scroll-container::-webkit-scrollbar-track{
-    background: #fff;
 }body::-webkit-scrollbar-track{
    background: url(media/Empty.png)
- }.scroll-container::-webkit-scrollbar-thumb{
+ }*/
+.scroll-container::-webkit-scrollbar-track{
+    background: #fff;
+}
+.scroll-container::-webkit-scrollbar{
+    width: .75rem;
+    background: url(media/Empty.png)
+}.scroll-container::-webkit-scrollbar-thumb{
     background:#0033A0;
     border: 4px solid;
     border-color: #fff;
     border-radius: 8px;
- } */
+ } 
 
 body{
     color: #141827;
@@ -211,7 +212,21 @@ body{
 .input-row{
     margin-bottom: 4rem;
 }
-
+.income, .expense, .contact, .account, [id*="h-"]{
+    position: relative;
+    margin-left: 24px;
+}.delete-row{
+    content: "";
+    height: 28px;
+    width: 28px;
+    background: url(media/plus-blue-icon.svg) 100% no-repeat;
+    background-size: contain;
+    display: block;
+    position: absolute;
+    left: -24px;
+    top: 16px;
+    rotate: 45deg;
+}
 
 .content-Col>.row{
     /* padding-bottom: calc(.5 * var(--bs-gutter-x)); */

@@ -1,7 +1,7 @@
 //Any elements that will actively do stuff (event listeners)
 const EventSetup = {
     addIncomeRow: { id: 'add-income', fn: addRow, action: 'click', args: ['incomeAmount', ], },
-    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_name', 'income_frequency', 'income_amount', 'income_use', ]], },
+    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_name', 'income_frequency', 'income_amount', 'income_use', ], deleteRow], },
     addAccountRow: { id: 'add-account', fn: addRow, action: 'click', args: ['accountAmount', ], },
     accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow, ['account_institution','account_type','account_number','account_purpose', ]], },
     addExpenseRow: { id: 'add-expense', fn: addRow, action: 'click', args: ['expenseAmount', ], },
@@ -32,7 +32,13 @@ for (const key of Object.keys(EventSetup)) {
 
     if (!ele) console.error(`ERROR no element found for ${id || className}`);
 
-    if (typeof fn == 'function') ele?.addEventListener(action, (e) => fn(e, ...args)); // if the function and element exists add an Event Listener
+    if (typeof fn == 'function' && !className) {
+        ele?.addEventListener(action, (e) => fn(e, ...args)); // if the function and element exists add an Event Listener
+    }/*else if(typeof fn == 'function' && !id){
+        for(el of ele){
+            ele?.addEventListener(action, (e) => fn(e, ...args));
+        }
+    }*/
     window[key] = ele; // converts variable to global
 }
 
@@ -46,26 +52,30 @@ const encoderUTF8 = new TextEncoder('utf-8');
 const decoderUTF8 = new TextDecoder('utf-8');
 const imgReader = new FileReader();
 
-function updateAmount(e, globalConstString = '', type = '', callback = () => { }, colNames = []) {
+function updateAmount(e, globalConstString = '', type = '', callback = () => { }, colNames = [], eventCallback = () => { },) {
     const ref = window[globalConstString];
     const heads = document.getElementById(`h-${type}`);
     const InputTable = document.getElementById(`${type}`);
     const rowName = colNames[0].split('_')[0];
     const rowNode = document.createElement('div');
         rowNode.setAttribute('class', `row ${rowName}`);
-
+    const deleteNode = document.createElement('span');
+        deleteNode.setAttribute('class', 'delete-row');
     for(colName of colNames){
         const colNode = document.createElement('div');
         colNode.setAttribute('class', `col-3`);
         colNode.setAttribute('data-storage', `${colName}`);
         rowNode.appendChild(colNode.cloneNode(true))
     }
-
+    rowNode.appendChild(deleteNode.cloneNode(true));
     //const { firstElementChild: { children } } = InputTable;
-
+    
     for (x = InputTable.children.length + 1; x <= ref.value; x++) {
         rowNode.setAttribute('data-index', x-1);
+        
         InputTable.appendChild(rowNode.cloneNode(true));
+        //InputTable.children[x - 1].addEventListener('click', (e) => eventCallback(e, ref))
+        InputTable.children[x - 1].children[4].addEventListener('click', (e) => eventCallback(e, ref))
         callback(InputTable.children[x - 1]);
     }
 
@@ -79,7 +89,6 @@ function updateAmount(e, globalConstString = '', type = '', callback = () => { }
         heads.style.opacity = 100;
     }
 }
-//function deleteRows()
 function populateNode(attributes = [], children = null, parent = null) {
     attributes.forEach(({ element = 'input', ...atts }, index) => {
         const newNode = document.createElement(element);
@@ -118,6 +127,7 @@ function expenseRow({ children }) {
         {
             element: 'select', class: 'expense_frequency-input',
             children: [
+                { element: 'option', value: '', text: "", },
                 { element: 'option', value: 1, text: "Annual", },
                 { element: 'option', value: 2, text: "Semiannually", },
                 { element: 'option', value: 4, text: "Quarterly", },
@@ -149,6 +159,7 @@ function incomeRow({ children }) {
         {
             element: 'select', class: 'income_frequency-input',
             children: [
+                { element: 'option', value: '', text: "", },
                 { element: 'option', value: 1, text: "Annual", },
                 { element: 'option', value: 2, text: "Semiannually", },
                 { element: 'option', value: 4, text: "Quarterly", },
@@ -171,15 +182,22 @@ function addRow(e, globalConstString = '', ){
     updateAmount('', ...EventSetup[globalConstString].args);
 } 
 
+    //populate the DOM with 3 rows on load
+        incomeAmount.value = 3
+        accountAmount.value = 3
+        expenseAmount.value = 3
+        contactAmount.value = 3
+        updateAmount('', ...EventSetup.incomeAmount.args);
+        updateAmount('', ...EventSetup.accountAmount.args);
+        updateAmount('', ...EventSetup.expenseAmount.args);
+        updateAmount('', ...EventSetup.contactAmount.args);
 
-    incomeAmount.value = 3
-    accountAmount.value = 3
-    expenseAmount.value = 3
-    contactAmount.value = 3
-    updateAmount('', ...EventSetup.incomeAmount.args);
-    updateAmount('', ...EventSetup.accountAmount.args);
-    updateAmount('', ...EventSetup.expenseAmount.args);
-    updateAmount('', ...EventSetup.contactAmount.args);
+function deleteRow(e, ref){
+    e.target.parentElement.remove();
+    ref.value -= 1;
+    
+}
+
 function updateKeyInput() {
     let { classList } = fileFieldLabel;
     const { value: passwordString } = passkeyInput;
@@ -456,12 +474,14 @@ function storeInputs() {
         if (input.className === 'form-input') {
             storageObj.data[input.id] = input.value;
         } else if (dataStore) {
-            const pIndex = parentElement.dataset.index;
+            //const pIndex = parentElement.dataset.index;
+            const pKids = Array.from(parentElement.parentElement.children);
+            const pIndex = pKids.indexOf(parentElement);
             let [saveName, ] = dataStore.split('_');
             saveName += 's';
 
             if (!remDataSet[saveName]) remDataSet[saveName] = [];
-            if(remDataSet[saveName].length < pIndex) remDataSet[saveName].length = pIndex;
+            if(remDataSet[saveName].length < pIndex) remDataSet[saveName].length = tIndex;
 
             remDataSet[saveName][pIndex] = {...remDataSet[saveName][pIndex],[dataStore]: input.value};
         } else console.error(`ERROR no storeInput approach for: ${input.className}`);
