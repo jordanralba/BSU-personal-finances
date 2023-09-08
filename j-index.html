@@ -5,6 +5,9 @@
         <title>Personal Finances</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="https://www.boisestate.edu/fonts/676231/C8612EDDB130C2D35.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+          </style>
         <link async="true" rel="stylesheet" href="style.css">
         <link rel="shortcut icon" href="media/favicon.ico">
     </head>
@@ -133,7 +136,7 @@
                         </div>
                     </div>
                     
-                    <div class="row scroll-container" id="h-income_streams">
+                    <div class="row scroll-gutter" id="h-income_streams">
                         <div class="col-3" ><h5>Name</h5></div>
                         <div class="col-3" ><h5>Frequency</h5></div>
                         <div class="col-3"><h5>Amount</h5></div>
@@ -145,7 +148,7 @@
                             <div class="scroll-container " id="income_streams"></div>  
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row scroll-gutter">
                         <div class="col-3"></div>
                         <div class="col-6 center">
                             <span id="add-income" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" class="add-row" data-bs-original-title="Adds a new income row.">Add Source</span>
@@ -175,7 +178,7 @@
                         </div>
                     </div>
                     
-                    <div class="row scroll-container" id="h-expense_report">
+                    <div class="row scroll-gutter" id="h-expense_report">
                         <div class="col-3" ><h5>Details</h5></div>
                         <div class="col-3" ><h5>Frequency</h5></div>
                         <div class="col-3" ><h5>Amount</h5></div>
@@ -187,7 +190,7 @@
                             <div class="scroll-container " id="expense_report"></div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row scroll-gutter">
                         <div class="col-3"></div>
                         <div class="col-6 center">
                             <span id="add-expense" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new expense row." class="add-row" >Add Expense</a>
@@ -217,7 +220,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="row scroll-container" id="h-financial_accounts">
+                            <div class="row scroll-gutter" id="h-financial_accounts">
                                 <div class="col-3" ><h5>Institution</h5></div>
                                 <div class="col-3" ><h5>Type</h5></div>
                                 <div class="col-3" ><h5>Account #</h5></div>
@@ -232,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row scroll-gutter">
                         <div class="col-3"></div>
                         <div class="col-6 center">
                             <span id="add-account" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row" >Add Account</a>
@@ -262,7 +265,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="row scroll-container" id="h-contacts">
+                            <div class="row scroll-gutter" id="h-contacts">
                                 <div class="col-3" ><h5>Name</h5></div>
                                 <div class="col-3" ><h5>Relationship</h5></div>
                                 <div class="col-3" ><h5>Phone #</h5></div>
@@ -273,13 +276,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 scroll-container" id="contacts" >
-                            
+                        <div class="col-12">
+                            <div class="scroll-container" id="contacts"></div>
                         </div>
                     </div>   
-                    <div class="row">
-                        <div class="col-3" ></div>
-                        <div class="col-6 center" >
+                    <div class="row scroll-gutter">
+                        <div class="col-3"></div>
+                        <div class="col-6 center">
                             <span id="add-contact" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new contact row." class="add-row" >Add Contact</span>
                             <input type="hidden" min="0" id="contacts-amount">
                         </div>

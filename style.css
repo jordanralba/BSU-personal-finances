@@ -187,14 +187,15 @@ body::-webkit-scrollbar-thumb{
 }body::-webkit-scrollbar-track{
    background: url(media/Empty.png)
  }*/
-.scroll-container::-webkit-scrollbar-track{
+[class*="scroll-"]::-webkit-scrollbar-track{
     background: #fff;
 }
-.scroll-container::-webkit-scrollbar{
+[class*="scroll-"]::-webkit-scrollbar{
     width: .75rem;
     background: url(media/Empty.png)
-}.scroll-container::-webkit-scrollbar-thumb{
+}[class*="scroll-"]::-webkit-scrollbar-thumb{
     background:#0033A0;
+    /* background:#d64309; */
     border: 4px solid;
     border-color: #fff;
     border-radius: 8px;
@@ -214,17 +215,18 @@ body{
 }
 .income, .expense, .contact, .account, [id*="h-"]{
     position: relative;
-    margin-left: 24px;
+    margin-right: 26px;
 }.delete-row{
     content: "";
     height: 28px;
     width: 28px;
-    background: url(media/plus-blue-icon.svg) 100% no-repeat;
+    background: url(media/plus-orange-icon.svg) 100% no-repeat;
+    /* background: url(media/plus-blue-icon.svg) 100% no-repeat; */
     background-size: contain;
     display: block;
     position: absolute;
-    left: -24px;
-    top: 16px;
+    right: -24px;
+    top: 12px;
     rotate: 45deg;
 }
 
@@ -425,16 +427,20 @@ textarea{
 #document_upload{
     width: 100%;
 }
+
+[class*="scroll-"]{
+    overflow-x:hidden;
+    overflow-y:auto;
+    scrollbar-gutter: stable;
+}
 .scroll-container{
     height: 184px;
-    overflow-x:hidden;
-    overflow-y:auto;  
-    scrollbar-gutter: stable;  
+}.scroll-gutter{
+    margin-right: 26px;
 }
 [id*="h-"] {
     opacity: 0;
     text-align: center;
-    height: auto;
 }
 input[type=file]{
     display: none;
@@ -461,12 +467,16 @@ input[type=file]{
     border-radius: 0;   
     margin-bottom: 8px; 
 }
+
 .add-row{
     color:#d64309;
-    font: normal 600 16px/1 Gotham A,Gotham B,Helvetica,Arial,sans-serif;
-    letter-spacing: 2px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .06rem;
     transition: all .05s ease-in-out;
 }
+
 #document_select{
     max-height: 100%;
     padding-right: 14px;

@@ -1,13 +1,13 @@
 //Any elements that will actively do stuff (event listeners)
 const EventSetup = {
     addIncomeRow: { id: 'add-income', fn: addRow, action: 'click', args: ['incomeAmount', ], },
-    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_name', 'income_frequency', 'income_amount', 'income_use', ], deleteRow], },
+    incomeAmount: { id: 'income_streams-amount', fn: updateAmount, args: ['incomeAmount', 'income_streams', incomeRow, ['income_name', 'income_frequency', 'income_amount', 'income_use', ], deleteRow,], },
     addAccountRow: { id: 'add-account', fn: addRow, action: 'click', args: ['accountAmount', ], },
-    accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow, ['account_institution','account_type','account_number','account_purpose', ]], },
+    accountAmount: { id: 'financial_accounts-amount', fn: updateAmount, args: ['accountAmount', 'financial_accounts', accountRow, ['account_institution','account_type','account_number','account_purpose', ], deleteRow,], },
     addExpenseRow: { id: 'add-expense', fn: addRow, action: 'click', args: ['expenseAmount', ], },
-    expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow, ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'],], },
+    expenseAmount: { id: 'expense_report-amount', fn: updateAmount, args: ['expenseAmount', 'expense_report', expenseRow, ['expense_description', 'expense_frequency', 'expense_amount', 'expense_date'], deleteRow,], },
     addContactRow: { id: 'add-contact', fn: addRow, action: 'click', args: ['contactAmount', ], },
-    contactAmount: { id: 'contacts-amount', fn: updateAmount, args: ['contactAmount', 'contacts', contactRow, ['contact_name','contact_relationship','contact_phone','contact_email',]], },
+    contactAmount: { id: 'contacts-amount', fn: updateAmount, args: ['contactAmount', 'contacts', contactRow, ['contact_name','contact_relationship','contact_phone','contact_email',], deleteRow,], },
     passkeyInput: { id: 'passkey', fn: updateKeyInput, action: 'keyup', },
     passkeyVerify: { id: 'passkey_verify', },
     passkeyError: { id: 'passkey-error', },
