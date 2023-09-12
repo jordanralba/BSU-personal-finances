@@ -15,7 +15,9 @@ const EventSetup = {
     fileField: { id: 'encrypted_file', fn: updateFileField },
     importantDocs: { id: 'important_documents', fn: uploadDocument },
     docSelect: { id: 'document_select', fn: selectDocument },
+    editDocSelect: {id: 'edit_documents', fn: newDocumentOption, action: 'click', args: ['docSelect', 'new_document_name']},
     docDisplays: { className: 'doc-display' },
+    newDocName: { id: 'new_document_name', },
 }
 
 // populate global varables, and add event listeners
@@ -109,6 +111,19 @@ function populateNode(attributes = [], children = null, parent = null) {
         }
         else console.error('ERROR no children or parent provided for populateNode()')
     })
+}
+
+function newDocumentOption(e, globalConstString = '', nameInput = '',){
+    const selectInput = window[globalConstString];
+    const setAttribute = [];
+        if(window[nameInput]){
+            const attrs = {element: 'option', value:window[nameInput].value, text: window[nameInput].value}
+            setAttribute.push(attrs);
+        } else{
+            const attrs = {element: 'option', value:nameInput, text: nameInput};            
+            setAttribute.push(attrs);
+        }
+    populateNode(setAttribute, null, selectInput)
 }
 
 function contactRow({ children }) {
@@ -421,11 +436,17 @@ function formDisplayUpdate(json) {
         //grabs value and renames to targetDoc
         const { value: targetDoc } = finForm.document_select;
         for (const [index, obj] of Object.entries(json.documents)) {
-            const content = Object.entries(obj)
+            const content = Object.entries(obj);
             docDataObject[content[0][0]] = content[0][1];
-        }if (parseInt(targetDoc) >= 0) {
-            updateDocDisplay(docDataObject[parseInt(targetDoc)]);
+            const optValues = [];
+            for( docOption of docSelect.options){
+                optValues.push(docOption.value)
+            }
+            if(!optValues.includes(content[0][0])) newDocumentOption(null, 'docSelect', content[0][0]);
         }
+        
+        if(targetDoc) updateDocDisplay(docDataObject[targetDoc]);
+
     }
 }
 
@@ -488,10 +509,10 @@ function storeInputs() {
     }
     storageObj.data = { ...remDataSet, ...storageObj.data }
 
-    const { options } = finForm.document_select;
+    //const { options } = finForm.document_select;
 
     for (const [index, entry] of Object.entries(docDataObject)) {
-        entry.name = options[index].innerText;
+        //entry.name = options[entry].innerText;
         const tempObj = {}
         tempObj[index] = entry
         storageObj.documents.push(tempObj);

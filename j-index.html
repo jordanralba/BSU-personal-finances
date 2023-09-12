@@ -88,24 +88,31 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-auto">
-                                    <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
-                                        <option value="0">State ID</option>
-                                        <option value="1">Auto Insurance</option>
-                                        <option value="2">Resume</option>
-                                        <option value="3">Cover Letter</option>
-                                        <option value="4">Diploma</option>
-                                        <option value="5">Certification #1</option>
-                                        <option value="6">Certification #2</option>
-                                        <option value="7">Certification #3</option>
-                                    </select>
                                     <div class="row">
                                         <div class="col">
+                                            <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
+                                                <option value="State ID">State ID</option>
+                                                <option value="Auto Insurance">Auto Insurance</option>
+                                                <option value="Resume">Resume</option>
+                                                <option value="Cover Letter">Cover Letter</option>
+                                                <option value="Diploma">Diploma</option>
+                                            </select>
+                                            <span id="edit_documents" class="new-document"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="new_document_name" name="new_document_name" />
+                                            <label class="sub-label" for="new_document_name">Document Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-auto">
                                             <label for="important_documents" id="document_upload"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Uploads a file to the slot of the name selected." class="file-upload btn btn-secondary">Upload</label>
                                             <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents">
                                         </div>
                                         <div class="col-auto my-auto">
                                             <a id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></a>
                                         </div> 
+                                        
                                     </div> 
                                 </div>
                                                                                                

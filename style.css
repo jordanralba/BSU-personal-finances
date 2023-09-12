@@ -216,6 +216,7 @@ body{
 .income, .expense, .contact, .account, [id*="h-"]{
     position: relative;
     margin-right: 26px;
+    margin-bottom: 2px;
 }.delete-row{
     content: "";
     height: 28px;
@@ -427,6 +428,9 @@ textarea{
 #document_upload{
     width: 100%;
 }
+#new_document_name{
+    background-color: #fff;
+}
 
 [class*="scroll-"]{
     overflow-x:hidden;
@@ -434,7 +438,7 @@ textarea{
     scrollbar-gutter: stable;
 }
 .scroll-container{
-    height: 184px;
+    height: 192px;
 }.scroll-gutter{
     margin-right: 26px;
 }
@@ -532,7 +536,7 @@ input[type=file]{
     border: solid 2px;
     border-color: transparent #fff transparent transparent;
 }
-.add-row{
+.add-row, .new-document{
     position: relative;
 }
 .add-row::after{
@@ -544,7 +548,15 @@ input[type=file]{
     width: 24px;
     right: -32px;
     transition: all .095s ease-in-out;
-
+}
+.new-document::after{
+    content: "";
+    background: url(media/edit-blue-icon.svg) 100% no-repeat;
+    background-size: contain;
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    right: -32px
 }
 .btn-primary:hover:after, .btn-secondary:hover:after {
     right: 14px;
