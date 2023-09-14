@@ -15,3 +15,10 @@ Use destructuring syntax
 	Match variable name to the HTMLInputElement name attribute
 
 LazyLoad the fonts to not delay render
+
+Populate selectElement after selecting a name AND a file.
+	Use null value and a Add New indicator to show intent for saving a new file
+	User can edit or delete existing options 
+
+Visually separate document display from its parent box 
+	move download button to top right
