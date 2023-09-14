@@ -5,11 +5,14 @@
         <title>Personal Finances</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="https://www.boisestate.edu/fonts/676231/C8612EDDB130C2D35.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+          </style>
         <link async="true" rel="stylesheet" href="style.css">
         <link rel="shortcut icon" href="media/favicon.ico">
     </head>
     <body>
-        <div class="header-container sticky-top">
+        <div class="header-container container-fluid sticky-top">
             <div class="row">
                 <div class="col-12">
                     <a id="bsu-logo" class="" alt="logo" ></a>
@@ -20,11 +23,11 @@
             <button id="backTop" hidden onclick="scrollBackTop();"></button>
         </div>
         <main>       
-        <form class="container-fluid d-flex flex-column gap-5" id="finance-form">
+        <form class="container-fluid" id="finance-form">
 
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
 
@@ -35,14 +38,14 @@
                     <div class="row" id="whole_name-input">
                         <div class="col">
 
-                            <input type="text" id="first_name" name="first_name" class="form-input"><br>
-                            <label for="first_name" class="sub-label">First</label>
+                            <input type="text" id="first_name" name="first_name" class="form-input" placeholder="First"><!--br>
+                            <label for="first_name" class="sub-label">First</label-->
 
                         </div>
                         <div class="col">
 
-                            <input type="text" id="last_name" name="last_name" class="form-input"><br>
-                            <label for="last_name" class="sub-label">Last</label>
+                            <input type="text" id="last_name" name="last_name" class="form-input" placeholder="Last"><!--br>
+                            <label for="last_name" class="sub-label">Last</label-->
 
                         </div>
                     </div>      
@@ -51,7 +54,7 @@
             </div>
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label>University ID: <span class="sub-label">This will be the only information kept for our records</span></label>
@@ -59,12 +62,12 @@
                     </div>
                     <input type="number" id="uni_id" name="uni_id" class="form-input">
                 </div>
-                <div class="col-md-3 error-message" hidden="" id="uni_id-error"></div>
+                <div class="col-md-2 error-message" hidden="" id="uni_id-error"></div>
             </div>
 
             <div class="row input-row lg_left-splash">
-                <div class="col-md-4"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-3"></div>
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label>Important Documents: <span class="sub-label">Secure storage to ensure safe keeping and financial health.</span></label>
@@ -76,53 +79,66 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
+                                                <option value="State ID">State ID</option>
+                                                <option value="Auto Insurance">Auto Insurance</option>
+                                                <option value="Resume">Resume</option>
+                                                <option value="Cover Letter">Cover Letter</option>
+                                                <option value="Diploma">Diploma</option>
+                                                <option value="">-- New Document --</option>
+                                            </select>
+                                            <span id="edit_documents" class="new-document"></span> 
+                                        </div>
+                                        <div class="col-2">
+                                            <a id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col-12 p-relative">
+                                            <input type="text" id="new_document_name" name="new_document_name" placeholder="Document Name (e.g. Lease Agreement)" />
+                                            <span class="delete-row" id="delete_document" hidden></span>  
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 center">
+                                            <span id="save_document" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" class="add-row" data-bs-original-title="Adds a new slot to save your file.">Add Document</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                         
+                        </div> 
+                    </div>
+                    <div class="row">
                         <div class="col-md-12" id="display-container">
                             <img hidden id="imgDisplay" class="doc-display" src=""/>
-                            <object hidden id="documentDisplay" class="doc-display" ></object> 
-                            <!--svg hidden id="svgDisplay" class="doc-display" data=""></svg-->
+                            <object hidden id="documentDisplay" class="doc-display" data="" ></object> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <select id="document_select" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Select the name to save the file under." name="document_select">
-                                        <option value=""><i class="sub-label">Choose Document</i></option>
-                                        <option value="0">State ID</option>
-                                        <option value="1">Auto Insurance</option>
-                                        <option value="2">Resume</option>
-                                        <option value="3">Cover Letter</option>
-                                        <option value="4">Diploma</option>
-                                        <option value="5">Certification #1</option>
-                                        <option value="6">Certification #2</option>
-                                        <option value="7">Certification #3</option>
-                                    </select>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="important_documents" id="document_upload"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Uploads a file to the slot of the name selected." class="file-upload btn btn-secondary">Upload</label>
-                                            <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents" class="image-input">
-                                        </div>
-                                        <div class="col-auto my-auto">
-                                            <a id="document_download" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Downloads the file under the name selected." class="file-download btn btn-secondary "></a>
-                                        </div> 
-                                    </div> 
-                                </div>
-                                                                                               
-                            </div>
-                                                     
-                        </div> 
+                        <div class="col"></div>
+                        <div class="col-sm-4">
+                            <label for="important_documents" id="document_upload"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Uploads a file to the slot of the name selected." class="file-upload btn btn-secondary">Upload</label>
+                            <input type="file" accept="image/*, application/pdf" id="important_documents" name="important_documents">
+                        </div>
+                        <div class="col"></div>
                     </div>
                 </div>
-                <div class="col-md-3"></div>
             </div>
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
-                        <div class="col-md-10 content-Col">
+                        <div class="col-md-9 content-Col">
                             <div class="row">
                                 <div class="col-auto">
-                                    <label for="income_streams-amount">Income Streams:&nbsp;<span class="sub-label">How many sources of income do you rely on consistently?</span></label>
+                                    <label for="income_streams-amount">Income Sources:&nbsp;<span class="sub-label">How many sources of income do you rely on consistently?</span></label>
                                 </div>
                             </div>
                             <div class="row">
@@ -131,32 +147,43 @@
                                 </div>
                             </div> 
                         </div>
-                        <div class="col-md-2">
-                            <input type="number" min="0" id="income_streams-amount">
+                        <div class="col-md-3">
+                            
                         </div>
                     </div>
                     
-                    <div class="row" id="h-income_streams">
-                        <div class="col-sm-3" ><h5>Resource</h5></div>
-                        <div class="col-sm-3" ><h5>Frequency</h5></div>
-                        <div class="col-sm-3" ><h5>Amount</h5></div>
-                        <div class="col-sm-3" ><h5>Usage(%)</h5></div>
+                    <div class="row scroll-gutter" id="h-income_streams">
+                        <div class="col-3" ><h5>Name</h5></div>
+                        <div class="col-3" ><h5>Frequency</h5></div>
+                        <div class="col-3"><h5>Amount</h5></div>
+                        <div class="col-3" ><h5>Usage(%)</h5></div>
                     </div>
-                    <div class="row scroll-container overflow" id="income_streams">
-                        <div class="col-sm-3" id="resources"></div>
-                        <div class="col-sm-3" id="frequency"></div>
-                        <div class="col-sm-3" id="amounts"></div>
-                        <div class="col-sm-3" id="uses"></div>
+                    
+                    <div class="row scroll-container">
+                        <div class="col-12 scroll-overlay" id="income_streams">
+                            <div class="row add-row-container">
+                                <div class="col-12 center">
+                                    <span id="add-income" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" class="add-row" data-bs-original-title="Adds a new income row.">Add Source</span>
+                                    <input type="hidden" min="0" id="income_streams-amount">
+                                </div>
+                            </div>
+                        </div>  
                     </div>
+                    <!--div class="row scroll-gutter">
+                        <div class="col-12 center">
+                            <span id="add-income" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" class="add-row" data-bs-original-title="Adds a new income row.">Add Source</span>
+                            <input type="hidden" min="0" id="income_streams-amount">
+                        </div>
+                    </div-->
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                 </div>
             </div>
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
-                        <div class="col-md-10 content-Col">
+                        <div class="col-12 content-Col">
                             <div class="row">
                                 <div class="col-auto">
                                     <label for="expense_report-amount">Expense Report:&nbsp;<span class="sub-label"></span></label>
@@ -168,23 +195,134 @@
                                 </div>
                             </div> 
                         </div>
-                        <div class="col-md-2">
-                            <input type="number" min="0" id="expense_report-amount">
-                        </div>
                     </div>
                     
-                    <div class="row" id="h-expense_report">
+                    <div class="row scroll-gutter" id="h-expense_report">
                         <div class="col-3" ><h5>Details</h5></div>
                         <div class="col-3" ><h5>Frequency</h5></div>
                         <div class="col-3" ><h5>Amount</h5></div>
                         <div class="col-3" ><h5>Payment Date</h5></div>
                     </div>
-                    <div class="scroll-container overflow" id="expense_report">
-                        
+                    
+                    <div class="row scroll-container">
+                        <div class="col-12 scroll-overlay" id="expense_report">
+                            <div class="row add-row-container">
+                                <div class="col-12 center">
+                                    <span id="add-expense" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new expense row." class="add-row" >Add Expense</a>
+                                    <input type="hidden" min="0" id="expense_report-amount">
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!--div class="row scroll-gutter">
+                        <div class="col-3"></div>
+                        <div class="col-6 center">
+                            <span id="add-expense" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new expense row." class="add-row" >Add Expense</a>
+                            <input type="hidden" min="0" id="expense_report-amount">
+                        </div>
+                        <div class="col-3"></div>
+                    </div-->
                 </div>
-                <div class="col-md-3"></div>
-            </div>               
+                <div class="col-md-2"></div>
+            </div> 
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-9 content-Col">
+                    <div class="row">
+                        <div class="col-12 content-Col">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Enter the number of monetary accounts currently open under your name (Includes joint accounts).</span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <p><span class="important-text">Note: </span>We recommend having two checking accounts, one for required spending (bills, housing, etc) and one for discretionary/fun spending, as well as at least one savings account.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row scroll-gutter" id="h-financial_accounts">
+                                <div class="col-3" ><h5>Institution</h5></div>
+                                <div class="col-3" ><h5>Type</h5></div>
+                                <div class="col-3" ><h5>Account #</h5></div>
+                                <div class="col-3" ><h5>Purpose</h5></div>
+                            </div>
+                            <div class="row scroll-container">
+                                <div class="col-12" id="financial_accounts">
+                                    <div class="row add-row-container">
+                                        <div class="col-12 center">
+                                            <span id="add-account" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row" >Add Account</a>
+                                            <input type="hidden" min="0" id="financial_accounts-amount">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--div class="row scroll-gutter">
+                        <div class="col-3"></div>
+                        <div class="col-6 center">
+                            <span id="add-account" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row" >Add Account</a>
+                            <input type="hidden" min="0" id="financial_accounts-amount">
+                        </div>
+                        <div class="col-3"></div>
+                    </div-->             
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row input-row">
+                <div class="col-md-1"></div>
+                <div class="col-md-9 content-Col">
+                    <div class="row">
+                        <div class="col-12 content-Col">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <label for="contacts-amount">Emergency Contacts:&nbsp;<span class="sub-label">Keep a list of your emergency contacts handy.</span></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <p><span class="important-text">Note: </span>You may consider sharing with a roommate or best friend in case of emergency.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row scroll-gutter" id="h-contacts">
+                                <div class="col-3" ><h5>Name</h5></div>
+                                <div class="col-3" ><h5>Relationship</h5></div>
+                                <div class="col-3" ><h5>Phone #</h5></div>
+                                <div class="col-3" ><h5>Email</h5></div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="row scroll-container">
+                        <div class="col-12" id="contacts">
+                            <div class="row add-row-container">
+                                <div class="col-12 center">
+                                    <span id="add-contact" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new contact row." class="add-row" >Add Contact</span>
+                                    <input type="hidden" min="0" id="contacts-amount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    <!--div class="row scroll-gutter">
+                        <div class="col-3"></div>
+                        <div class="col-6 center">
+                            <span id="add-contact" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new contact row." class="add-row" >Add Contact</span>
+                            <input type="hidden" min="0" id="contacts-amount">
+                        </div>
+                        <div class="col-3" ></div>
+                    </div-->         
+                </div>
+                <div class="col-md-2"></div>
+            </div>              
             <!--    
                 Eventually
                     -> Based on fixed nationwide average || Based on user's estimated weekly spending
@@ -193,7 +331,7 @@
             -->
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label>Emergency Cash: <span class="sub-label">Have a rational amount of cash on hand in case of emergency.</span></label>
@@ -212,12 +350,12 @@
                         
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
             
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label>Monthly Saving: </label>
@@ -238,12 +376,12 @@
                         
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
 
             <div class="row input-row">
                 <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col"> 
+                <div class="col-md-9 content-Col"> 
                     <div class="row">
                         <div class="col-auto">
                             <label>Annual Gross Income: </label>
@@ -263,97 +401,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div> 
             
-            <div class="row input-row">
-                <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
-                    <div class="row">
-                        <div class="col-md-10 content-Col">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <label for="financial_accounts-amount">Financial Accounts:&nbsp;<span class="sub-label">Enter the number of monetary accounts currently open under your name (Includes joint accounts).</span></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <p><span class="important-text">Note: </span>We recommend having two checking accounts, one for required spending (bills, housing, etc) and one for discretionary/fun spending, as well as at least one savings account.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <!--div class="row">
-                                <div class="col center">
-                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Adds a new account row." class="add-row btn btn-primary "onclick="newInputRow('account');return false;" ></button>
-                                </div>
-                                <div class="col center">
-                                    <button data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" title="Removes an account row." class="remove-row btn btn-primary "onclick="removeInputRow('account')"></button>
-                                </div>
-                            </div-->
-                            <input type="number" min="0" id="financial_accounts-amount">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row" id="h-financial_accounts">
-                                <div class="col-sm-3" ><h5>Institution</h5></div>
-                                <div class="col-sm-3" ><h5>Type</h5></div>
-                                <div class="col-sm-3" ><h5>Account #</h5></div>
-                                <div class="col-sm-3" ><h5>Purpose</h5></div>
-                            </div>
-                            <div class="row scroll-container overflow" id="financial_accounts">
-                                <div class="col-sm-3" id="institution"></div>
-                                <div class="col-sm-3" id="account_types"></div>
-                                <div class="col-sm-3" id="account_numbers"></div>
-                                <div class="col-sm-3" id="purposes"></div>
-                            </div>
-                        </div>
-                    </div>             
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-            <div class="row input-row">
-                <div class="col-md-1"></div>
-                <div class="col-md-8 content-Col">
-                    <div class="row">
-                        <div class="col-md-10 content-Col">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <label for="contacts-amount">Emergency Contacts:&nbsp;<span class="sub-label">Keep a list of your emergency contacts handy.</span></label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-auto">
-                                    <p><span class="important-text">Note: </span>You may consider sharing with a roommate or best friend in case of emergency.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="number" min="0" id="contacts-amount">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row" id="h-contacts">
-                                <div class="col-3" ><h5>Name/Company</h5></div>
-                                <div class="col-3" ><h5>Relationship</h5></div>
-                                <div class="col-3" ><h5>Phone #</h5></div>
-                                <div class="col-3" ><h5>Email</h5></div>
-                            </div>
-                            <div class="scroll-container overflow" id="contacts">
-                                
-                            </div>
-                        </div>
-                    </div>             
-                </div>
-                <div class="col-md-3"></div>
-            </div>
+            
         
         <!--form id="data-form"-->
             <div class="row input-row orange_right-splash">
-               
-                <div class="col-md-8 content-Col">
+                <div class="col-md-9 content-Col">
                     <div class="row">
                         <div class="col-auto">
                             <label for="passkey">Encrypt and Save: <span class="sub-label"></span></label>
@@ -411,7 +466,7 @@
                 <div class="col-auto">
                     Administration Building, Room 101
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
             <div class="row">
                 <div class="col">
