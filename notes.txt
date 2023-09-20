@@ -22,3 +22,9 @@ Populate selectElement after selecting a name AND a file.
 
 Visually separate document display from its parent box 
 	move download button to top right
+	play with height to make more reasonable without losing space on viewing the document
+
+Use modal to alert user regarding instructions after saving 
+
+On first document load have a modal that provides instructions for use 
+	Also gives shortcut for returning user
