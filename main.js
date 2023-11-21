@@ -315,11 +315,11 @@ function updateDocDisplay({ content, type, size } = {}) {
         docDisplays[0].hidden = true;
         docDisplays[1].replaceWith(objElement);
     } else if (type.includes('application')) {
-        if (size > 2000) {
+        if (size > 1600) {
             const contentAsByteArray = b64ToBlob(content.split(",")[1]);
             const largePDF = new Blob([contentAsByteArray], { type: "application/pdf" })
-            docDisplays[1].data = URL.createObjectURL(largePDF);
-            URL.revokeObjectURL(largePDF);
+            objElement.data = URL.createObjectURL(largePDF);
+            URL.revokeObjectURL(largePDF); 
         } else {
             objElement.data = content;
         }
